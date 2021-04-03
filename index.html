@@ -146,7 +146,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    20 分鐘 閱讀文 (大約 3073 個字)
+                    21 分鐘 閱讀文 (大約 3075 個字)
                 </span>
                 
                 
@@ -160,9 +160,9 @@
         </h1>
         <div class="content">
             <p>一般來說在進行正式的專案開發，製作可以重複被使用的元件時，常常也必須考慮到元件的彈性、與可維護性。因為我們不知道在未來，這個元件會因為產品的需求而產生怎麼樣的調整，所以最低程度地保持元件的可擴充性就可以讓開發者在這個時候比較輕鬆的以最小限度的影響來達成想要的修改。</p>
-<p><strong>複合元件就是一種可以同時提高可維護性跟彈性的元件設計方法</strong>，或稱為設計模式（ Design Patern ) 。設計模式一詞源自更早期的軟體界發展歷史，這個詞可以<strong>用來代稱那些應付經常出現問題的解決辦法</strong>。亦即設計模式是經年累月透過所有軟體界的開發者不斷地遇到相同或類似問題之後，慢慢整理出來的方法。有一些設計模式是所有語言都可以通用的，例如你可能會聽過的「 工廠模式 」、「 觀察者模式」。而有一些模式是針對特定情境的問題所設計的，我們今天要談的複合元件就是前端元件開發的設計模式之一。</p>
+<p><strong>複合元件( Compound Component )就是一種可以同時提高可維護性跟彈性的元件設計方法</strong>，或稱為設計模式（ Design Patern ) 。設計模式一詞源自更早期的軟體界發展歷史，這個詞可以<strong>用來代稱那些應付經常出現問題的解決辦法</strong>。亦即設計模式是經年累月透過所有軟體界的開發者不斷地遇到相同或類似問題之後，慢慢整理出來的方法。有一些設計模式是所有語言都可以通用的，例如你可能會聽過的「 工廠模式 」、「 觀察者模式」。而有一些模式是針對特定情境的問題所設計的，我們今天要談的複合元件就是前端元件開發的設計模式之一。</p>
 <h2 id="需要的先備知識"><a class="header-anchor" href="#需要的先備知識"></a>需要的先備知識</h2>
-<p>這篇文章主要會講解如何設計一個複合元件，再繼續往下閱讀之前，你可能要確保自己了解 React children 與 context 的相關概念，才能夠比較輕鬆的閱讀這篇文章所提及的內容，在這邊附上幾篇可以參考的資源：</p>
+<p>這篇文章主要會講解如何設計一個複合元件，在繼續往下閱讀之前，你可能要確保自己了解 React children 與 context 的相關概念，才能夠比較輕鬆的閱讀這篇文章所提及的內容，在這邊附上幾篇可以參考的資源：</p>
 <ul>
 <li>React Children  -  操作元素的 React 原生 API ：
 <ul>
@@ -3038,7 +3038,7 @@ console.log(hello.a) //'a'
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            19
+                            20
                         </p>
                     </a>
                 </div>
@@ -3329,7 +3329,7 @@ console.log(hello.a) //'a'
         <h3 class="menu-label">
             標籤雲
         </h3>
-        <a href="/tags/backend/" style="font-size: 15.71px;">backend</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/devOps/" style="font-size: 11.43px;">devOps</a> <a href="/tags/frontend/" style="font-size: 20px;">frontend</a> <a href="/tags/frontend-force/" style="font-size: 17.14px;">frontend-force</a> <a href="/tags/ironman30/" style="font-size: 17.14px;">ironman30</a> <a href="/tags/javascript/" style="font-size: 18.57px;">javascript</a> <a href="/tags/rails/" style="font-size: 15.71px;">rails</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/ruby/" style="font-size: 15.71px;">ruby</a> <a href="/tags/ruby-on-rails/" style="font-size: 15.71px;">ruby on rails</a> <a href="/tags/typeScript/" style="font-size: 11.43px;">typeScript</a> <a href="/tags/typescript/" style="font-size: 12.86px;">typescript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/w3HexSchool/" style="font-size: 14.29px;">w3HexSchool</a> <a href="/tags/working/" style="font-size: 11.43px;">working</a> <a href="/tags/地下城/" style="font-size: 14.29px;">地下城</a> <a href="/tags/鐵人賽30天/" style="font-size: 17.14px;">鐵人賽30天</a>
+        <a href="/tags/backend/" style="font-size: 15.71px;">backend</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/compound-component/" style="font-size: 10px;">compound component</a> <a href="/tags/devOps/" style="font-size: 11.43px;">devOps</a> <a href="/tags/frontend/" style="font-size: 20px;">frontend</a> <a href="/tags/frontend-force/" style="font-size: 17.14px;">frontend-force</a> <a href="/tags/ironman30/" style="font-size: 17.14px;">ironman30</a> <a href="/tags/javascript/" style="font-size: 18.57px;">javascript</a> <a href="/tags/rails/" style="font-size: 15.71px;">rails</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/ruby/" style="font-size: 15.71px;">ruby</a> <a href="/tags/ruby-on-rails/" style="font-size: 15.71px;">ruby on rails</a> <a href="/tags/typeScript/" style="font-size: 11.43px;">typeScript</a> <a href="/tags/typescript/" style="font-size: 12.86px;">typescript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/w3HexSchool/" style="font-size: 14.29px;">w3HexSchool</a> <a href="/tags/working/" style="font-size: 11.43px;">working</a> <a href="/tags/地下城/" style="font-size: 14.29px;">地下城</a> <a href="/tags/鐵人賽30天/" style="font-size: 17.14px;">鐵人賽30天</a>
     </div>
 </div>
     
@@ -3455,6 +3455,13 @@ console.log(hello.a) //'a'
                 <div class="control">
                     <a class="tags has-addons" href="/tags/canvas/">
                         <span class="tag">canvas</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/compound-component/">
+                        <span class="tag">compound component</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
