@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>個人技術站一把罩！部落格建置大全（一）- 使用 Hexo 搭配 Github Page 建置自己的部落格 - Moojing&#39;s Blog</title>
+
+
+    <meta name="description" content="這是我參加六角全馬鐵人挑戰的第二週，在比賽的一開始，就讓我來分享如何在 Github Page 上面架設自己的個人頁面，並串上自己購買的網域名稱（如果有的話）。相信各位工程師們多少都會聽過或看過其他工程師們使用  Medium  當作自己的部落格，對其他人分享自己經歷及技術，或是成長過程中領悟到的見解。 但如果你想對這個屬於自己的空間有更高的掌握度，或是想做一些比較客製化的排版視覺，那麼架設個人專">
+<meta name="keywords" content="javascript,frontend,w3HexSchool">
+<meta property="og:type" content="article">
+<meta property="og:title" content="個人技術站一把罩！部落格建置大全（一）- 使用 Hexo 搭配 Github Page 建置自己的部落格">
+<meta property="og:url" content="https://www.muji.dev/2020/02/16/hexo-github-page/index.html">
+<meta property="og:site_name" content="Moojing&#39;s Blog">
+<meta property="og:description" content="這是我參加六角全馬鐵人挑戰的第二週，在比賽的一開始，就讓我來分享如何在 Github Page 上面架設自己的個人頁面，並串上自己購買的網域名稱（如果有的話）。相信各位工程師們多少都會聽過或看過其他工程師們使用  Medium  當作自己的部落格，對其他人分享自己經歷及技術，或是成長過程中領悟到的見解。 但如果你想對這個屬於自己的空間有更高的掌握度，或是想做一些比較客製化的排版視覺，那麼架設個人專">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https://www.muji.dev/thumbnails/theme.png">
+<meta property="og:updated_time" content="2021-04-03T10:05:26.988Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="個人技術站一把罩！部落格建置大全（一）- 使用 Hexo 搭配 Github Page 建置自己的部落格">
+<meta name="twitter:description" content="這是我參加六角全馬鐵人挑戰的第二週，在比賽的一開始，就讓我來分享如何在 Github Page 上面架設自己的個人頁面，並串上自己購買的網域名稱（如果有的話）。相信各位工程師們多少都會聽過或看過其他工程師們使用  Medium  當作自己的部落格，對其他人分享自己經歷及技術，或是成長過程中領悟到的見解。 但如果你想對這個屬於自己的空間有更高的掌握度，或是想做一些比較客製化的排版視覺，那麼架設個人專">
+<meta name="twitter:image" content="https://www.muji.dev/thumbnails/theme.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-134605527-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-134605527-1');
+</script>
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="個人技術站一把罩！部落格建置大全（一）- 使用 Hexo 搭配 Github Page 建置自己的部落格" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About Me</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" title="搜尋" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="/thumbnails/theme.png" alt="個人技術站一把罩！部落格建置大全（一）- 使用 Hexo 搭配 Github Page 建置自己的部落格">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-02-15T16:54:50.000Z">2020-02-16</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 分鐘 閱讀文 (大約 1865 個字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                個人技術站一把罩！部落格建置大全（一）- 使用 Hexo 搭配 Github Page 建置自己的部落格
+            
+        </h1>
+        <div class="content">
+            <p>這是我參加<a href="https://www.hexschool.com/2019/11/14/2019-11-14-w3Hexschool-2020-challenge/?fbclid=IwAR2jnd1zwQf14xWUK4J2DztB4XpkkALumb0VS3jSjMKvkqFUhP9xlTICAeU">六角全馬鐵人挑戰的第二週</a>，在比賽的一開始，就讓我來分享如何在 Github Page 上面架設自己的個人頁面，並串上自己購買的網域名稱（如果有的話）。相信各位工程師們多少都會聽過或看過其他工程師們使用  <a href="https://medium.com/@moojing">Medium</a>  當作自己的部落格，對其他人分享自己經歷及技術，或是成長過程中領悟到的見解。</p>
+<p>但如果你想對這個屬於自己的空間有更高的掌握度，或是想做一些比較客製化的排版視覺，那麼架設<a href="https://www.muji.dev/">個人專屬的部落</a>會是一個不錯的選擇。因此這邊推薦使用 <a href="https://hexo.io/zh-tw/docs/">Hexo</a> ，作為今天介紹的主角。當然，方法沒有絕對，你也可以選擇自己從零開始開發，但我認為工程師的職涯如此漫長，有很多問題等我們解決，因此在適當的時機使用適合的工具，有時候是必要的。</p>
+<h2 id="outline"><a class="header-anchor" href="#outline"></a>Outline</h2>
+<ul>
+<li>Hexo 介紹及專案建置</li>
+<li>Hexo 專案架構</li>
+<li>Github Page</li>
+<li>將 Hexo 專案部署到 Github Page 上</li>
+<li>總結</li>
+</ul>
+<h2 id="hexo-介紹及專案建置"><a class="header-anchor" href="#hexo-介紹及專案建置"></a>Hexo 介紹及專案建置</h2>
+<p>Hexo 是一套可以快速幫你建置個人部落格的工具，在官方提供的<a href="https://hexo.io/themes/">頁面</a>你可以找到很多別人做好的部落格模板，並直接套用到自己的專案。</p>
+<img src="/2020/02/16/hexo-github-page/theme.png" title="hexo-theme">
+<p>首先讓我們先把 hexo 的建置工具裝到系統內，使用以下指令：</p>
+<pre><code>npm install -g hexo-cli
+</code></pre>
+<p>之後就可以利用 hexo 指令創造一個新的部落格專案。</p>
+<pre><code>npm init &lt;要創造的 Hexo 專案資料夾名稱&gt;
+</code></pre>
+<p>接下來進入剛剛建好的專案資料夾再用這個指令把 hexo 本地測試 server 架起來。</p>
+<pre><code>hexo server 或 hexo s
+</code></pre>
+<p>沒錯，這樣一來在本地就可以看見即時的變更囉，很方便吧！</p>
+<img src="/2020/02/16/hexo-github-page/hexo-local.png" title="hexo-local">
+<h2 id="hexo-專案結構"><a class="header-anchor" href="#hexo-專案結構"></a>Hexo 專案結構</h2>
+<p>這邊先介紹一下 Hexo 的資料夾分佈，以及功能。首先在根目錄可以看到幾個比較重要資料夾：</p>
+<ul>
+<li>
+<p>public : 存放編譯後的靜態 html 檔案，基本上不會需要改動裡面的內容</p>
+</li>
+<li>
+<p>scaffolds：存放文章模板的地方，新增文章的時候可以選擇要用哪一種模板，以我為例，在寫 JS 文章跟後端 Ruby on Rails 文章的時候就可以用不同模板來產生不同分類與不同標籤的文章，不用每次都另外再改。使用模板來新增文章的參考指令：</p>
+<pre><code>  hexo new &lt;&lt;Scaffold Name&gt;&gt;  &lt;&lt;Article Name&gt;&gt;
+</code></pre>
+  <img src="/2020/02/16/hexo-github-page/hexo-scaffold.png" title="hexo-scaffold">
+</li>
+<li>
+<p>source :  存放部落格文章原始檔案， Hexo 內的文章通常以 Markdonw 來表示內容，而 Markdown 在很多地方都通用，非常方便。</p>
+</li>
+<li>
+<p>themes : Hexo 官網可以選擇許多別人做好的主題，在官網找到喜歡的主題後，就可以下載並放到這個資料夾，然後記得在根目錄的 <code>_config.yml</code> 檔案裡的 theme 設定改為對應的主題名（資料夾名稱） ，以這個範例來說就是 landscape ，而對應的主題資料夾裡面則包含了外觀相關的原始碼（如 HTML / CSS / JS)，建議在必要的時候再去修改這些原始碼，否則盡量修改對應主題資料夾裡面的 <code>_config.yml</code> 檔案（與根目錄的同名設定檔不同）會比較好。</p>
+</li>
+</ul>
+<img src="/2020/02/16/hexo-github-page/hexo-folder.png" title="hexo-folder">
+<h2 id="github-page"><a class="header-anchor" href="#github-page"></a>Github Page</h2>
+<p>什麼是 Github Page ？ 在對 Hexo 專案內容有了基本的了解後，讓我們繼續往下看。 Github Page 是 Github 提供的、能讓開發者利用 git 的形式直接配置好靜態頁面的功能，非常好用，許多實驗性的作品或專案也都會透過這樣的方式來呈現，而今天我們就會嘗試將 Hexo 用 Github Page 的方式來作部署。</p>
+<p>首先在 Github  上創建一個新的 Repository ，Repository的名字依照<a href="https://pages.github.com/">官方說明</a>，必須遵循以下規則</p>
+<p>( 記得 <code>username</code> 是你自己的 Github 帳號，不要輸入錯了 )：</p>
+<pre><code>&lt;username&gt;.github.io
+</code></pre>
+<img src="/2020/02/16/hexo-github-page/create-github-page.png" title="create-github-page">
+<p>然後就會得的一個新的 Repository ，待會我們 Github Page 就會是以這個 Repository 的內容為主來做對外顯示。</p>
+<img src="/2020/02/16/hexo-github-page/github-page-empty.png" title="github-page-empty">
+<p>其實剛剛輸入的 Repository 名稱 <code>&lt;username&gt;.gtihub.io</code> 就會是你個人Github Page 的網址，可以直接透過瀏覽器輸入網址找到，但因為目前還是空的，所以還不會有東西，我們先在電腦本地將這份 Repository  clone 下來 :</p>
+<pre><code>https://github.com/moojitsai/moojitsai.github.io.git
+</code></pre>
+<p>並新增 <code>index.html</code> 檔案做個測試，因為 Github 預設會去尋找這個檔名的檔案作為進入點。</p>
+<img src="/2020/02/16/hexo-github-page/github_page_index.png" title="github_page_index">
+<p>新增完成後只要再用 <code>git push</code> 推回剛剛的 Repository 上，就會有 index.html 檔案，應該就可以從你的個人 Gtihub Page網址看到了（如果沒有看到再來問我）。</p>
+<img src="/2020/02/16/hexo-github-page/github_page_init.png" title="github_page_init">
+<h2 id="將-hexo-專案部署到-github-page-上"><a class="header-anchor" href="#將-hexo-專案部署到-github-page-上"></a>將 Hexo 專案部署到 Github Page 上</h2>
+<p>建立完新 Gtihub Page 後，我們來看看怎麼把這整個部落格專案放到 Github Page 上面，其實不難， Hexo 大多幫你做好了，只要設定檔配置正確就沒問題。</p>
+<p>首先找到 <code>_config.yml</code>  這個檔案，然後在 <code>deploy</code> 這個設定下輸入你對應的 Github Page 的 Repo 位置，並把 <code>type</code> 寫為 <code>git</code> ，就完成基本設置了：</p>
+<img src="/2020/02/16/hexo-github-page/hexo_deploy_config.png" title="hexo_deploy_config">
+<p>然後在部落格專案目錄底下裝上官方提供的 Git 部署套件 <code>hexo-deployer-git</code>：</p>
+<pre><code>npm install hexo-deployer-git --save
+</code></pre>
+<p>最後因為我們文章內容並不是網頁可以直接看得懂的格式，像文章內容就是用 Markdown 來撰寫，所以在部署上 Github 之前我們要先產生部落格專案所需要的靜態檔，使用以下指令來產生：</p>
+<pre><code>hexo generate 或是 hexo g 
+</code></pre>
+<p>完成後就可以部署了：</p>
+<pre><code>hexo deploy 或 hexo d
+</code></pre>
+<h2 id="總結"><a class="header-anchor" href="#總結"></a>總結</h2>
+<p>今天的內容主要是紀錄部落格架設的過程，因為當初在使用 Hexo 的某些設定及功能時，某些官網寫的資料並不是那麼明確，還是要自己實驗過或是去看原始碼才比較會知道怎麼做，因此還是寫了一篇文章記錄下來，順便分享給有興趣的各位，下一篇要分享的是如何把今天設置完放到 Github Page 的網頁與自己購買的域名做串接，應該會蠻有趣的！可以先看看我最近串好的域名： <a href="https://www.muji.dev">https://www.muji.dev</a></p>
+<h2 id="參考文章"><a class="header-anchor" href="#參考文章"></a>參考文章</h2>
+<p><a href="https://hexo.io/docs/">Hexo 官網</a></p>
+<p><a href="https://help.github.com/en/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site">Managing a custom domain for your GitHub Pages site</a></p>
+<p><a href="https://pages.github.com/">Github Page 說明</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/frontend/">frontend</a>, <a class="has-link-grey -link" href="/tags/javascript/">javascript</a>, <a class="has-link-grey -link" href="/tags/w3HexSchool/">w3HexSchool</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/23/hexo-github-page-2/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">個人技術站一把罩！部落格建置大全（二）- 將 Github Page 串上自己的域名</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/04/browser-history-state-api/">
+                <span class="level-item">瀏覽器的時光機—歷史堆疊、 pushState 與 replaceState API</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="is-rounded" src="/images/avatar.png" alt="Mujing Tsai">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Mujing Tsai
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        -
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Taipei, Taiwan</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            64
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分類
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            9
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        標籤
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://www.facebook.com/mujing" target="_blank" rel="noopener">
+                追蹤</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/moojing">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://www.facebook.com/mujing">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://www.linkedin.com/in/mu-jing-tsai/">
+                
+                <i class="fab fa-linkedin"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            連結
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://ithelp.ithome.com.tw/users/20106580/ironman/2503" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">11th鐵人賽</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">ithelp.ithome.com.tw</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分類
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Canvas/">
+            <span class="level-start">
+                <span class="level-item">Canvas</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/FullStack/">
+            <span class="level-start">
+                <span class="level-item">FullStack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/IThome-鐵人賽30天/">
+            <span class="level-start">
+                <span class="level-item">IThome - 鐵人賽30天</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">30</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Javascript/">
+            <span class="level-start">
+                <span class="level-item">Javascript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/TypeScript/">
+            <span class="level-start">
+                <span class="level-item">TypeScript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Webpack/">
+            <span class="level-start">
+                <span class="level-item">Webpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/devOps/">
+            <span class="level-start">
+                <span class="level-item">devOps</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/w3HexSchool-2020-年度鐵人賽/">
+            <span class="level-start">
+                <span class="level-item">w3HexSchool 2020 年度鐵人賽</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/走在漫漫長路-工作心得/">
+            <span class="level-start">
+                <span class="level-item">走在漫漫長路 - 工作心得</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            彙整
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">30</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">17</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            標籤雲
+        </h3>
+        <a href="/tags/backend/" style="font-size: 15.71px;">backend</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/devOps/" style="font-size: 11.43px;">devOps</a> <a href="/tags/frontend/" style="font-size: 20px;">frontend</a> <a href="/tags/frontend-force/" style="font-size: 17.14px;">frontend-force</a> <a href="/tags/ironman30/" style="font-size: 17.14px;">ironman30</a> <a href="/tags/javascript/" style="font-size: 18.57px;">javascript</a> <a href="/tags/rails/" style="font-size: 15.71px;">rails</a> <a href="/tags/ruby/" style="font-size: 15.71px;">ruby</a> <a href="/tags/ruby-on-rails/" style="font-size: 15.71px;">ruby on rails</a> <a href="/tags/typeScript/" style="font-size: 11.43px;">typeScript</a> <a href="/tags/typescript/" style="font-size: 12.86px;">typescript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/w3HexSchool/" style="font-size: 14.29px;">w3HexSchool</a> <a href="/tags/working/" style="font-size: 11.43px;">working</a> <a href="/tags/地下城/" style="font-size: 14.29px;">地下城</a> <a href="/tags/鐵人賽30天/" style="font-size: 17.14px;">鐵人賽30天</a>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/04/03/react-compound-component/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-compound-component">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-04-03T10:14:38.000Z">2021-04-03</time></div>
+                    <a href="/2021/04/03/react-compound-component/" class="title has-link-black-ter is-size-6 has-text-weight-normal">react-compound-component</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Javascript/">Javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/06/working-reward/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/reward-cover.JPG" alt="每個衝擊都是一次學習的機會 - 近期的一點心得">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T09:36:53.000Z">2020-09-06</time></div>
+                    <a href="/2020/09/06/working-reward/" class="title has-link-black-ter is-size-6 has-text-weight-normal">每個衝擊都是一次學習的機會 - 近期的一點心得</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/走在漫漫長路-工作心得/">走在漫漫長路 - 工作心得</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/09/working-environment/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/work-life.jpg" alt="寫給職場工作者：工作環境是否會影響一個人的思考方式？">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-08T20:54:46.000Z">2020-03-09</time></div>
+                    <a href="/2020/03/09/working-environment/" class="title has-link-black-ter is-size-6 has-text-weight-normal">寫給職場工作者：工作環境是否會影響一個人的思考方式？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/走在漫漫長路-工作心得/">走在漫漫長路 - 工作心得</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/07/web-dnd-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/DragnDrop.jpg" alt="就是要一起拖拖拉拉！(二) - 利用 DataTransfer API 實作拖拉元素間的資料傳遞">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-07T08:39:14.000Z">2020-03-07</time></div>
+                    <a href="/2020/03/07/web-dnd-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">就是要一起拖拖拉拉！(二) - 利用 DataTransfer API 實作拖拉元素間的資料傳遞</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/28/web-dnd-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/DragnDrop.jpg" alt="就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-28T02:04:03.000Z">2020-02-28</time></div>
+                    <a href="/2020/02/28/web-dnd-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                標籤
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/backend/">
+                        <span class="tag">backend</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/devOps/">
+                        <span class="tag">devOps</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/frontend/">
+                        <span class="tag">frontend</span>
+                        <span class="tag is-grey">62</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/frontend-force/">
+                        <span class="tag">frontend-force</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ironman30/">
+                        <span class="tag">ironman30</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">56</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/rails/">
+                        <span class="tag">rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby/">
+                        <span class="tag">ruby</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby-on-rails/">
+                        <span class="tag">ruby on rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typeScript/">
+                        <span class="tag">typeScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue-js/">
+                        <span class="tag">vue.js</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/w3HexSchool/">
+                        <span class="tag">w3HexSchool</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/working/">
+                        <span class="tag">working</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/地下城/">
+                        <span class="tag">地下城</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/鐵人賽30天/">
+                        <span class="tag">鐵人賽30天</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="個人技術站一把罩！部落格建置大全（一）- 使用 Hexo 搭配 Github Page 建置自己的部落格" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021
+                 <!-- Moojing&nbsp; -->
+                
+                <!-- Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a> -->
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-TW");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://www.muji.dev',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到頁首" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="請輸入關鍵字..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

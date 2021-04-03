@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>JS 原力覺醒 Day04 - Function Scope  / Block Scope - Moojing&#39;s Blog</title>
+
+
+    <meta name="description" content="今天我們要來談談「範疇( Scope )」。 Outline  詞彙環境 （  Lexical  Environment  ） 什麼是範疇 （ Scope ） Function Scope Block Scope 總結  語彙環境 （ Lexical  Environment ） 在講到範疇以前，我必須先提一下一個很重要而且相關的概念，那就是語彙環境，弄清楚語彙環境之後，後續我們講到範疇就比較能夠">
+<meta name="keywords" content="javascript,frontend,frontend-force,鐵人賽30天,ironman30">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS 原力覺醒 Day04 - Function Scope  &#x2F; Block Scope">
+<meta property="og:url" content="https://www.muji.dev/2020/01/02/iron30-4/index.html">
+<meta property="og:site_name" content="Moojing&#39;s Blog">
+<meta property="og:description" content="今天我們要來談談「範疇( Scope )」。 Outline  詞彙環境 （  Lexical  Environment  ） 什麼是範疇 （ Scope ） Function Scope Block Scope 總結  語彙環境 （ Lexical  Environment ） 在講到範疇以前，我必須先提一下一個很重要而且相關的概念，那就是語彙環境，弄清楚語彙環境之後，後續我們講到範疇就比較能夠">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https://www.muji.dev/images/og_image_name.png">
+<meta property="og:updated_time" content="2021-04-03T10:05:27.022Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS 原力覺醒 Day04 - Function Scope  &#x2F; Block Scope">
+<meta name="twitter:description" content="今天我們要來談談「範疇( Scope )」。 Outline  詞彙環境 （  Lexical  Environment  ） 什麼是範疇 （ Scope ） Function Scope Block Scope 總結  語彙環境 （ Lexical  Environment ） 在講到範疇以前，我必須先提一下一個很重要而且相關的概念，那就是語彙環境，弄清楚語彙環境之後，後續我們講到範疇就比較能夠">
+<meta name="twitter:image" content="https://www.muji.dev/images/og_image_name.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-134605527-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-134605527-1');
+</script>
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="JS 原力覺醒 Day04 - Function Scope  / Block Scope" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About Me</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" title="搜尋" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-01-01T23:13:10.000Z">2020-01-02</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/IThome-鐵人賽30天/">IThome - 鐵人賽30天</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    10 分鐘 閱讀文 (大約 1543 個字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                JS 原力覺醒 Day04 - Function Scope  / Block Scope
+            
+        </h1>
+        <div class="content">
+            <p>今天我們要來談談「範疇( Scope )」。</p>
+<h2 id="outline"><a class="header-anchor" href="#outline"></a>Outline</h2>
+<ul>
+<li>詞彙環境 （  Lexical  Environment  ）</li>
+<li>什麼是範疇 （ Scope ）</li>
+<li>Function Scope</li>
+<li>Block Scope</li>
+<li>總結</li>
+</ul>
+<h2 id="語彙環境-lexical-environment"><a class="header-anchor" href="#語彙環境-lexical-environment"></a>語彙環境 （ Lexical  Environment ）</h2>
+<p>在講到範疇以前，我必須先提一下一個很重要而且相關的概念，那就是語彙環境，弄清楚語彙環境之後，後續我們講到範疇就比較能夠區分差異性。語彙環境代表程式碼在程式中實際的物理位置。白話一點來說就是：</p>
+<blockquote>
+<p>你把這段程式碼寫在哪 ?</p>
+</blockquote>
+<p>既然是「詞彙」，就代表跟文法、語法相關，所以跟語法分析脫不了關係。語彙環境會影響 JavaScript 與法解析器分析程式碼的結果。回憶一下前幾天我們提到 JS 引擎的時候，JS 在被執行時，會先會被丟給語法分析器解析。</p>
+<p>還記得抽象語法樹 ( AST ) 嗎？某段變數宣告寫在全域，或寫在函式宣告裡面，都會產生不ㄧ樣的抽象語法樹。語彙環境的差異就由這個階段產出的 AST 來決定。因此，程式碼的實際位置對我們後續在 JavaScript 其他觀念時非常重要。</p>
+<h2 id="什麼是範疇-scope"><a class="header-anchor" href="#什麼是範疇-scope"></a>什麼是範疇 （ Scope ）</h2>
+<p>上一章節我們提到除了全域的執行環境 ( Global Ex. Context ) 之外，每當一個函式被呼叫的時候，一個對應的函式 （ Function Ex. Context ）執行環境也會被產生，執行完之後就會離開。而在這個由函式裡面宣告的變數只能在離開該執行環境之前被取得、採用，而在全域執行環境下也無法直接取得在函式內宣告的變數。像這樣有限的存取範圍就是 「 範疇 」。用白話一點的方式說：</p>
+<blockquote>
+<p>範疇是變數可以被使用的範圍</p>
+</blockquote>
+<p>再讓我們來看個這段程式碼：</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20190919/20106580cS5SUT1FCA.jpg" alt="https://ithelp.ithome.com.tw/upload/images/20190919/20106580cS5SUT1FCA.jpg"></p>
+<p>我在全域環境底下想要透過 console 取用 hello 函式裡面的變數，卻得到了「 localText is not defined. 」的錯誤，這是因為在取用該變數的當下，hello 函式並沒有被呼叫而產生執行環境，所以對全域來講這個變數是不存在的（ 沒有被宣告 ）。這就是 Scope 的基本概念。</p>
+<h2 id="function-scope"><a class="header-anchor" href="#function-scope"></a>Function Scope</h2>
+<p>Function Scope 可以從字面上直接理解為「 在 function 內的 Scope 」，或是「由 function 來決定 Scope 」。延續上一個例子，我在全域環境底下沒辦法取用函式內的變數，是因為該函式的執行環境還沒有被產生，所以我們只要想辦法讓它產生就行了。但要記得離開執行環境，也就是「結束這個函式之後」，在裡面所宣告的變數就無法被取得了，所以只能在函式內被取用。</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20190919/20106580tO8quLoxIp.jpg" alt="https://ithelp.ithome.com.tw/upload/images/20190919/20106580tO8quLoxIp.jpg"></p>
+<p>那如果是反過來，在函式內想要拿到函式外面宣告的變數的話，會不會有問題？ 答案是可以的，因為只要還沒有結束整個 JS 主程式，全域環境都會一直存在，而 JS 在找不到變數時，預設的行為就是會向外尋找有沒有相同名字的變數。因此不會有像前一個例子一樣找不到變數宣告的情況產生。</p>
+<h2 id="block-scope"><a class="header-anchor" href="#block-scope"></a>Block Scope</h2>
+<p>前面說到 Function Scope 是由函式來決定範疇，這是之前 ES5 版本的行為，在 ES6 之後，出現了 let 、 const 等兩種宣告變數的關鍵字，讓我們除了使用 funciton 來定義範疇，也能 「區塊 ( Block )」來定義。什麼是區塊呢？區塊就是兩個大括號裡面的範圍（{ 、 }）， if 判斷式 、while 或是 for 迴圈語法用到的大括號範圍就是 Block ，當然， function 的大括號也算。</p>
+<p>所以什麼是 Block Scope 呢？其實有個 JS 之前就存在的語法 「 try / catch 」 就有 Block Scope 的特性，讓我們先來看看一段程式碼：</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20190919/20106580vsMINFQyhh.jpg" alt="https://ithelp.ithome.com.tw/upload/images/20190919/20106580vsMINFQyhh.jpg"></p>
+<p>由上面這段程式碼來看，在全域的部分，還是可以取得 foo 變數，因為對使用 var 宣告的變數來說，有沒有大括號並不影響範疇，再來讓我們仔細看看 catch 這個特殊語法區塊，他不是函式，但是卻有一個系統提供的變數 err ，這個變數只能在 catch 區塊裡面被使用（通常是拿來丟出錯誤），當我們從全域呼叫時，就會產生錯誤，像這樣的行為就是 Block Scope 的特性。簡言之：</p>
+<blockquote>
+<p>Block Scope 就是用大括號去定義範疇。</p>
+</blockquote>
+<h2 id="總結"><a class="header-anchor" href="#總結"></a>總結</h2>
+<p>這個章節我們了解什麼是範疇、Function Scope 以及 Block Scope 的觀念了，接下來讓我用一個簡單的例子，整合 var 、 let 、const 等宣告方式，看看兩種定義 Scope 的方式會造成變數存取上有什麼不同的結果 :</p>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20190919/20106580zBlWz671lp.jpg" alt="https://ithelp.ithome.com.tw/upload/images/20190919/20106580zBlWz671lp.jpg"></p>
+<p>我們在全域的環境下呼叫 bar 函式，照理說在該函式內產生的變數都可以被存取到，但因為 Block Scope 的關係，由 let 與 const 宣告的變數只能在 if 判斷式內被取得。 因為使用 block scope 能夠更靈活地去管理所宣告的變數，避免重複宣告導致的混淆，在 ES6 出現之後， let 與 const  廣為被推薦使用。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/frontend/">frontend</a>, <a class="has-link-grey -link" href="/tags/frontend-force/">frontend-force</a>, <a class="has-link-grey -link" href="/tags/ironman30/">ironman30</a>, <a class="has-link-grey -link" href="/tags/javascript/">javascript</a>, <a class="has-link-grey -link" href="/tags/鐵人賽30天/">鐵人賽30天</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/01/02/iron30-5/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">JS 原力覺醒 Day05 - Scope Chain</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/01/02/iron30-3/">
+                <span class="level-item">JS 原力覺醒 Day03 - 執行環境與執行堆疊</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="is-rounded" src="/images/avatar.png" alt="Mujing Tsai">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Mujing Tsai
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        -
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Taipei, Taiwan</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            64
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分類
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            9
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        標籤
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://www.facebook.com/mujing" target="_blank" rel="noopener">
+                追蹤</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/moojing">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://www.facebook.com/mujing">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://www.linkedin.com/in/mu-jing-tsai/">
+                
+                <i class="fab fa-linkedin"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            連結
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://ithelp.ithome.com.tw/users/20106580/ironman/2503" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">11th鐵人賽</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">ithelp.ithome.com.tw</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分類
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Canvas/">
+            <span class="level-start">
+                <span class="level-item">Canvas</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/FullStack/">
+            <span class="level-start">
+                <span class="level-item">FullStack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/IThome-鐵人賽30天/">
+            <span class="level-start">
+                <span class="level-item">IThome - 鐵人賽30天</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">30</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Javascript/">
+            <span class="level-start">
+                <span class="level-item">Javascript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/TypeScript/">
+            <span class="level-start">
+                <span class="level-item">TypeScript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Webpack/">
+            <span class="level-start">
+                <span class="level-item">Webpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/devOps/">
+            <span class="level-start">
+                <span class="level-item">devOps</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/w3HexSchool-2020-年度鐵人賽/">
+            <span class="level-start">
+                <span class="level-item">w3HexSchool 2020 年度鐵人賽</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/走在漫漫長路-工作心得/">
+            <span class="level-start">
+                <span class="level-item">走在漫漫長路 - 工作心得</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            彙整
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">30</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">17</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            標籤雲
+        </h3>
+        <a href="/tags/backend/" style="font-size: 15.71px;">backend</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/devOps/" style="font-size: 11.43px;">devOps</a> <a href="/tags/frontend/" style="font-size: 20px;">frontend</a> <a href="/tags/frontend-force/" style="font-size: 17.14px;">frontend-force</a> <a href="/tags/ironman30/" style="font-size: 17.14px;">ironman30</a> <a href="/tags/javascript/" style="font-size: 18.57px;">javascript</a> <a href="/tags/rails/" style="font-size: 15.71px;">rails</a> <a href="/tags/ruby/" style="font-size: 15.71px;">ruby</a> <a href="/tags/ruby-on-rails/" style="font-size: 15.71px;">ruby on rails</a> <a href="/tags/typeScript/" style="font-size: 11.43px;">typeScript</a> <a href="/tags/typescript/" style="font-size: 12.86px;">typescript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/w3HexSchool/" style="font-size: 14.29px;">w3HexSchool</a> <a href="/tags/working/" style="font-size: 11.43px;">working</a> <a href="/tags/地下城/" style="font-size: 14.29px;">地下城</a> <a href="/tags/鐵人賽30天/" style="font-size: 17.14px;">鐵人賽30天</a>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/04/03/react-compound-component/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-compound-component">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-04-03T10:14:38.000Z">2021-04-03</time></div>
+                    <a href="/2021/04/03/react-compound-component/" class="title has-link-black-ter is-size-6 has-text-weight-normal">react-compound-component</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Javascript/">Javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/06/working-reward/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/reward-cover.JPG" alt="每個衝擊都是一次學習的機會 - 近期的一點心得">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T09:36:53.000Z">2020-09-06</time></div>
+                    <a href="/2020/09/06/working-reward/" class="title has-link-black-ter is-size-6 has-text-weight-normal">每個衝擊都是一次學習的機會 - 近期的一點心得</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/走在漫漫長路-工作心得/">走在漫漫長路 - 工作心得</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/09/working-environment/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/work-life.jpg" alt="寫給職場工作者：工作環境是否會影響一個人的思考方式？">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-08T20:54:46.000Z">2020-03-09</time></div>
+                    <a href="/2020/03/09/working-environment/" class="title has-link-black-ter is-size-6 has-text-weight-normal">寫給職場工作者：工作環境是否會影響一個人的思考方式？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/走在漫漫長路-工作心得/">走在漫漫長路 - 工作心得</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/07/web-dnd-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/DragnDrop.jpg" alt="就是要一起拖拖拉拉！(二) - 利用 DataTransfer API 實作拖拉元素間的資料傳遞">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-07T08:39:14.000Z">2020-03-07</time></div>
+                    <a href="/2020/03/07/web-dnd-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">就是要一起拖拖拉拉！(二) - 利用 DataTransfer API 實作拖拉元素間的資料傳遞</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/28/web-dnd-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/DragnDrop.jpg" alt="就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-28T02:04:03.000Z">2020-02-28</time></div>
+                    <a href="/2020/02/28/web-dnd-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                標籤
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/backend/">
+                        <span class="tag">backend</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/devOps/">
+                        <span class="tag">devOps</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/frontend/">
+                        <span class="tag">frontend</span>
+                        <span class="tag is-grey">62</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/frontend-force/">
+                        <span class="tag">frontend-force</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ironman30/">
+                        <span class="tag">ironman30</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">56</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/rails/">
+                        <span class="tag">rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby/">
+                        <span class="tag">ruby</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby-on-rails/">
+                        <span class="tag">ruby on rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typeScript/">
+                        <span class="tag">typeScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue-js/">
+                        <span class="tag">vue.js</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/w3HexSchool/">
+                        <span class="tag">w3HexSchool</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/working/">
+                        <span class="tag">working</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/地下城/">
+                        <span class="tag">地下城</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/鐵人賽30天/">
+                        <span class="tag">鐵人賽30天</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="JS 原力覺醒 Day04 - Function Scope  / Block Scope" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021
+                 <!-- Moojing&nbsp; -->
+                
+                <!-- Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a> -->
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-TW");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://www.muji.dev',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到頁首" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="請輸入關鍵字..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

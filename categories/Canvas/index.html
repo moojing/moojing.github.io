@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>分類: Canvas - Moojing&#39;s Blog</title>
+
+
+    <meta name="keywords" content="frontend,backend,javascript">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Moojing&#39;s Blog">
+<meta property="og:url" content="https://www.muji.dev/categories/Canvas/index.html">
+<meta property="og:site_name" content="Moojing&#39;s Blog">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https://www.muji.dev/images/og_image_name.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Moojing&#39;s Blog">
+<meta name="twitter:image" content="https://www.muji.dev/images/og_image_name.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-134605527-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-134605527-1');
+</script>
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Moojing&#39;s Blog" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About Me</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" title="搜尋" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    <div class="card-content">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/categories">分類</a></li>
+            
+            <li class="is-active"><a href="#" aria-current="page">Canvas</a></li>
+        </ul>
+        </nav>
+    </div>
+</div>
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-03T15:04:53.000Z">2019-03-03</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Canvas/">Canvas</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 分鐘 閱讀文 (大約 2403 個字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/03/03/canvas-sketchpad/">Vue.js 實作 Canvas 畫板</a>
+            
+        </h1>
+        <div class="content">
+            <img src="/2019/03/03/canvas-sketchpad/cover.png" title="Cover Photo">
+<p>大家好，我在地下城七樓。在網頁互動上，Canvas的表現速度比起傳統用DOM元素操作的方式快上許多，因此常有某些互動的需求會採用Canvas來達成，這個專案會從基礎開始解說我如何實作Canvas畫板。</p>
+<p>你可以在<a href="https://moojing.github.io/demo/underground_7f/">這裡</a>看到我的實作成果，或是<a href="https://github.com/moojing/hex-underground/blob/master/7f_canvas_sketchpad/src/App.vue">在此</a>參考我的程式碼。</p>
+<p>這個專案會盡量練習以我的角度寫出好讀的程式碼，什麼是好讀的程式碼？總該有個客觀定義，但以我目前所學來看，通常是有一定經驗的人，看夠別人寫的程式法，才能漸漸分辨好壞。不過俗話說取悅別人之前要先取悅自己，我想在這點上可以列一個最低限度的階段目標，就是先<strong>寫出讓自己好讀的程式碼。</strong> 畢竟如果自己都看得很吃力，那我想也絕對稱不上好讀。</p>
+<p>P.S. 網路上應該可以找到不少討論這一點的<a href="https://medium.com/s/story/readability-as-usability-78c5a2a373cc?source=email-86564209b7e7-1551389956264-digest.reader------0-50------------------3ae9041b_fc1c_4d8c_95cd_2f5c22f35c7e-1&amp;sectionName=top">文章</a>。</p>
+<h2 id="outline"><a class="header-anchor" href="#outline"></a>Outline</h2>
+<ul>
+<li>Canvas - 指定渲染環境</li>
+<li>封裝畫線方法</li>
+<li>鉛筆工具</li>
+<li>橡皮擦工具</li>
+<li>Canvas轉成圖片</li>
+<li>空心矩形</li>
+<li>復原與重做</li>
+<li>多思考一些 - 使用者體驗</li>
+</ul>
+<h2 id="指定渲染環境"><a class="header-anchor" href="#指定渲染環境"></a>指定渲染環境</h2>
+<p>Canvas 會產生一個固定範圍的畫布，但開始繪製圖型之前， 由於canvas可以有很多種渲染環境，我們必須使用getContext()方法來指定想要的渲染方式，這邊畫布使用的是2d環境。</p>
+<pre><code class="language-html">&lt;canvas ref=&quot;sketchpad&quot;&gt;&lt;/canvas&gt;
+</code></pre>
+<pre><code>methods:{
+...
+ setCanvas(){
+      let canvas = this.$refs['sketchpad']
+      canvas.width  = window.innerWidth
+      canvas.height  = window.innerHeight - 60
+      let ctx =  canvas.getContext('2d')
+      ctx.lineCap = &quot;round&quot;
+      ctx.lineJoin = &quot;round&quot;
+      this.canvasContext = ctx
+    },
+}
+</code></pre>
+<h2 id="封裝畫線方法"><a class="header-anchor" href="#封裝畫線方法"></a>封裝畫線方法</h2>
+<h3 id="基礎"><a class="header-anchor" href="#基礎"></a>基礎</h3>
+<p>canvas畫線之前要先呼叫beginPath方法告知開始畫線，最後用stroke()畫出邊線或是用fill()填滿，一個畫線的簡單例子：</p>
+<pre><code class="language-js">ctx.beginPath();       // Start a new path
+ctx.moveTo(30, 50);    // Move the pen to (30, 50)
+ctx.lineTo(150, 100);  // Draw a line to (150, 100)
+ctx.stroke();          // Render the path
+</code></pre>
+<p>這段程式是在告訴canvas從座標(30,50)開始畫線到(150,100)，不過從beginPath開始，直到stroke()被呼叫為止，才會將線段渲染到畫板上，詳細說明可參考<a href="https://developer.mozilla.org/zh-TW/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#%E8%B7%AF%E5%BE%91%E7%B9%AA%E8%A3%BD">官方文件</a>。</p>
+<h3 id="簡化"><a class="header-anchor" href="#簡化"></a>簡化</h3>
+<p>每次要畫線段都要呼叫beginPath() 跟 stroke() 實在是太多餘了，我把每次都相同的部份用methods封裝起來，中間實際會改變的部分我用callback當作參數傳入這個method，這麼一來就可以減少重複的程式碼：</p>
+<pre><code class="language-js">methods:{
+    ...
+     draw(action){
+      let canvasContext = this.canvasContext
+      canvasContext.beginPath()
+      canvasContext.lineWidth = this.currentSize*2       
+      action(canvasContext)
+      canvasContext.stroke()
+    },
+
+}
+</code></pre>
+<p>實際使用：</p>
+<pre><code class="language-js"> this.draw((ctx)=&gt;{
+                        ctx.strokeStyle =  this.currentColor.code
+                        ctx.moveTo(this.tempPosition.x,this.tempPosition.y)
+                        ctx.lineTo(pos.x,pos.y)
+                    })
+</code></pre>
+<p>如果你寫Js一段時間應該會發現常見的map或是filter也是類似的用法。</p>
+<h2 id="實作鉛筆工具"><a class="header-anchor" href="#實作鉛筆工具"></a>實作鉛筆工具</h2>
+<p>鉛筆工具實作上，基本上就是找出滑鼠按下的時候，滑鼠移動的軌跡，再將這些點用線段一個一個連起來，實作前有兩個問題要先想一下：</p>
+<ul>
+<li>如何記錄移動軌跡，每個點都記錄？還是只記錄一個？要記錄什麼時間點的軌跡</li>
+<li>如何得知滑鼠現在是否為按下的狀態 ?</li>
+</ul>
+<p>我實作的方式是，在window新增mousemove監聽事件，事件被觸發時，記錄滑鼠移動到B點時的前一個點A點位置，然後因為在B點時的位置可以直接透過js api取得，這樣就能夠對照前後位置，以實作鉛筆功能。</p>
+<pre><code class="language-js">window.addEventListener('mousemove',(event)=&gt;{
+...
+let currentPos = this.getCanvasMousePosition(event.clientX,event.clientY)
+...
+...
+this.setCanvasTempPosition(currentPos.x,currentPos.y) 
+           
+})
+</code></pre>
+<p>取得鼠標位置的細節可參考我的<a href="https://github.com/moojing/hex-underground/blob/master/7f_canvas_sketchpad/src/App.vue">Github</a>。只看程式碼可能有點抽象，第一次移動的時候，tempPosition一定是空值，直到位置發生變化（從A到B)結束後，A點位置才會被記錄到tempPosition，完成前一軌跡記錄。</p>
+<p>再來，如何確定滑鼠是否為按下狀態? 我在canvas元素上分別新增mousedown跟mouseup事件，並在Vue data新增一個布林值isCanvasMouseDown，以透過這兩個事件切換滑鼠狀態。</p>
+<pre><code class="language-js">onCanvasMouseDown(){ 
+      this.isCanvasMouseDown = true
+      ...
+    }
+
+onCanvasMouseUp(){
+    this.isCanvasMouseDown = false
+  }
+</code></pre>
+<p>最後，就剩下canvas畫圖的功夫了，在畫圖之前記得先確認滑鼠狀態以及是否已有軌跡記錄之後再執行動作，否則會出錯：</p>
+<p><strong>In MouseMove Event</strong></p>
+<pre><code class="language-js">...
+    if(this.isCanvasMouseDown &amp;&amp; this.tempPosition){
+            let pos = this.getCanvasMousePosition(event.clientX,event.clientY)
+            switch(this.currentTool){
+              case 'paint-brush' : 
+                    this.draw((ctx)=&gt;{
+                        ctx.strokeStyle =  this.currentColor.code
+                        ctx.moveTo(this.tempPosition.x,this.tempPosition.y)
+                        ctx.lineTo(pos.x,pos.y)
+                    })
+                    break;
+                    ...
+</code></pre>
+<h2 id="橡皮擦工具"><a class="header-anchor" href="#橡皮擦工具"></a>橡皮擦工具</h2>
+<p>橡皮擦工具只是把已經畫上的圖案消去，這邊我直接用前面實作的筆刷工具，搭配背景色，可以達成一樣的效果，比較特別的是，我將canvas背景色記錄在vue data裡面，這樣就可以確保橡皮擦工具的顏色跟背景色是相同的值，減少錯誤發生機率。</p>
+<h2 id="canvas-轉成圖片"><a class="header-anchor" href="#canvas-轉成圖片"></a>Canvas 轉成圖片</h2>
+<p>轉成圖片不是什麼大問題，Canvas元素本身有一個toDataUrl，可以回傳回傳含有圖像的Url，最後再產生一個a元素，將網址貼上去後觸發click事件，就可以模擬點擊，達成下載圖片的功能。</p>
+<pre><code class="language-js">canvasToImage(){
+      let url =  this.$refs['sketchpad'].toDataURL(&quot;image/png&quot;, 1.0).replace(&quot;image/png&quot;, &quot;image/octet-stream&quot;);
+      const link = document.createElement('a')
+      link.innerText = 'Download'
+      link.href = url 
+      link.download = 'circle.png'     
+      link.click()
+    },
+</code></pre>
+<h2 id="空心矩形"><a class="header-anchor" href="#空心矩形"></a>空心矩形</h2>
+<p>這個功能是我思考最久的一部分，canvas要單純畫上矩形的話只要呼叫rect()方法就行，方法說明如下：</p>
+<pre><code class="language-js">ctx.rect(起始位置x, 起始位置y, 長度, 寬度);
+</code></pre>
+<p>這格應該不難理解，最難的是如何達成「滑鼠按下時可一邊調整矩形的大小跟長寬」如果像實作鉛筆功能時，在每個軌跡都畫圖型的話，就會發生災難：</p>
+<img src="/2019/03/03/canvas-sketchpad/error-sample.png" title="Error Sample">
+<p>看到這裡你應該可以了解原因了，因為我在每次滑鼠改變位置時都畫了一次。這邊要思考的是：</p>
+<ul>
+<li>使用矩形工具，滑鼠按下時要做什麼事情</li>
+<li>什麼時候紀錄前一個移動軌跡，什麼時候不要</li>
+</ul>
+<p>我的解法是，當使用矩形工具，且偵測到mousedown事件時，在畫圖之前先用getImageData做一個簡單的暫存：</p>
+<pre><code class="language-js">methods:{
+...
+setTempCanvas(){ 
+      let ctx = this.canvasContext
+      let canvas = ctx.canvas 
+      let tempCanvas = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      this.tempCanvas = tempCanvas
+    }, 
+...
+}
+</code></pre>
+<p>並且在每次滑鼠位置改變並且渲染矩形完成後，用putImageData() 把暫存復原，以上面災難圖為例，就是每次畫完之後，只會看到最為面那層。</p>
+<h2 id="復與原重做"><a class="header-anchor" href="#復與原重做"></a>復與原重做</h2>
+<p>我找到一篇描述利用window.history模擬瀏覽器上ㄧ頁下一頁功能的<a href="https://ithelp.ithome.com.tw/articles/10195793">文章</a>，實作步驟簡單來說就是在每次畫完圖型後將目前畫面暫存進history裡面，再去透過js操作瀏覽器上頁跟下頁來達成這個功能，蠻有趣的。</p>
+<h2 id="多思考一些-使用者體驗"><a class="header-anchor" href="#多思考一些-使用者體驗"></a>多思考一些 - 使用者體驗</h2>
+<p>有幾個細節是比較容易被忽略的，但是如果有這些小地方可以讓使用者操作或是開發上更順暢，這邊把想到的點列出：</p>
+<ol>
+<li>畫筆畫到一半，滑過工具列時，能不能繼續畫</li>
+<li>調整大小時，能不能用拖拉調整</li>
+</ol>
+<h3 id="1-畫筆畫到一半-滑過工具列時-能不能繼續畫"><a class="header-anchor" href="#1-畫筆畫到一半-滑過工具列時-能不能繼續畫"></a>1.畫筆畫到一半，滑過工具列時，能不能繼續畫</h3>
+<p>我原本是把Mousemove事件放在canvas上面，後來做到一半才發現當我畫到一半，滑鼠經過工具列，他不會繼續對canvas的滑鼠事件有動作，因此會中斷畫圖，後來我<strong>將Mousemove事件放在整個windows上，並判斷現在滑鼠狀態是否是按下(MouseDown)</strong>，才解決這個問題。</p>
+<h3 id="2-調整大小時-能不能直接用拖拉調整"><a class="header-anchor" href="#2-調整大小時-能不能直接用拖拉調整"></a>2.調整大小時，能不能直接用拖拉調整</h3>
+<p>會想到這個是因為很多繪圖軟體都有這個功能，這邊的雷點跟第一點一樣，必須將mouseMove事件放在window上面，否則拖拉到一半滑鼠離開input元素時，就會停止調整Size數值，反而很不好用。</p>
+<p><strong>Vue Method:</strong></p>
+<pre><code class="language-js">  checkSizeDrag(dragValue){
+      if(dragValue&lt;0){ 
+        this.currentSize =  parseInt(this.currentSize)+1
+      }else if(dragValue&gt;0&amp;&amp;this.currentSize&gt;=1){
+        this.currentSize = parseInt(this.currentSize)-1
+      }
+    },
+</code></pre>
+<p><strong>In MouseMove Event</strong></p>
+<pre><code class="language-js"> 
+window.addEventListener('mousemove',(event)=&gt;{
+...
+    let currentPos = this.getCanvasMousePosition(event.clientX,event.clientY)
+    if(this.isSizing &amp;&amp; this.tempPosition ){
+                let dragValue= currentPos.y- this.tempPosition.y 
+                this.checkSizeDrag(dragValue)
+    }
+...
+}
+</code></pre>
+<p>你可以在<a href="https://moojing.github.io/demo/underground_7f/">這裡</a>看到我的實作成果，或是<a href="https://github.com/moojing/hex-underground/blob/master/7f_canvas_sketchpad/src/App.vue">在此</a>參考我的程式碼。</p>
+<h2 id="參考文章"><a class="header-anchor" href="#參考文章"></a>參考文章</h2>
+<p>canvas基礎：<br>
+<a href="http://test.domojyun.net/MEMO/Canvas/">http://test.domojyun.net/MEMO/Canvas/</a></p>
+<p>pushState 實作復原及重做：<br>
+<a href="https://ithelp.ithome.com.tw/articles/10195793">https://ithelp.ithome.com.tw/articles/10195793</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="is-rounded" src="/images/avatar.png" alt="Mujing Tsai">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Mujing Tsai
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        -
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Taipei, Taiwan</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            64
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分類
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            9
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        標籤
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://www.facebook.com/mujing" target="_blank" rel="noopener">
+                追蹤</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/moojing">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://www.facebook.com/mujing">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://www.linkedin.com/in/mu-jing-tsai/">
+                
+                <i class="fab fa-linkedin"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            連結
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://ithelp.ithome.com.tw/users/20106580/ironman/2503" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">11th鐵人賽</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">ithelp.ithome.com.tw</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分類
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Canvas/">
+            <span class="level-start">
+                <span class="level-item">Canvas</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/FullStack/">
+            <span class="level-start">
+                <span class="level-item">FullStack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/IThome-鐵人賽30天/">
+            <span class="level-start">
+                <span class="level-item">IThome - 鐵人賽30天</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">30</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Javascript/">
+            <span class="level-start">
+                <span class="level-item">Javascript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/TypeScript/">
+            <span class="level-start">
+                <span class="level-item">TypeScript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Webpack/">
+            <span class="level-start">
+                <span class="level-item">Webpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/devOps/">
+            <span class="level-start">
+                <span class="level-item">devOps</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/w3HexSchool-2020-年度鐵人賽/">
+            <span class="level-start">
+                <span class="level-item">w3HexSchool 2020 年度鐵人賽</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/走在漫漫長路-工作心得/">
+            <span class="level-start">
+                <span class="level-item">走在漫漫長路 - 工作心得</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            彙整
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">30</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">17</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            標籤雲
+        </h3>
+        <a href="/tags/backend/" style="font-size: 15.71px;">backend</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/devOps/" style="font-size: 11.43px;">devOps</a> <a href="/tags/frontend/" style="font-size: 20px;">frontend</a> <a href="/tags/frontend-force/" style="font-size: 17.14px;">frontend-force</a> <a href="/tags/ironman30/" style="font-size: 17.14px;">ironman30</a> <a href="/tags/javascript/" style="font-size: 18.57px;">javascript</a> <a href="/tags/rails/" style="font-size: 15.71px;">rails</a> <a href="/tags/ruby/" style="font-size: 15.71px;">ruby</a> <a href="/tags/ruby-on-rails/" style="font-size: 15.71px;">ruby on rails</a> <a href="/tags/typeScript/" style="font-size: 11.43px;">typeScript</a> <a href="/tags/typescript/" style="font-size: 12.86px;">typescript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/w3HexSchool/" style="font-size: 14.29px;">w3HexSchool</a> <a href="/tags/working/" style="font-size: 11.43px;">working</a> <a href="/tags/地下城/" style="font-size: 14.29px;">地下城</a> <a href="/tags/鐵人賽30天/" style="font-size: 17.14px;">鐵人賽30天</a>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/04/03/react-compound-component/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-compound-component">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-04-03T10:14:38.000Z">2021-04-03</time></div>
+                    <a href="/2021/04/03/react-compound-component/" class="title has-link-black-ter is-size-6 has-text-weight-normal">react-compound-component</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Javascript/">Javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/06/working-reward/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/reward-cover.JPG" alt="每個衝擊都是一次學習的機會 - 近期的一點心得">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T09:36:53.000Z">2020-09-06</time></div>
+                    <a href="/2020/09/06/working-reward/" class="title has-link-black-ter is-size-6 has-text-weight-normal">每個衝擊都是一次學習的機會 - 近期的一點心得</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/走在漫漫長路-工作心得/">走在漫漫長路 - 工作心得</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/09/working-environment/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/work-life.jpg" alt="寫給職場工作者：工作環境是否會影響一個人的思考方式？">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-08T20:54:46.000Z">2020-03-09</time></div>
+                    <a href="/2020/03/09/working-environment/" class="title has-link-black-ter is-size-6 has-text-weight-normal">寫給職場工作者：工作環境是否會影響一個人的思考方式？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/走在漫漫長路-工作心得/">走在漫漫長路 - 工作心得</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/07/web-dnd-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/DragnDrop.jpg" alt="就是要一起拖拖拉拉！(二) - 利用 DataTransfer API 實作拖拉元素間的資料傳遞">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-07T08:39:14.000Z">2020-03-07</time></div>
+                    <a href="/2020/03/07/web-dnd-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">就是要一起拖拖拉拉！(二) - 利用 DataTransfer API 實作拖拉元素間的資料傳遞</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/28/web-dnd-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/DragnDrop.jpg" alt="就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-28T02:04:03.000Z">2020-02-28</time></div>
+                    <a href="/2020/02/28/web-dnd-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                標籤
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/backend/">
+                        <span class="tag">backend</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/devOps/">
+                        <span class="tag">devOps</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/frontend/">
+                        <span class="tag">frontend</span>
+                        <span class="tag is-grey">62</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/frontend-force/">
+                        <span class="tag">frontend-force</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ironman30/">
+                        <span class="tag">ironman30</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">56</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/rails/">
+                        <span class="tag">rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby/">
+                        <span class="tag">ruby</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby-on-rails/">
+                        <span class="tag">ruby on rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typeScript/">
+                        <span class="tag">typeScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue-js/">
+                        <span class="tag">vue.js</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/w3HexSchool/">
+                        <span class="tag">w3HexSchool</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/working/">
+                        <span class="tag">working</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/地下城/">
+                        <span class="tag">地下城</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/鐵人賽30天/">
+                        <span class="tag">鐵人賽30天</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Moojing&#39;s Blog" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021
+                 <!-- Moojing&nbsp; -->
+                
+                <!-- Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a> -->
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-TW");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://www.muji.dev',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到頁首" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="請輸入關鍵字..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

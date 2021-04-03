@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>個人技術站一把罩！部落格建置大全（二）- 將 Github Page 串上自己的域名 - Moojing&#39;s Blog</title>
+
+
+    <meta name="description" content="上週提到了使用 Hexo 這個工具來架設個人部落格，並放到自己 Github Page 上的方法。這次我們要來看看怎麼把架好部落格的 Github Page ，串上自己擁有的域名( ex. blabla.com ) ，所以在這篇文章內將會對 DNS 與相關設定有一定部分的講解跟介紹。有興趣的人可以先用 https://www.cowboybebop.space/ 來觀看設定完成的結果，這個域名應該">
+<meta name="keywords" content="javascript,frontend,w3HexSchool">
+<meta property="og:type" content="article">
+<meta property="og:title" content="個人技術站一把罩！部落格建置大全（二）- 將 Github Page 串上自己的域名">
+<meta property="og:url" content="https://www.muji.dev/2020/02/23/hexo-github-page-2/index.html">
+<meta property="og:site_name" content="Moojing&#39;s Blog">
+<meta property="og:description" content="上週提到了使用 Hexo 這個工具來架設個人部落格，並放到自己 Github Page 上的方法。這次我們要來看看怎麼把架好部落格的 Github Page ，串上自己擁有的域名( ex. blabla.com ) ，所以在這篇文章內將會對 DNS 與相關設定有一定部分的講解跟介紹。有興趣的人可以先用 https://www.cowboybebop.space/ 來觀看設定完成的結果，這個域名應該">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https://www.muji.dev/images/og_image_name.png">
+<meta property="og:updated_time" content="2021-04-03T10:05:26.980Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="個人技術站一把罩！部落格建置大全（二）- 將 Github Page 串上自己的域名">
+<meta name="twitter:description" content="上週提到了使用 Hexo 這個工具來架設個人部落格，並放到自己 Github Page 上的方法。這次我們要來看看怎麼把架好部落格的 Github Page ，串上自己擁有的域名( ex. blabla.com ) ，所以在這篇文章內將會對 DNS 與相關設定有一定部分的講解跟介紹。有興趣的人可以先用 https://www.cowboybebop.space/ 來觀看設定完成的結果，這個域名應該">
+<meta name="twitter:image" content="https://www.muji.dev/images/og_image_name.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-134605527-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-134605527-1');
+</script>
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="個人技術站一把罩！部落格建置大全（二）- 將 Github Page 串上自己的域名" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About Me</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" title="搜尋" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-02-23T15:09:01.000Z">2020-02-23</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    17 分鐘 閱讀文 (大約 2541 個字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                個人技術站一把罩！部落格建置大全（二）- 將 Github Page 串上自己的域名
+            
+        </h1>
+        <div class="content">
+            <p>上週提到了使用 Hexo 這個工具來架設個人部落格，並放到自己 Github Page 上的方法。這次我們要來看看怎麼把架好部落格的 Github Page ，串上自己擁有的域名( ex. <a href="http://blabla.com">blabla.com</a> ) ，所以在這篇文章內將會對 DNS 與相關設定有一定部分的講解跟介紹。有興趣的人可以先用 <a href="https://www.cowboybebop.space/">https://www.cowboybebop.space/</a> 來觀看設定完成的結果，這個域名應該還會保留 1~2 個月左右。</p>
+<h2 id="outline"><a class="header-anchor" href="#outline"></a>Outline</h2>
+<ul>
+<li>域名購買與域名商介紹</li>
+<li>什麼是 DNS ?</li>
+<li>A Record 與 CNAME</li>
+<li>A Record 與 CNAME 設定</li>
+<li>Github Page 的域名設定</li>
+<li>總結</li>
+<li>參考資料</li>
+</ul>
+<h2 id="域名購買與域名商介紹"><a class="header-anchor" href="#域名購買與域名商介紹"></a>域名購買與域名商介紹</h2>
+<p>首先在開始進行串接之前，你要先有域名，而域名可以透過域名商來做購買，這些域名商有很多，相同域名在不同商家的價格也會不太ㄧ樣，或是某些域名只能在某些域名商買得到，這邊推薦幾個我自己用過的：<a href="https://www.gandi.net/en">Gandi</a>、<a href="https://www.net-chinese.com.tw/nc/">網路中文</a>、<a href="https://domains.google/">Google Domains</a> 。這篇文章會用 Gandi 來做示範，但其實這些網站上購買的流程都差不多。</p>
+<img src="/2020/02/23/hexo-github-page-2/gandi.png" class="gandi.png.png">
+<p>在網站上購買完域名之後，就可以在 Domains 頁面看到自己擁有的域名。點擊進入各個域名就可以前往個別的設定頁面，今天會以我之前買的多出來的域名 <strong><a href="http://cowboybebop.space">cowboybebop.space</a></strong> 為例。</p>
+<img src="/2020/02/23/hexo-github-page-2/gandi-domains.png" title="gandi-domains">
+<p>找到 「 DNS Records 」的分頁，會看到很多，會看到一堆很像神秘魔法咒語的設定值，今天不會逐一介紹，但這邊我們有必要先了解一下什麼是 DNS。</p>
+<img src="/2020/02/23/hexo-github-page-2/gandi-dnssetting.png" title="gandi-dnssetting">
+<h2 id="什麼是-dns"><a class="header-anchor" href="#什麼是-dns"></a>什麼是 DNS ?</h2>
+<p>DNS (Domain Name Server) ，直翻成中文是網域名稱伺服器，可以理解為「負責處理域名的伺服器」，為什麼域名還會需要處理呢？我們在使用網際網路瀏覽網頁時所看到的內容，其實是從你使用的裝置（手機、電腦或平板）連出去對另外一台裝置（也就是伺服器）索取回來的。而兩者之間的溝通，則是以 IP 位址來找到正確的伺服器，IP 位置就像現實世界的門牌地址ㄧ樣，讓其他人可以順利找到對應的位置。</p>
+<p>但是我們每天經常使用的網站這麼多，像是 Facebook 、Gmail 、Dcard、Slack，如果世界上所有的網站，都使用 IP 位置來做位置的辨別，那麼你可以想像，我們可能要熟記好幾種數字組合才能夠維持正常的生活。</p>
+<p>DNS 的出現就是為了解決這個問題，如同我們現在在生活中所經歷的，只要在搜尋列上輸入 <a href="http://facebook.com">facebook.com</a> 就能夠快速前往臉書的網站，這是因為 DNS 透過給每個 IP 位置取個名字，把這些原本只有電腦能夠理解的位置數據，變成人類也很好記憶、理解的名稱，讓各種網站應用能夠更加融入我們的生活中。</p>
+<img src="/2020/02/23/hexo-github-page-2/DNS-Flow.jpg" title="DNS-Flow">
+<h2 id="a-record-與-cname"><a class="header-anchor" href="#a-record-與-cname"></a>A Record 與 CNAME</h2>
+<p>DNS 相關的設定其實有很多，我們就是透過這些設定來告訴 DNS 如何將域名配對到正確的 IP 位址。今天會介紹其中最常會碰到的兩個設定值：</p>
+<ul>
+<li>
+<p><strong>A Record</strong> : A 代表 Address ，也就是紀錄 IP Address 與網域名稱的配對，這個紀錄是在設定 Domain Name 時最重要的項目。</p>
+</li>
+<li>
+<p><strong>CNAME</strong> ： CNAME 是網域名稱的別名，用來將子域名指向另外一個主機的域名，最常見的就是將 <strong><a href="http://www.abc.com">www.abc.com</a> (子域名）</strong> 指向 <strong><a href="http://abd.com">abd.com</a>（購買的主域名）</strong> ，避免使用者因為意外而找不到網站（夠買主域名後，就可以從域名商的設定後台，新增子域名，是不需要另外付費的）。</p>
+</li>
+<li>
+<p><strong>ALIAS</strong> : 與 CNAME 記錄很相像，差別在 CNAME 別名只能用於子域名，而 ALIAS 記錄能夠用在主域名，但這麼做會影響對主域名的域名解析，所以不能與 A 紀錄同時使用。</p>
+</li>
+</ul>
+<p>在了解什麼是 A Record 與 CNAME 與 ALIAS 之後，就讓我們繼續往下設定。要達到串接域名的效果其實不只有一種方式，為了幫助理解以下提供兩種可能的方案。</p>
+<h2 id="方案一：直接透過-a-record-設定"><a class="header-anchor" href="#方案一：直接透過-a-record-設定"></a>方案一：直接透過 A Record 設定</h2>
+<p>因為今天的目標是要將自己的域名可以接到 Github Page。如果只是單純的想要把主域名 ( <strong><a href="http://cowboybebop.space">cowboybebop.space</a></strong> ) 串到 Github Page 上，只要將它指向 <a href="http://github.com">Github</a> 伺服器 的 IP ，也就是：</p>
+<pre><code>185.199.108.153
+</code></pre>
+<p>就可以讓域名順利解析為 Github 主機的位址了，這部分的相關資訊可以在 <a href="https://help.github.com/en/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain">Github 官方說明文件</a>內找到。而因為我們不只要找到 <strong><a href="http://github.com">github.</a>io</strong> 還要找到我們的個人頁面 <strong><a href="http://moojitsai.github.com">moojitsai.github.</a>io</strong> ，這部分必須在 Github Page 的 Repo 內做對應的設定，會在接下來的內容中提到。</p>
+<img src="/2020/02/23/hexo-github-page-2/gandi-a-record.png" title="gandi-a-record">
+<h2 id="方案二：cname-搭配-alias-設定"><a class="header-anchor" href="#方案二：cname-搭配-alias-設定"></a>方案二：CNAME 搭配 ALIAS 設定</h2>
+<p>設定 CNAME 的目的是因為有時候我們希望使用者是透過加上 www 前綴（<a href="http://www.cowboybebop.space/">www.cowboybebop.space</a> ) 的網站域名進入我們的網站，在這種情況下只要用戶不記得或不知道要輸入 www. 前綴，就會沒辦法順利找到我們的網站應用，所以我們必須要將這些用戶重新導向到我們想要的域名。</p>
+<p>通常會在域名前面加上 www. 當作網站位置是為了提醒用戶，這是一個公開的網站，藉此提升體驗。但其實加或不加，並不影響網站的功能性，只要有對應正確的設定即可，因為加上了 www. 前綴的域名，相對於主域名來說只是子域名而已，只是站在 SEO 或是追蹤流量的角度，一般還是建議兩種方式選一種（要不要加上 www.) 並且統一使用，否則 Google 爬蟲會將這兩種域名視為兩個不同的網站。</p>
+<p>在方案二中，我想要以將原來沒有 www. 前綴的主域名統一導向到有 www. 前綴的子域名的方式來完成：</p>
+<pre><code>cowboybebop.space/    -----自動導向到-------&gt;    www.cowboybebop.space/
+</code></pre>
+<p>就像上面提到的，ALIAS 記錄可以用在主域名的別名設定，這個設定剛好可以達成上面提到的導向到具有 www. 前綴域名的效果。因此我們要這麼做：</p>
+<ol>
+<li>將主域名的 ALIAS 設為加上 www. 前綴的子域名</li>
+<li>將加上 www. 前綴的子域名， CNAME 設為 Github Page 的 URL</li>
+</ol>
+<p>提供下圖做為參考，只要看第一跟最後一筆紀錄就可以了，其他是系統預設的設定。</p>
+<img src="/2020/02/23/hexo-github-page-2/gandi-cname-alias.png" title="gandi-cname-alias">
+<p>透過這樣的方式，我們就能夠完美的將有 www. 與沒有 www. 前綴的域名都導向到 Github Page 頁面囉！而且統一使用的會是 <strong>www.cowboybebop.space</strong>，也符合前面提到的建議使用方式！</p>
+<h2 id="github-page-設定"><a class="header-anchor" href="#github-page-設定"></a>Github Page 設定</h2>
+<p>在 Github Page 對應 Repo 內的 Setting 頁面裡的 「 GitHub Pages 區塊」，可以看到 Custom Domain 欄位，在這邊我們必需告訴 Github 我們想要將自己的 Github Page 與哪一個域名串接，才能夠讓我們自己的域名，正確對應到原來個人的 Github Page Url。</p>
+<p>設定完之後，記得把 「Enforce Http」的設定打勾，這樣一來，我們的域名就自動有了 https 憑證，不需要在自己簽發，因為 Github 幫你做掉了，這個功能超方便！</p>
+<img src="/2020/02/23/hexo-github-page-2/github-setting-domain.png" title="github-setting-domain.png">
+<p>設定完成後應該可以在 <a href="https://www.cowboybebop.space/">https://www.cowboybebop.space/</a> 看到頁面了！</p>
+<h2 id="總結"><a class="header-anchor" href="#總結"></a>總結</h2>
+<p>域名相關的設定對於網頁相關工作者來說，初期並不是那麼容易了解，因為其中還有許多細節跟環節，像是 DNS 相關的設定也不只有今天介紹的三種，還有其他適用於特殊使用情境的設定，只不過比較特定。像是 ALIAS 紀錄我也是在寫這篇文章的期間才發現，並知道怎麼設定的。</p>
+<p>而因為每次 DNS 設定更新之後，必須等待 DNS 伺服器解析後才會生效，因此來來回回也失敗了好幾次才終於達成目標，這部分是我覺得最麻煩的。也感謝我的顧問團隊 <a href="https://maxchou.dev/">Max</a> 的幫助。那麼這個 Github Page 的部落格系列就暫時到這邊，希望大家都能夠有記錄自己成長過程的專屬頁面囉，那麼就下次見，有發現什麼有趣的東西再來跟大家分享！</p>
+<h2 id="參考資料"><a class="header-anchor" href="#參考資料"></a>參考資料</h2>
+<p><a href="https://help.github.com/en/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain">Managing a custom domain for your GitHub Pages site</a></p>
+<p><a href="https://docs.gandi.net/zh-hant/domain_names/faq/record_types/cname_record.html">CNAME 紀錄</a></p>
+<p><a href="https://www.zhihu.com/question/20414602">為什麼越來越多的網站域名不加「www」前綴？</a></p>
+<p><a href="https://maxchou.dev/">我室友 Max</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/frontend/">frontend</a>, <a class="has-link-grey -link" href="/tags/javascript/">javascript</a>, <a class="has-link-grey -link" href="/tags/w3HexSchool/">w3HexSchool</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/28/web-dnd-1/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/16/hexo-github-page/">
+                <span class="level-item">個人技術站一把罩！部落格建置大全（一）- 使用 Hexo 搭配 Github Page 建置自己的部落格</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="is-rounded" src="/images/avatar.png" alt="Mujing Tsai">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Mujing Tsai
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        -
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Taipei, Taiwan</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            64
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分類
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            9
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        標籤
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://www.facebook.com/mujing" target="_blank" rel="noopener">
+                追蹤</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/moojing">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://www.facebook.com/mujing">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://www.linkedin.com/in/mu-jing-tsai/">
+                
+                <i class="fab fa-linkedin"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            連結
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://ithelp.ithome.com.tw/users/20106580/ironman/2503" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">11th鐵人賽</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">ithelp.ithome.com.tw</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分類
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Canvas/">
+            <span class="level-start">
+                <span class="level-item">Canvas</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/FullStack/">
+            <span class="level-start">
+                <span class="level-item">FullStack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/IThome-鐵人賽30天/">
+            <span class="level-start">
+                <span class="level-item">IThome - 鐵人賽30天</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">30</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Javascript/">
+            <span class="level-start">
+                <span class="level-item">Javascript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/TypeScript/">
+            <span class="level-start">
+                <span class="level-item">TypeScript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Webpack/">
+            <span class="level-start">
+                <span class="level-item">Webpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/devOps/">
+            <span class="level-start">
+                <span class="level-item">devOps</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/w3HexSchool-2020-年度鐵人賽/">
+            <span class="level-start">
+                <span class="level-item">w3HexSchool 2020 年度鐵人賽</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/走在漫漫長路-工作心得/">
+            <span class="level-start">
+                <span class="level-item">走在漫漫長路 - 工作心得</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            彙整
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">30</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">17</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            標籤雲
+        </h3>
+        <a href="/tags/backend/" style="font-size: 15.71px;">backend</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/devOps/" style="font-size: 11.43px;">devOps</a> <a href="/tags/frontend/" style="font-size: 20px;">frontend</a> <a href="/tags/frontend-force/" style="font-size: 17.14px;">frontend-force</a> <a href="/tags/ironman30/" style="font-size: 17.14px;">ironman30</a> <a href="/tags/javascript/" style="font-size: 18.57px;">javascript</a> <a href="/tags/rails/" style="font-size: 15.71px;">rails</a> <a href="/tags/ruby/" style="font-size: 15.71px;">ruby</a> <a href="/tags/ruby-on-rails/" style="font-size: 15.71px;">ruby on rails</a> <a href="/tags/typeScript/" style="font-size: 11.43px;">typeScript</a> <a href="/tags/typescript/" style="font-size: 12.86px;">typescript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/w3HexSchool/" style="font-size: 14.29px;">w3HexSchool</a> <a href="/tags/working/" style="font-size: 11.43px;">working</a> <a href="/tags/地下城/" style="font-size: 14.29px;">地下城</a> <a href="/tags/鐵人賽30天/" style="font-size: 17.14px;">鐵人賽30天</a>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/04/03/react-compound-component/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-compound-component">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-04-03T10:14:38.000Z">2021-04-03</time></div>
+                    <a href="/2021/04/03/react-compound-component/" class="title has-link-black-ter is-size-6 has-text-weight-normal">react-compound-component</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Javascript/">Javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/06/working-reward/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/reward-cover.JPG" alt="每個衝擊都是一次學習的機會 - 近期的一點心得">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T09:36:53.000Z">2020-09-06</time></div>
+                    <a href="/2020/09/06/working-reward/" class="title has-link-black-ter is-size-6 has-text-weight-normal">每個衝擊都是一次學習的機會 - 近期的一點心得</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/走在漫漫長路-工作心得/">走在漫漫長路 - 工作心得</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/09/working-environment/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/work-life.jpg" alt="寫給職場工作者：工作環境是否會影響一個人的思考方式？">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-08T20:54:46.000Z">2020-03-09</time></div>
+                    <a href="/2020/03/09/working-environment/" class="title has-link-black-ter is-size-6 has-text-weight-normal">寫給職場工作者：工作環境是否會影響一個人的思考方式？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/走在漫漫長路-工作心得/">走在漫漫長路 - 工作心得</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/07/web-dnd-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/DragnDrop.jpg" alt="就是要一起拖拖拉拉！(二) - 利用 DataTransfer API 實作拖拉元素間的資料傳遞">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-07T08:39:14.000Z">2020-03-07</time></div>
+                    <a href="/2020/03/07/web-dnd-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">就是要一起拖拖拉拉！(二) - 利用 DataTransfer API 實作拖拉元素間的資料傳遞</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/28/web-dnd-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/DragnDrop.jpg" alt="就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-28T02:04:03.000Z">2020-02-28</time></div>
+                    <a href="/2020/02/28/web-dnd-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                標籤
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/backend/">
+                        <span class="tag">backend</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/devOps/">
+                        <span class="tag">devOps</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/frontend/">
+                        <span class="tag">frontend</span>
+                        <span class="tag is-grey">62</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/frontend-force/">
+                        <span class="tag">frontend-force</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ironman30/">
+                        <span class="tag">ironman30</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">56</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/rails/">
+                        <span class="tag">rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby/">
+                        <span class="tag">ruby</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby-on-rails/">
+                        <span class="tag">ruby on rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typeScript/">
+                        <span class="tag">typeScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue-js/">
+                        <span class="tag">vue.js</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/w3HexSchool/">
+                        <span class="tag">w3HexSchool</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/working/">
+                        <span class="tag">working</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/地下城/">
+                        <span class="tag">地下城</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/鐵人賽30天/">
+                        <span class="tag">鐵人賽30天</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="個人技術站一把罩！部落格建置大全（二）- 將 Github Page 串上自己的域名" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021
+                 <!-- Moojing&nbsp; -->
+                
+                <!-- Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a> -->
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-TW");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://www.muji.dev',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到頁首" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="請輸入關鍵字..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

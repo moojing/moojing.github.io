@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Vue.js + Node.js + OpenAPI 帶你一次了解 CORS 跨域請求 - Moojing&#39;s Blog</title>
+
+
+    <meta name="description" content="本篇文章是我在六角學院地下城活動5F關卡的實作紀錄，會描述如何架設簡單的Proxy Server去跟政府的公開API拉取資料回來給前端Vue.js介面做互動。 成果可參考這裏(heroku開機要一段時間如果拉不到資料請多重整幾次。)  使用技術及觀念：  Vue.js （with vue-cli3) Node.js (express with express-generator) Heroku C">
+<meta name="keywords" content="javascript,frontend,地下城">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue.js + Node.js + OpenAPI 帶你一次了解 CORS 跨域請求">
+<meta property="og:url" content="https://www.muji.dev/2019/02/13/cors-node-vue/index.html">
+<meta property="og:site_name" content="Moojing&#39;s Blog">
+<meta property="og:description" content="本篇文章是我在六角學院地下城活動5F關卡的實作紀錄，會描述如何架設簡單的Proxy Server去跟政府的公開API拉取資料回來給前端Vue.js介面做互動。 成果可參考這裏(heroku開機要一段時間如果拉不到資料請多重整幾次。)  使用技術及觀念：  Vue.js （with vue-cli3) Node.js (express with express-generator) Heroku C">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https://www.muji.dev/images/og_image_name.png">
+<meta property="og:updated_time" content="2021-04-03T10:05:26.971Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue.js + Node.js + OpenAPI 帶你一次了解 CORS 跨域請求">
+<meta name="twitter:description" content="本篇文章是我在六角學院地下城活動5F關卡的實作紀錄，會描述如何架設簡單的Proxy Server去跟政府的公開API拉取資料回來給前端Vue.js介面做互動。 成果可參考這裏(heroku開機要一段時間如果拉不到資料請多重整幾次。)  使用技術及觀念：  Vue.js （with vue-cli3) Node.js (express with express-generator) Heroku C">
+<meta name="twitter:image" content="https://www.muji.dev/images/og_image_name.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-134605527-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-134605527-1');
+</script>
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Vue.js + Node.js + OpenAPI 帶你一次了解 CORS 跨域請求" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About Me</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" title="搜尋" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-02-13T02:49:13.000Z">2019-02-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Javascript/">Javascript</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    17 分鐘 閱讀文 (大約 2506 個字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Vue.js + Node.js + OpenAPI 帶你一次了解 CORS 跨域請求
+            
+        </h1>
+        <div class="content">
+            <p>本篇文章是我在六角學院地下城活動5F關卡的實作紀錄，會描述如何架設簡單的Proxy Server去跟政府的公開API拉取資料回來給前端Vue.js介面做互動。</p>
+<p>成果可參考<a href="http://underground-air.surge.sh/">這裏</a>(heroku開機要一段時間如果拉不到資料請多重整幾次。)</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*KzpZJQEQnjkUWyunAOhF_Q.png" alt=""></p>
+<h2 id="使用技術及觀念："><a class="header-anchor" href="#使用技術及觀念："></a>使用技術及觀念：</h2>
+<ul>
+<li>Vue.js （with vue-cli3)</li>
+<li>Node.js (express with express-generator)</li>
+<li>Heroku</li>
+<li>CORS Headers</li>
+<li>Jsonp (僅技術講解)</li>
+</ul>
+<h2 id="outline"><a class="header-anchor" href="#outline"></a>Outline</h2>
+<ul>
+<li>同源政策</li>
+<li>Node.js — express generator</li>
+<li>HTTP 的 CORS Request</li>
+<li>修改 Response Header 允許跨域</li>
+<li>部署到Heroku</li>
+<li>Vue-Cli dev 模式下的proxy</li>
+<li>什麼是Jsonp</li>
+<li>寫在最後</li>
+</ul>
+<h2 id="同源政策"><a class="header-anchor" href="#同源政策"></a>同源政策</h2>
+<p>一般開發網站的時候，如果是採前後端分離的架構，就會遇到跨域問題。就像今天這個專案，我的目標是抓取台灣空氣品質的開放API，回來做成介面給使用者搜尋，但是在利用axios直接打API的時候，遇到了下面的狀況：</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/0*Cz2_mdRYD01VTjFs.png" alt=""><br>
+這是因為網頁在傳遞資料的時候，不管是透過傳統XMLHttpRequest（常見的ajax方式） 或是Fetch，都會遵循同源政策(Same Origin Policy)，「同源」指的是同個域名底下的資源，因為只能存取相同來源的資料，所以那些跨域的請求就會被阻擋掉。</p>
+<p>這是瀏覽器的安全機制，當然並非如此一來就無法跨域存取了，我想到的解決有以下兩種：</p>
+<ul>
+<li>Jsonp (Json with padding)</li>
+<li>使用Proxy 代理伺服器存取該目標API</li>
+</ul>
+<p>因為jsonp的相關知識文章應該有不少，且有安全性疑慮（最後面會說明）。本篇會以Node實做Proxy為主來講解。</p>
+<h2 id="node-js-express-generator"><a class="header-anchor" href="#node-js-express-generator"></a>Node.js — express generator</h2>
+<p>跟前端有vue-cli 、 react-create-app 等方便又快速的手腳架一樣，許多後端框架也有類似的功能，express-generator就是其中一個。安裝方式非常簡單，如果對接下來流程有任何疑問，可以參考官方文件，有很詳細的使用說明。</p>
+<p>在terminal輸入以下指令以安裝</p>
+<pre><code>npm install express-generator -g
+</code></pre>
+<ol start="2">
+<li>輸入 express [你的專案名稱] 就可以產生出以express為基底的專案架構：</li>
+</ol>
+<pre><code>express  proxy-server
+</code></pre>
+<p>接下來就可以進入專案去新增我們要的api了。</p>
+<h2 id="http-的-cors-request"><a class="header-anchor" href="#http-的-cors-request"></a>HTTP 的 CORS Request</h2>
+<p>就像前面說的，CORS Request並非完全不可行，只是在Server端必須要有一些設定。既然我們不可能修改OpenAPI的Server內容，又因為後端資料交互是不會碰到瀏覽器的（因此就不會因為跨域問題被阻擋），我們就自己架一個Proxy Server來修改Http相關的設定，讓前端可以順利拿到資料。</p>
+<h3 id="cors-request-response流程"><a class="header-anchor" href="#cors-request-response流程"></a>CORS Request / Response流程</h3>
+<p>你在 <a href="http://example.com.tw">example.com.tw</a> 送出request給某網站的時候，在request body裡面會夾帶一個Origin的header，內容是你網站的Domain名稱：</p>
+<pre><code>Origin: http://www.foo.com
+</code></pre>
+<p>而在後端伺服器收到request並且回傳resonse到client的時候，瀏覽器會去看response裡面的header–***「Access-Control-Allow-Origin」***是不是包含剛剛發出request寫的Origin 域名，如果有，資料才會允許被回傳。</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/0*mFny2JjLLy4Xt3dn.png" alt=""></p>
+<h2 id="修改-response-header-允許跨域"><a class="header-anchor" href="#修改-response-header-允許跨域"></a>修改 Response Header 允許跨域</h2>
+<p>先到剛剛創造的express專案底下。</p>
+<p>先找到我們的Open API URL，等等會用到:</p>
+<pre><code>http://opendata.epa.gov.tw/webapi/api/rest/datastore/355000000I-000259
+</code></pre>
+<p>###安裝所需套件<br>
+因為我們要利用後端去跟遠端Open API互動，所以這邊我們使用node-rest-client來達成這部分功能，node-rest-client官方文件：</p>
+<pre><code>npm install node-rest-client
+</code></pre>
+<h2 id="新增api路由"><a class="header-anchor" href="#新增api路由"></a>新增API路由</h2>
+<p>在剛剛創造的express專案底下的主程式routes資料夾新增 air.js :</p>
+<pre><code>air.js
+
+var express = require('express');
+var router = express.Router();
+var Client = require('node-rest-client').Client;
+var client = new Client();
+/* GET users listing. */
+router.get('/', function(req, res, next) {
+    let queries=req.query
+    console.log('query: ', queries);
+    let url='http://opendata.epa.gov.tw/webapi/api/rest/datastore/355000000I-000259'
+    var options = {
+        host: url,
+        method: 'GET'
+      };
+    
+    client.get(url, function (data, response) { 
+        res.json({...data})
+    });
+});
+module.exports = router;
+</code></pre>
+<p>router.get() 是express的router基本寫法，最後將這個包含自定義route的Router實體export出去，之後必須在主程式app.js引入才會有效，可以參考官方文件，可以看到在rest-client抓完資料的callback，我用json方式回傳了Open API 回傳的結果。</p>
+<pre><code>  ...
+  client.get(url, function (data, response) { 
+      res.json({...data})
+  });
+  ...
+</code></pre>
+<p>主程式app.js路由引入<br>
+接下來在app.js裡面將剛剛新增的router引入：</p>
+<pre><code>var airRouter = require('./routes/air');
+app.use('/air', airRouter);
+</code></pre>
+<p>記得在var app=express()之後才做app.use()這件事，否則會讀不到app這個變數。</p>
+<h3 id="關鍵步驟：-response-header-設定"><a class="header-anchor" href="#關鍵步驟：-response-header-設定"></a>關鍵步驟： Response header 設定</h3>
+<p>將設定用middle的方式寫入，Express內，如果你直接在app.use()裡面傳入一個</p>
+<pre><code>function(req, res, next) {
+     next()d
+ }
+</code></pre>
+<p>那是middleware的意思，即所有request都會經過你傳入的function，且直到呼叫next()之後才會繼續執行，我們在這裡面設定Response 的Header，如此一來所有的Request都會得到相同的Header設定值（也可以在單獨某隻router寫入設定，可視需求改變）。</p>
+<pre><code>let allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  next();
+}
+app.use(allowCrossDomain)
+</code></pre>
+<p>我在Response Header裡面加入了</p>
+<ul>
+<li>&quot;Access-Control-Allow-Methods&quot;代表允許讓設定的Http Method通過。</li>
+<li>“Access-Control-Allow-Origin”，其值為’*’。</li>
+</ul>
+<p>注意，剛剛說Response<strong><em>回傳到Client之前瀏覽器會先檢查這個Header有沒有跟來源Origin的值ㄧ樣</em></strong>，<a href="http://xn--sercerxxx-u75nga779d6ngga17hn75f8ywyj1aqkd9ud023jha711xtw3bpa9973gyte0x4c.com.tw">如果是一般前後端分離的sercer這部分的值一般會xxx.com.tw</a>，不會公開。如果你這樣寫，代表大家都可以對你的Server做跨域請求，這邊因為是open API 且是示範性質所以才這樣做。</p>
+<p>到這邊其實已經完成了，如果順利的話你的Server應該已經可以拿到遠端API的資料，你可以用</p>
+<pre><code>npm run start  
+// then go to  http://localhost:3000/air
+</code></pre>
+<p>在本地架起來用瀏覽器或Postman去測試看看。</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/0*kGPyb1rX_NtKFzrt.png" alt=""></p>
+<h2 id="部署到heroku"><a class="header-anchor" href="#部署到heroku"></a>部署到Heroku</h2>
+<p>想要在Heroku 架起一台node Server非常簡單，流程大致上是註冊帳號-&gt;安裝heroku cli-&gt; 登入-&gt; 到你的專案輸入幾個指令-&gt; 最後 git push heroku master，他自己就會幫你在heroku提供的空間下npm install安裝好需要的套件並且架起來。</p>
+<p>這邊就不多做說明，可參考官方教學，相信我，不會花掉你太多時間的，可先用官方提供的專案做練習。需注意的是因為是免費的服務，所以只要半小時沒在使用，他會暫時關閉你的機器，所以有時候連線會比較慢，可不要以為壞掉了。</p>
+<p>可參考我的實作成果。</p>
+<h2 id="vue-cli-dev-模式下的proxy"><a class="header-anchor" href="#vue-cli-dev-模式下的proxy"></a>Vue-Cli dev 模式下的proxy</h2>
+<p>Vue-cli因為是基於webpack，其實有proxy的設定，你可以參考官方文件。但因為這樣只解決開發環境的問題，所以後來我才打算自己架設Proxy。</p>
+<p>另外，前端的部分因為比較基礎，就沒有太詳細解說，你可以看看我的Repo，如果還是有不懂的地方，隨時可以聯絡我。</p>
+<h2 id="什麼是jsonp"><a class="header-anchor" href="#什麼是jsonp"></a>什麼是JSONP</h2>
+<p>因為傳統 Ajax無法跨域，早期工程師們找到了替代解決方案—&lt; script&gt; tag 的src引用是可以跨域的，於是利用這個原理的jsonp就這麼誕生了（想想你在引入一些js函式庫如lodash的時候是不是可以用cdn方式直接引入執行？)</p>
+<h3 id="jsonp會做什麼事情"><a class="header-anchor" href="#jsonp會做什麼事情"></a>Jsonp會做什麼事情</h3>
+<ol>
+<li>創造一個 &lt; script &gt; tag</li>
+<li>根據你指定的Jsonp位置，設定這個tag的src</li>
+<li>把這個&lt; script &gt; 加到瀏覽器DOM的head</li>
+<li>一但資料載入完畢，會將回傳的資料傳給設定的callback並執行這些內容</li>
+</ol>
+<h3 id="jsonp的安全隱患"><a class="header-anchor" href="#jsonp的安全隱患"></a>Jsonp的安全隱患</h3>
+<p>如果你使用JsonP，那你帶進來的這些內容，跟你自己寫的jsㄧ樣，可以去存取你的DOM等網頁內容，這種情況下如果無法保證server的安全性，將會是潛在的問題。</p>
+<h2 id="寫在最後"><a class="header-anchor" href="#寫在最後"></a>寫在最後</h2>
+<p>前端介面成果：<a href="http://underground-air.surge.sh/">http://underground-air.surge.sh/</a><br>
+Proxy Server成果： <a href="https://mu-air-proxy.herokuapp.com/air">https://mu-air-proxy.herokuapp.com/air</a></p>
+<p>到這邊，如果你可以很順的理解以上的內容，那你應該對CORS Request流程有一定的了解了。其實因為時間跟篇幅的關係，有些實作部分我並沒有講的很仔細，但是我都有提供相關文件在該段落的附近，因為我覺得寫程式常常需要的是閱讀文件的能力，希望各位可以學著找到自己所需的資源並補上。在「尋找資源-實作-找問題修Bug」的循環過程中其實也在訓練自己的理解跟整合能力，才會讓你慢慢進入學習的正向循環。</p>
+<p>當然在這過程中有任何的不懂或是覺得有筆誤的話都可以隨時聯絡我，我很樂意跟你分享我所知道的知識。</p>
+<h2 id="參考文章"><a class="header-anchor" href="#參考文章"></a>參考文章</h2>
+<p><a href="https://stackoverflow.com/questions/32500073/request-header-field-access-control-allow-headers-is-not-allowed-by-itself-in-pr">STOF上關於CORS的討論</a></p>
+<p><a href="https://fetch.spec.whatwg.org/#http-cors-protocol">CORS PROTOCAL</a></p>
+<p><a href="https://schier.co/blog/2013/09/30/how-jsonp-works.html">how jsonp works?</a></p>
+<p><a href="https://www.html5rocks.com/static/images/cors_server_flowchart.png">CORS流程圖</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/frontend/">frontend</a>, <a class="has-link-grey -link" href="/tags/javascript/">javascript</a>, <a class="has-link-grey -link" href="/tags/地下城/">地下城</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/02/18/60s-challenge/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Vue.js小遊戲實作-60秒算數挑戰</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/02/12/world-time/">
+                <span class="level-item">JS世界時間表</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="is-rounded" src="/images/avatar.png" alt="Mujing Tsai">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Mujing Tsai
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        -
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Taipei, Taiwan</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            64
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分類
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            9
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        標籤
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://www.facebook.com/mujing" target="_blank" rel="noopener">
+                追蹤</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/moojing">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://www.facebook.com/mujing">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://www.linkedin.com/in/mu-jing-tsai/">
+                
+                <i class="fab fa-linkedin"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            連結
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://ithelp.ithome.com.tw/users/20106580/ironman/2503" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">11th鐵人賽</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">ithelp.ithome.com.tw</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分類
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Canvas/">
+            <span class="level-start">
+                <span class="level-item">Canvas</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/FullStack/">
+            <span class="level-start">
+                <span class="level-item">FullStack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/IThome-鐵人賽30天/">
+            <span class="level-start">
+                <span class="level-item">IThome - 鐵人賽30天</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">30</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Javascript/">
+            <span class="level-start">
+                <span class="level-item">Javascript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/TypeScript/">
+            <span class="level-start">
+                <span class="level-item">TypeScript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Webpack/">
+            <span class="level-start">
+                <span class="level-item">Webpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/devOps/">
+            <span class="level-start">
+                <span class="level-item">devOps</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/w3HexSchool-2020-年度鐵人賽/">
+            <span class="level-start">
+                <span class="level-item">w3HexSchool 2020 年度鐵人賽</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/走在漫漫長路-工作心得/">
+            <span class="level-start">
+                <span class="level-item">走在漫漫長路 - 工作心得</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            彙整
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">30</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">17</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            標籤雲
+        </h3>
+        <a href="/tags/backend/" style="font-size: 15.71px;">backend</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/devOps/" style="font-size: 11.43px;">devOps</a> <a href="/tags/frontend/" style="font-size: 20px;">frontend</a> <a href="/tags/frontend-force/" style="font-size: 17.14px;">frontend-force</a> <a href="/tags/ironman30/" style="font-size: 17.14px;">ironman30</a> <a href="/tags/javascript/" style="font-size: 18.57px;">javascript</a> <a href="/tags/rails/" style="font-size: 15.71px;">rails</a> <a href="/tags/ruby/" style="font-size: 15.71px;">ruby</a> <a href="/tags/ruby-on-rails/" style="font-size: 15.71px;">ruby on rails</a> <a href="/tags/typeScript/" style="font-size: 11.43px;">typeScript</a> <a href="/tags/typescript/" style="font-size: 12.86px;">typescript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/w3HexSchool/" style="font-size: 14.29px;">w3HexSchool</a> <a href="/tags/working/" style="font-size: 11.43px;">working</a> <a href="/tags/地下城/" style="font-size: 14.29px;">地下城</a> <a href="/tags/鐵人賽30天/" style="font-size: 17.14px;">鐵人賽30天</a>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/04/03/react-compound-component/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-compound-component">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-04-03T10:14:38.000Z">2021-04-03</time></div>
+                    <a href="/2021/04/03/react-compound-component/" class="title has-link-black-ter is-size-6 has-text-weight-normal">react-compound-component</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Javascript/">Javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/06/working-reward/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/reward-cover.JPG" alt="每個衝擊都是一次學習的機會 - 近期的一點心得">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T09:36:53.000Z">2020-09-06</time></div>
+                    <a href="/2020/09/06/working-reward/" class="title has-link-black-ter is-size-6 has-text-weight-normal">每個衝擊都是一次學習的機會 - 近期的一點心得</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/走在漫漫長路-工作心得/">走在漫漫長路 - 工作心得</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/09/working-environment/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/work-life.jpg" alt="寫給職場工作者：工作環境是否會影響一個人的思考方式？">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-08T20:54:46.000Z">2020-03-09</time></div>
+                    <a href="/2020/03/09/working-environment/" class="title has-link-black-ter is-size-6 has-text-weight-normal">寫給職場工作者：工作環境是否會影響一個人的思考方式？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/走在漫漫長路-工作心得/">走在漫漫長路 - 工作心得</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/07/web-dnd-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/DragnDrop.jpg" alt="就是要一起拖拖拉拉！(二) - 利用 DataTransfer API 實作拖拉元素間的資料傳遞">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-07T08:39:14.000Z">2020-03-07</time></div>
+                    <a href="/2020/03/07/web-dnd-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">就是要一起拖拖拉拉！(二) - 利用 DataTransfer API 實作拖拉元素間的資料傳遞</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/28/web-dnd-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/DragnDrop.jpg" alt="就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-28T02:04:03.000Z">2020-02-28</time></div>
+                    <a href="/2020/02/28/web-dnd-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                標籤
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/backend/">
+                        <span class="tag">backend</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/devOps/">
+                        <span class="tag">devOps</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/frontend/">
+                        <span class="tag">frontend</span>
+                        <span class="tag is-grey">62</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/frontend-force/">
+                        <span class="tag">frontend-force</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ironman30/">
+                        <span class="tag">ironman30</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">56</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/rails/">
+                        <span class="tag">rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby/">
+                        <span class="tag">ruby</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby-on-rails/">
+                        <span class="tag">ruby on rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typeScript/">
+                        <span class="tag">typeScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue-js/">
+                        <span class="tag">vue.js</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/w3HexSchool/">
+                        <span class="tag">w3HexSchool</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/working/">
+                        <span class="tag">working</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/地下城/">
+                        <span class="tag">地下城</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/鐵人賽30天/">
+                        <span class="tag">鐵人賽30天</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Vue.js + Node.js + OpenAPI 帶你一次了解 CORS 跨域請求" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021
+                 <!-- Moojing&nbsp; -->
+                
+                <!-- Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a> -->
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-TW");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://www.muji.dev',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到頁首" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="請輸入關鍵字..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

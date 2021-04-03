@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Vue.js小遊戲實作-60秒算數挑戰 - Moojing&#39;s Blog</title>
+
+
+    <meta name="description" content="大家好，我在六角地下城6f，這樓的挑戰是實作小遊戲，題目的邏輯是在六十秒內會產生隨機兩個數字去隨機做加減乘除， 答對就加一分，答錯就扣一分，秒數越少，題目越困難，得分就越高分。 題目詳細規則如下：  0~20 秒為 1位數計算 (ex. 5-3) 21~40 秒為 2 位數計算 (ex. 30*19) 41~60 秒為 3 位數計算 (ex. 332+312) 加減乘除規則請用隨機產生，不可寫死">
+<meta name="keywords" content="javascript,frontend,地下城">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue.js小遊戲實作-60秒算數挑戰">
+<meta property="og:url" content="https://www.muji.dev/2019/02/18/60s-challenge/index.html">
+<meta property="og:site_name" content="Moojing&#39;s Blog">
+<meta property="og:description" content="大家好，我在六角地下城6f，這樓的挑戰是實作小遊戲，題目的邏輯是在六十秒內會產生隨機兩個數字去隨機做加減乘除， 答對就加一分，答錯就扣一分，秒數越少，題目越困難，得分就越高分。 題目詳細規則如下：  0~20 秒為 1位數計算 (ex. 5-3) 21~40 秒為 2 位數計算 (ex. 30*19) 41~60 秒為 3 位數計算 (ex. 332+312) 加減乘除規則請用隨機產生，不可寫死">
+<meta property="og:locale" content="zh-TW">
+<meta property="og:image" content="https://www.muji.dev/images/og_image_name.png">
+<meta property="og:updated_time" content="2021-04-03T10:05:26.961Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue.js小遊戲實作-60秒算數挑戰">
+<meta name="twitter:description" content="大家好，我在六角地下城6f，這樓的挑戰是實作小遊戲，題目的邏輯是在六十秒內會產生隨機兩個數字去隨機做加減乘除， 答對就加一分，答錯就扣一分，秒數越少，題目越困難，得分就越高分。 題目詳細規則如下：  0~20 秒為 1位數計算 (ex. 5-3) 21~40 秒為 2 位數計算 (ex. 30*19) 41~60 秒為 3 位數計算 (ex. 332+312) 加減乘除規則請用隨機產生，不可寫死">
+<meta name="twitter:image" content="https://www.muji.dev/images/og_image_name.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-134605527-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-134605527-1');
+</script>
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/logo.png" alt="Vue.js小遊戲實作-60秒算數挑戰" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About Me</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" title="搜尋" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-02-18T04:03:19.000Z">2019-02-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Javascript/">Javascript</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分鐘 閱讀文 (大約 2008 個字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Vue.js小遊戲實作-60秒算數挑戰
+            
+        </h1>
+        <div class="content">
+            <p><img src="https://i.imgur.com/4yxfbeW.png" alt=""></p>
+<p>大家好，我在六角地下城6f，這樓的挑戰是實作小遊戲，題目的邏輯是在六十秒內會產生隨機兩個數字去隨機做加減乘除， 答對就加一分，答錯就扣一分，秒數越少，題目越困難，得分就越高分。</p>
+<p>題目詳細規則如下：</p>
+<ul>
+<li>0~20 秒為 1位數計算 (ex. 5-3)</li>
+<li>21~40 秒為 2 位數計算 (ex. 30*19)</li>
+<li>41~60 秒為 3 位數計算 (ex. 332+312)</li>
+<li>加減乘除規則請用隨機產生，不可寫死題目，60 秒內可無限次數答題。</li>
+<li>0~40 秒答對加一分</li>
+<li>41~60 秒答對加五分</li>
+<li>答錯扣一分，最多僅能扣到零分</li>
+</ul>
+<p>我打算在這個專案做邏輯梳理的練習，因此會盡量把有機會重複使用的部分拆成methods，這個專案只會講述核心部分的邏輯，也就是如何產生題目，以及一些可能的問題點，其他細節部分希望你自己做做看，你可以在<a href="http://underground-60s-game.surge.sh/">這裡</a>看到我實做的成果。或是也可以直接<a href="https://github.com/moojing/hex-underground/blob/master/6f_counter_game/src/App.vue">參考原始碼</a>。</p>
+<h2 id="規則流程-運算："><a class="header-anchor" href="#規則流程-運算："></a>規則流程－運算：</h2>
+<ol>
+<li>產生隨機兩個數字</li>
+<li>產生運算符號（加減乘除）</li>
+<li>等待使用者輸入</li>
+<li>檢查正確答案與使用者輸入是否符合</li>
+<li>產生下一道題目</li>
+</ol>
+<h2 id="規則流程-時間："><a class="header-anchor" href="#規則流程-時間："></a>規則流程－時間：</h2>
+<ol>
+<li>挑戰者按下開始後，切換頁面並開始倒數</li>
+<li>倒數60秒</li>
+<li>檢查現在秒數，根據不同秒數決定不同難度的題目及得分</li>
+<li>60秒倒數完畢後，切換顯示頁面，不讓挑戰者繼續輸入</li>
+<li>挑戰者查看得分，等待按下「再次挑戰」後重新此流程</li>
+</ol>
+<h2 id="需特別注意的規則細節："><a class="header-anchor" href="#需特別注意的規則細節："></a>需特別注意的規則細節：</h2>
+<p>因為數字是隨機產生，因此在某些情況下要注意，否則會有負數產生：</p>
+<ol>
+<li>減法時，會有前後數字大小的問題</li>
+<li>除法時，會有數字大小以及除不盡的問題</li>
+<li>最後挑戰者重新開始時記得clearInterval</li>
+</ol>
+<h2 id="專案實作-基本配置"><a class="header-anchor" href="#專案實作-基本配置"></a>專案實作 - 基本配置</h2>
+<p>這個專案我是使用vue-cli，因為規模並不是很大，也不能跳頁，因此不打算另外切出Component。</p>
+<p>資料結構的部分，因為會有重置資料的需求，我把原本習慣寫在data()裡面的資料拉出來，放在獨立的function回傳，這樣我就可以輕易的拿到預設的資料。</p>
+<pre><code class="language-js">// outside Vue instance
+function initData(){
+    return {
+     pages:['start','game','result'],
+     operatorList:['+','-','x','÷'],
+    operator:'+',
+    currentPage:'start',
+    score: '000',
+    time_remain:60,
+    currentTime:'00:00',
+    quizNumbers:[],    }
+}
+
+// inside Vue instance
+export default {
+  name: 'app',
+  data(){
+    return initData()
+  }
+}
+
+</code></pre>
+<p>已知狀態有三種，因此我直接根據不同狀態去顯示不同頁面，這邊寫法可以依照自己習慣去更改：</p>
+<pre><code class="language-js"> &lt;div :class=&quot;pages[0]&quot; v-if=&quot;currentPage==pages[0]&quot;  &gt;
+ ...
+ &lt;/div&gt;
+ 
+  &lt;div :class=&quot;pages[1]&quot; v-if=&quot;currentPage==pages[1]&quot; &gt;
+  ...
+  &lt;/div&gt;
+
+  &lt;div :class=&quot;pages[2]&quot; v-if=&quot;currentPage==pages[2]&quot; &gt;
+    ...
+  &lt;/div&gt;
+</code></pre>
+<h2 id="專案實作-邏輯實現"><a class="header-anchor" href="#專案實作-邏輯實現"></a>專案實作 - 邏輯實現</h2>
+<h3 id="倒數方法-使用settimeinterval"><a class="header-anchor" href="#倒數方法-使用settimeinterval"></a>倒數方法 - 使用setTimeInterval</h3>
+<p>要能夠時線倒數，代表必須每隔一秒改變畫面上的時間值，這裡用setTimeInterval最適合不過了，他會每隔一段時間去執行寫入的方法：</p>
+<pre><code>methods:{
+    ...
+     timeReducer(){
+         let timer =  setInterval(()=&gt;{
+          if( this.time_remain&gt;0){
+            this.currentTime = this.convertSeconds(this.time_remain -=1 )
+          }else{
+            clearInterval(timer)
+            this.currentPage= this.pages[2]
+          }
+        }, 1000)
+        return timer
+    },
+    ...
+}
+</code></pre>
+<p>但在使用完後記得要清除這個interval，因為他會一直執行，如果沒有清除，在挑戰者再次開始遊戲時，如果沒有清楚，就會有兩個interval重疊，遊戲就無法順利進行，這邊我是在倒數完之後在setTimeInterval裡面直接使用clearInterval清除。</p>
+<h3 id="隨機產生運算子"><a class="header-anchor" href="#隨機產生運算子"></a>隨機產生運算子</h3>
+<p>因為加減乘除運算子必須隨機產生，所以我將這四種運算方式寫在陣列裡面(operatorList)，然後用JS的random方法去隨機挑選這個陣列的元素：</p>
+<pre><code class="language-js">
+methods:{
+    ...
+    randomOperator(){
+      let order = Math.floor(Math.random()*100) % 4 
+      this.operator = this.operatorList[order]
+    }
+    ...
+}
+
+</code></pre>
+<h3 id="取得不同位數的數字"><a class="header-anchor" href="#取得不同位數的數字"></a>取得不同位數的數字</h3>
+<p>依照上面整理的規則，我們第一個會需要處理的部份是隨機產生數字，JS裡面可以用Math.random() 去解決，但要注意這個方法回傳的值是介於0~1之間的浮點數，後面要自己去調整才能拿到自己想要的格式。</p>
+<p>以及要考量到可能會有需要拿不同位數數字的需求，所以在這個method我用digits當作參數來表示欲取得的位數：</p>
+<pre><code class="language-js"> // inside Vue instance 
+ ...methods:{
+     ...
+     getDigits(digits){
+      switch(digits){
+        case 1 : return Math.floor((Math.random() * 10) + 1) ; 
+        case 2 : return Math.floor((Math.random() * 100) + 10) ; 
+        case 3 : return Math.floor((Math.random() * 100) + 100) ; 
+      }
+    },
+ } 
+</code></pre>
+<h3 id="取得數字之後的處理"><a class="header-anchor" href="#取得數字之後的處理"></a>取得數字之後的處理</h3>
+<p>加上setQuizNumber方法，根據不同時間取得不同位數的數字：</p>
+<pre><code class="language-js">    //setQuizNumber
+    let digit;
+      switch (true){
+        case (this.time_remain&gt;=40 &amp;&amp; this.time_remain&lt;=60): {
+              digit = 1
+              break; 
+            }
+        case (this.time_remain&gt;=20 &amp;&amp; this.time_remain&lt;=40): {
+              digit = 2
+              break;
+            }
+        case (this.time_remain&gt;=0 &amp;&amp; this.time_remain&lt;=20): {
+              digit = 3
+            break;
+        }    
+      }
+      
+      let result = []
+      let firstNum=this.getDigits(digit); 
+      let secondNum=this.getDigits(digit); 
+</code></pre>
+<p>我們不想要答案有負數或小數點產生，所以在減法時，必須注意第一個數字是否大於第二個，至於加法跟乘法就沒有這個問題，所以我加上判斷，如果第一個數大於第二個，就做swap交換：</p>
+<pre><code class="language-js">    //setQuizNumber
+      if(firstNum &lt; secondNum){
+        let temp = firstNum
+        firstNum = secondNum 
+        secondNum = temp 
+      }
+</code></pre>
+<p>最後為了在除法時，讓兩數是可以整除的，所以必須確保第二個數字是第一個數字的因數，以及不能有質數出現，我加入的判斷質數的方法isPrime跟取得數字所有因數的方法getFactors，以及後面會有從因數裡面雖機挑選一個數字的需求，所已加入陣列隨機挑選元素的方法getArrayRandomItem：</p>
+<pre><code class="language-js">methods:{
+    ...
+    isPrime(num) {
+      for(var i = 2; i &lt; num; i++)
+        if(num % i === 0) return false;
+      return num &gt; 1;
+    },
+    getFactors(number,digits){
+      let factors =  Array
+        .from(Array(number + 1), (_, i) =&gt; i)
+        .filter(i =&gt; number % i === 0)
+
+      if(digits){
+        factors = factors.filter(factor=&gt;(factor+'').length===digits)
+      }
+        return factors
+    },
+    getArrayRandomItem(array){
+      return  array[Math.floor(Math.random()*array.length)];
+    },
+    ... 
+}
+</code></pre>
+<p>最後過濾掉質數後，從第一個數字的因數（陣列）裡面去隨機選出一個數當作第二個數字，就可以送出了：</p>
+<pre><code class="language-js"> //setQuizNumber
+ if(this.operator=='÷' &amp;&amp; ( firstNum % secondNum!==0)){
+        while(this.isPrime(firstNum)) firstNum = this.getDigits(digit); 
+        while(this.isPrime(secondNum)) secondNum = this.getDigits(digit); 
+        
+        secondNum = this.getArrayRandomItem(this.getFactors(firstNum,digit))
+        
+      } 
+      result = result.concat([firstNum,secondNum]) 
+      
+      this.quizNumbers = result
+</code></pre>
+<p>做到這裡產生題目的邏輯就完成了。</p>
+<h3 id="再次挑戰-重置所有資料"><a class="header-anchor" href="#再次挑戰-重置所有資料"></a>再次挑戰－ 重置所有資料</h3>
+<p>還記得我一開始把原始狀態拉出來單獨放在function裡嗎？現在就可以拿來用了，使用Object.assign，可以直接對目標物件赴值，如果屬性重複，以參數越後面屬性的值為主（後面寫入的會蓋掉前面的），可以參考 <a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Object/assign">官方文件</a>，順帶一提Object.assign不支援深度拷貝，如果你要複製的物件裡面還要物件，要特別注意，他只會複製那個物件的參考，後面你只要改動到該子物件，則所有該物件的參考都會跟著一起被改變。（<a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Object/assign#Deep_Clone">參考官方文件</a>）</p>
+<pre><code class="language-js">methods:{
+    ...
+    onResetClick(){
+      Object.assign(this.$data, initData());
+      this.currentPage = this.pages[0]
+    },
+    ... 
+}
+</code></pre>
+<p>this.$data是Vue裡面提供取得data物件的api，詳細可參考<a href="https://vuejs.org/v2/guide/instance.html#Data-and-Methods">官方文件</a>。<br>
+到這邊所有核心的邏輯都講完了，再提一次我並沒有從頭到尾講得很詳細，希望你試著自己去理清楚來龍去脈，自己識做看看，若還是看不懂也沒關係，可以參考<a href="https://github.com/moojing/hex-underground/blob/master/6f_counter_game/src/App.vue">我的原始碼</a>，在自己做做看，有任何問題可以一起討論，感謝你的收看，下次見啦。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/frontend/">frontend</a>, <a class="has-link-grey -link" href="/tags/javascript/">javascript</a>, <a class="has-link-grey -link" href="/tags/地下城/">地下城</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/02/23/typescript-1/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">TypeScript(1) - 基本型別介紹</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/02/13/cors-node-vue/">
+                <span class="level-item">Vue.js + Node.js + OpenAPI 帶你一次了解 CORS 跨域請求</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="is-rounded" src="/images/avatar.png" alt="Mujing Tsai">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Mujing Tsai
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        -
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>Taipei, Taiwan</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            64
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分類
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            9
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        標籤
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            18
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://www.facebook.com/mujing" target="_blank" rel="noopener">
+                追蹤</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/moojing">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://www.facebook.com/mujing">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://www.linkedin.com/in/mu-jing-tsai/">
+                
+                <i class="fab fa-linkedin"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            連結
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://ithelp.ithome.com.tw/users/20106580/ironman/2503" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">11th鐵人賽</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">ithelp.ithome.com.tw</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分類
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Canvas/">
+            <span class="level-start">
+                <span class="level-item">Canvas</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/FullStack/">
+            <span class="level-start">
+                <span class="level-item">FullStack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/IThome-鐵人賽30天/">
+            <span class="level-start">
+                <span class="level-item">IThome - 鐵人賽30天</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">30</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Javascript/">
+            <span class="level-start">
+                <span class="level-item">Javascript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">8</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/TypeScript/">
+            <span class="level-start">
+                <span class="level-item">TypeScript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Webpack/">
+            <span class="level-start">
+                <span class="level-item">Webpack</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/devOps/">
+            <span class="level-start">
+                <span class="level-item">devOps</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/w3HexSchool-2020-年度鐵人賽/">
+            <span class="level-start">
+                <span class="level-item">w3HexSchool 2020 年度鐵人賽</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/走在漫漫長路-工作心得/">
+            <span class="level-start">
+                <span class="level-item">走在漫漫長路 - 工作心得</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            彙整
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/09/">
+                <span class="level-start">
+                    <span class="level-item">九月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">30</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">17</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            標籤雲
+        </h3>
+        <a href="/tags/backend/" style="font-size: 15.71px;">backend</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/devOps/" style="font-size: 11.43px;">devOps</a> <a href="/tags/frontend/" style="font-size: 20px;">frontend</a> <a href="/tags/frontend-force/" style="font-size: 17.14px;">frontend-force</a> <a href="/tags/ironman30/" style="font-size: 17.14px;">ironman30</a> <a href="/tags/javascript/" style="font-size: 18.57px;">javascript</a> <a href="/tags/rails/" style="font-size: 15.71px;">rails</a> <a href="/tags/ruby/" style="font-size: 15.71px;">ruby</a> <a href="/tags/ruby-on-rails/" style="font-size: 15.71px;">ruby on rails</a> <a href="/tags/typeScript/" style="font-size: 11.43px;">typeScript</a> <a href="/tags/typescript/" style="font-size: 12.86px;">typescript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/w3HexSchool/" style="font-size: 14.29px;">w3HexSchool</a> <a href="/tags/working/" style="font-size: 11.43px;">working</a> <a href="/tags/地下城/" style="font-size: 14.29px;">地下城</a> <a href="/tags/鐵人賽30天/" style="font-size: 17.14px;">鐵人賽30天</a>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2021/04/03/react-compound-component/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-compound-component">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-04-03T10:14:38.000Z">2021-04-03</time></div>
+                    <a href="/2021/04/03/react-compound-component/" class="title has-link-black-ter is-size-6 has-text-weight-normal">react-compound-component</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Javascript/">Javascript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/09/06/working-reward/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/reward-cover.JPG" alt="每個衝擊都是一次學習的機會 - 近期的一點心得">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-09-06T09:36:53.000Z">2020-09-06</time></div>
+                    <a href="/2020/09/06/working-reward/" class="title has-link-black-ter is-size-6 has-text-weight-normal">每個衝擊都是一次學習的機會 - 近期的一點心得</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/走在漫漫長路-工作心得/">走在漫漫長路 - 工作心得</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/09/working-environment/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/work-life.jpg" alt="寫給職場工作者：工作環境是否會影響一個人的思考方式？">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-08T20:54:46.000Z">2020-03-09</time></div>
+                    <a href="/2020/03/09/working-environment/" class="title has-link-black-ter is-size-6 has-text-weight-normal">寫給職場工作者：工作環境是否會影響一個人的思考方式？</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/走在漫漫長路-工作心得/">走在漫漫長路 - 工作心得</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/07/web-dnd-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/DragnDrop.jpg" alt="就是要一起拖拖拉拉！(二) - 利用 DataTransfer API 實作拖拉元素間的資料傳遞">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-07T08:39:14.000Z">2020-03-07</time></div>
+                    <a href="/2020/03/07/web-dnd-2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">就是要一起拖拖拉拉！(二) - 利用 DataTransfer API 實作拖拉元素間的資料傳遞</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/02/28/web-dnd-1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/thumbnails/DragnDrop.jpg" alt="就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-28T02:04:03.000Z">2020-02-28</time></div>
+                    <a href="/2020/02/28/web-dnd-1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">就是要一起拖拖拉拉！(一) - 瀏覽器 Drag and Drop API 操作</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/w3HexSchool-2020-年度鐵人賽/">w3HexSchool 2020 年度鐵人賽</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                標籤
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/backend/">
+                        <span class="tag">backend</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/canvas/">
+                        <span class="tag">canvas</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/devOps/">
+                        <span class="tag">devOps</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/frontend/">
+                        <span class="tag">frontend</span>
+                        <span class="tag is-grey">62</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/frontend-force/">
+                        <span class="tag">frontend-force</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ironman30/">
+                        <span class="tag">ironman30</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/javascript/">
+                        <span class="tag">javascript</span>
+                        <span class="tag is-grey">56</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/rails/">
+                        <span class="tag">rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby/">
+                        <span class="tag">ruby</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby-on-rails/">
+                        <span class="tag">ruby on rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typeScript/">
+                        <span class="tag">typeScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue-js/">
+                        <span class="tag">vue.js</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/w3HexSchool/">
+                        <span class="tag">w3HexSchool</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/working/">
+                        <span class="tag">working</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/地下城/">
+                        <span class="tag">地下城</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/鐵人賽30天/">
+                        <span class="tag">鐵人賽30天</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Vue.js小遊戲實作-60秒算數挑戰" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021
+                 <!-- Moojing&nbsp; -->
+                
+                <!-- Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a> -->
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-TW");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://www.muji.dev',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到頁首" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="請輸入關鍵字..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
