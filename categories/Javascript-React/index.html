@@ -157,7 +157,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    21 分鐘 閱讀文 (大約 3075 個字)
+                    21 分鐘 閱讀文 (大約 3082 個字)
                 </span>
                 
                 
@@ -177,7 +177,7 @@
 <ul>
 <li>React Children  -  操作元素的 React 原生 API ：
 <ul>
-<li>A Complete Guide To props.children In React | codeburst</li>
+<li><a href="https://codeburst.io/a-complete-guide-to-props-children-in-react-c315fab74e7c">A Complete Guide To props.children In React | codeburst</a></li>
 <li>官方文件：<a href="https://reactjs.org/docs/react-api.html">React Top-Level API</a></li>
 </ul>
 </li>
@@ -270,11 +270,11 @@ export default function Select({ options }) {
 <p>通常複合元件中，會有一個作為父層元件的主元件，而由其他的元件作為子元件。不過在 <code>&lt;Select/&gt;</code> 與 <code>&lt;Option/&gt;</code> 的例子中則比較單純，只有父層的 <code>&lt;Select/&gt;</code> 與子層的 <code>&lt;Option/&gt;</code>。以這個架構為前提之下，我們可以繼續往下想想另外幾個問題，那就是：</p>
 <ul>
 <li>作為父層元件的 <code>&lt;Select/&gt;</code> 是怎麼知道在它下層的 <code>&lt;Option/&gt;</code> 的內容的？</li>
-<li><code>&lt;Select/&gt;</code> 又是怎麼比對出幕前使用者所選到的選項的？<br>
-只要能夠解答這兩個問題，我們基本上就掌握了實作這個 <code>&lt;Select/&gt;</code> 複合元件的關鍵。</li>
+<li><code>&lt;Select/&gt;</code> 又是怎麼比對出當下使用者所選到的選項的？</li>
 </ul>
-<p>首先，第一個問題的思考方向是一個很常見的 children 屬性，我們只要透過這個屬性就能夠取得「被放入」元件的內容，也就是所有的 Option 元件。而關於 Select 是怎麼知道目前所選的數值的？可想而知的是在 Select內一定會有一個狀態負責儲存目前被選中的值。</p>
-<p>另外我們再每個 Option 被選中時也必須進行更新這個被選中數值的動作，所以我們也需要在 Option 元件上面掛上對應的 onClick  事件，這麼一來當Option被點擊時，Select 才有辦法知道 Option 選中的數值是哪一個。關於這一點我們可以透過 React 的相關 API ： Children.map  以及 cloneElement 來達成。Children.map 負責巡訪每個子元件 Option， cloneElement 則複製一個新的 Option 並讓我們可以在這個時候再次傳入額外的屬性。</p>
+<p>只要能夠解答這兩個問題，我們基本上就掌握了實作這個 <code>&lt;Select/&gt;</code> 複合元件的關鍵。</p>
+<p>首先，第一個問題的思考方向是一個很常見的 children 屬性，我們只要透過這個屬性就能夠取得「被放入」元件的內容，也就是所有的 <code>&lt;Option/&gt;</code> 元件。而關於 <code>&lt;Select/&gt;</code> 是怎麼知道目前所選的數值的？可想而知的是在 <code>&lt;Select/&gt;</code> 內一定會有一個狀態負責儲存目前被選中的值。</p>
+<p>另外我們再每個 <code>&lt;Option/&gt;</code> 被選中時也必須進行更新這個被選中數值的動作，所以我們也需要在 Option 元件上面掛上對應的 onClick  事件，這麼一來當 <code>&lt;Option&gt;</code> 被點擊時，<code>&lt;Select/&gt;</code> 才有辦法知道 <code>&lt;Option/&gt;</code>  選中的數值是哪一個。關於這一點我們可以透過 React 的相關 API ： Children.map  以及 cloneElement 來達成。Children.map 負責巡訪每個 <code>&lt;Option/&gt;</code> 子元件 ， cloneElement 則複製一個新的 Option 並讓我們可以在這個時候再次傳入額外的屬性。</p>
 <pre><code>// ... 在 Select 元件內
 // 選項表單
  &lt;div className=&quot;optionList&quot;&gt;
