@@ -156,7 +156,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    21 分鐘 閱讀文 (大約 3082 個字)
+                    23 分鐘 閱讀文 (大約 3439 個字)
                 </span>
                 
                 
@@ -324,7 +324,7 @@ onOptionClick = (child) =&gt; () =&gt; {
               )}
 &lt;/div&gt;
 </code></pre>
-<p>我們直接利用 isSelected 以布林值傳給下層的 <code>&lt;Option/&gt;</code> ，這麼一來 <code>&lt;Option/&gt;</code> 就能夠透過這個數值決定要顯示什麼樣的內容，或是樣式，我們來看看 <code>&lt;Option/&gt;</code> 的內容。</p>
+<p>我們直接利用 isSelected 以布林值的形式傳給下層的 <code>&lt;Option/&gt;</code> ，這麼一來 <code>&lt;Option/&gt;</code> 就能夠透過這個數值決定要顯示什麼樣的內容，或是樣式，我們來看看 <code>&lt;Option/&gt;</code> 的內容。</p>
 <pre><code>// Option 元件
 
 function ClassOption({ children, isSelected, onClick }) {
@@ -340,10 +340,24 @@ function ClassOption({ children, isSelected, onClick }) {
 </code></pre>
 <p>由於這個例子中 <code>&lt;Option/&gt;</code> 需要顯示的東西和需要判斷的邏輯比較單純，所以元件內容也比較單純，但可以看到我們拿到從 <code>&lt;Select/&gt;</code> 元件裡面傳入的兩個屬性來做一些顯示和判斷，這兩個屬性都不是在使用元件時傳入的，而是從 Select 元件來，所以如果不了解原理的話，就沒辦法直接看出來處。</p>
 <h2 id="利用-class-compoennt-靜態屬性"><a class="header-anchor" href="#利用-class-compoennt-靜態屬性"></a>利用 Class Compoennt 靜態屬性</h2>
-<p>通常複合元件在設計時會把複合元件中的子元件掛在父元件上，而因為在本篇文章所舉的例子裡面，剛好用到的是 Class Component ，所以可以利用靜態屬性的概念，讓兩個看似分離的元件，更明確的產生關聯，所以我們在 <code>&lt;Select/&gt;</code> 元件內會多做一件事情：</p>
+<p>通常複合元件在設計時會把複合元件中的子元件掛在父元件上，而因為在本篇文章所舉的例子裡面，剛好用到的是 Class Component ，所以可以利用 Class 中靜態屬性的概念，讓兩個看似分離的元件，更明確的產生關聯，所以我們在 <code>&lt;Select/&gt;</code> 元件內會多做一件事情：</p>
 <pre><code>// Select 元件內
 static Option = ClassOption;
 </code></pre>
+<p>這麼一來開發者就可以用 <code>&lt;Select.Option&gt;</code> 來表示 <code>&lt;Option/&gt;</code> 元件，也可以讓使用的開發者馬上理解兩者是有關聯的，而這也是你在各大React UI 元件框架裡面常常會看到的用法。你可能會問：為什麼可以在標籤內存取 Select 底下的屬性 <code>Option</code> ?</p>
+<p>這就要回歸到語法的本質了，要了解這件事你比須先了解一件事就是，<strong>這邊所使用的<code>&lt;..&gt;</code> 角括號並不是原生的 Html 標籤，而是所謂用來簡化 React 寫法的 JSX 語法，它所代替的程式碼片段其實是最早 React 內的 <code>React.createElement</code>方法</strong>，參考下面的例子：</p>
+<pre><code>class Hello extends React.Component {
+  render() {
+    return React.createElement('div', null, `Hello ${this.props.text}`);
+  }
+}
+</code></pre>
+<p>以上面這個元件為例，下面兩種用法所產生的結果都是一樣的：</p>
+<pre><code>React.createElement(Hello, {text: 'World'}, null),
+或是
+&lt;Hello text=&quot;World&quot;/&gt;
+</code></pre>
+<p>JSX 這種看起來像是標籤的用法其實就是簡化 React 的寫法，既然原本 React 也是透過把 JavaScript 的元件類別傳入 createElement 這個方法中，在這個前提之下<strong>它所接收的類別當然與一般 JavaScript 的類別並無二致囉</strong>。這個用法對不了解的人看起來可能會眼花撩亂，但其實其中的原理就是這麼單純而已。</p>
 <h2 id="善用-context-api"><a class="header-anchor" href="#善用-context-api"></a>善用 Context API</h2>
 <p>雖然在這個例子裡面我們沒有使用到，不過若是想要設計的複合元件結構比較複雜，有多層元件結構的話，可以利用 React 提供的 Context API 來進行跨多層元件的數值內容傳遞。</p>
 <pre><code>// Select 元件

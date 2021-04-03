@@ -7,13 +7,13 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>標籤: typescript - Moojing&#39;s Blog</title>
+<title>標籤: typeScript - Moojing&#39;s Blog</title>
 
 
     <meta name="keywords" content="frontend,backend,javascript">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Moojing&#39;s Blog">
-<meta property="og:url" content="https://www.muji.dev/tags/typescript/index.html">
+<meta property="og:url" content="https://www.muji.dev/tags/typeScript/index.html">
 <meta property="og:site_name" content="Moojing&#39;s Blog">
 <meta property="og:locale" content="zh-TW">
 <meta property="og:image" content="https://www.muji.dev/images/og_image_name.png">
@@ -133,7 +133,7 @@
         <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
             <li><a href="/tags">標籤</a></li>
-            <li class="is-active"><a href="#" aria-current="page">typescript</a></li>
+            <li class="is-active"><a href="#" aria-current="page">typeScript</a></li>
         </ul>
         </nav>
     </div>
@@ -146,7 +146,7 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-22T17:00:53.000Z">2019-02-23</time>
+                <time class="level-item has-text-grey" datetime="2019-04-16T10:03:00.000Z">2019-04-16</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/TypeScript/">TypeScript</a>
@@ -156,7 +156,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    2 分鐘 閱讀文 (大約 336 個字)
+                    3 分鐘 閱讀文 (大約 436 個字)
                 </span>
                 
                 
@@ -165,47 +165,37 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/02/23/typescript-4/">TypeScript(4) 進階型別 never、void、null與undefined</a>
+                <a class="has-link-black-ter" href="/2019/04/16/typescript-6/">TypeScript(6) 物件繼承</a>
             
         </h1>
         <div class="content">
-            <p>除了基本型別外，還有一些型別是比較不常見的，必須要先了解函式型別跟Union Type，所以放在這邊講，以下將個別介紹：</p>
-<ul>
-<li>Void</li>
-<li>Never</li>
-<li>Null</li>
-<li>Undefined</li>
-</ul>
-<h2 id="void"><a class="header-anchor" href="#void"></a>Void</h2>
-<p>void用於function的回傳值定義，代表這個function不會回傳任何值：</p>
-<pre><code class="language-js">function returnNothing() : void{
-    console.log('returnNothing')
+            <h1 id="typescript-6-物件繼承"><a class="header-anchor" href="#typescript-6-物件繼承"></a>TypeScript(6) 物件繼承</h1>
+<p>了解物件可以有私有/保護屬性之後，接下來我們要來看物件的繼承，繼承可以讓一個全新的類別被實體化（new 出來）的時候，就能夠直接取用某個類別的方法。通常我們稱被繼承的類別為「父類別」，繼承別人的物件稱為「子類別」。</p>
+<p>題外話，早期 Javascript 必須透過 property 來達到繼承，但 ES6 之後也有類別(class)繼承的做法。</p>
+<p>假設我今天想要寫一隻程式來記錄動物的行為，於是我創造了一個 Animal 類別，裡面有一個 move 方法，可以描述某個動物移動了幾步。</p>
+<pre><code class="language-js">class Animal {   
+    name:string;
+    constructor(theName: string) { this.name = theName; }
+     move(meters: number) {
+        console.log((this.name + &quot; moved &quot; + meters + &quot;m.&quot;))
+    }
+  }
+</code></pre>
+<p>但動物有很多種，我想細分動物的種類，也一樣共用描述行為的這些方法，該怎麼做到？這時候就需要用到繼承，Typescript 裡面使用 extends 語法來進行繼承。</p>
+<pre><code class="language-js">class Snake extends Animal {  
+
+    constructor(name: string) { 
+        super(name);  
+    }
+
+    move() {  
+        super.move(5);  
+    }
 }
+
 </code></pre>
-<h2 id="never"><a class="header-anchor" href="#never"></a>Never</h2>
-<p>never這個型別跟void很像，但定義上更嚴謹，有些function根本不會結束，例如拋出例外，或是無窮迴圈，never就是用來代表這些函式行為的類型:</p>
-<pre><code class="language-js"> function errorMsg(message:string): never{
-    throw new Error(message);
- }
-</code></pre>
-<h2 id="null-與-undefined"><a class="header-anchor" href="#null-與-undefined"></a>Null 與 Undefined</h2>
-<p>就算再JS裡面，null跟undefined依然是很特殊的型別。TS裡面，可以選擇要不要嚴格檢查，在tsconfig.json裡面可以設定strictNullChecks(預設為true)。</p>
-<p>如為true，代表嚴格null檢查，變數只要設定為其他型別就不能為null(undefined)反過來講如為false，則代表所有型別變數都可以設為null(undefined)，無需另外撰寫規則。</p>
-<p>tsconfig.json :</p>
-<pre><code class="language-js">
-&quot;compilerOptions&quot;: {
-    ...
-    &quot;strictNullChecks&quot;:false
-    ...
-}
-</code></pre>
-<pre><code class="language-js">let canBeNull:number = 12; 
-canBeNull = null;//it's ok with  strictNullChecks:false
-</code></pre>
-<p>在嚴格null檢查的模式下，如要達成上面的行為，我們就必須用到Union Types:</p>
-<pre><code>let canBeNull:number |null  = 12; 
-canBeNull = null //it's still ok even with strictNullChecks:true
-</code></pre>
+<p>並且使用 super 來取得父類別的屬性以及方法（也就是 Animal )，且記得如果在子類別有使用建構子，一開始要先使用spuer()呼叫父類別建構子，否則會報錯。</p>
+<p>在Snake裡面如果寫入跟父類別 Animal 相同的方法，我們就稱這個動作為「複寫」（覆蓋掉父類別方法），但是以上述程式碼為例，就算不複寫，snake 一樣可以直接調用 move 方法（因為繼承。</p>
 
         </div>
         
@@ -228,7 +218,7 @@ canBeNull = null //it's still ok even with strictNullChecks:true
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-22T17:00:37.000Z">2019-02-23</time>
+                <time class="level-item has-text-grey" datetime="2019-04-16T10:02:35.000Z">2019-04-16</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/TypeScript/">TypeScript</a>
@@ -238,7 +228,7 @@ canBeNull = null //it's still ok even with strictNullChecks:true
                 <span class="level-item has-text-grey">
                     
                     
-                    1 分鐘 閱讀文 (大約 172 個字)
+                    2 分鐘 閱讀文 (大約 329 個字)
                 </span>
                 
                 
@@ -247,252 +237,47 @@ canBeNull = null //it's still ok even with strictNullChecks:true
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/02/23/typescript-3/">TypeScript(3)  Union Types與Custom Type</a>
+                <a class="has-link-black-ter" href="/2019/04/16/typescript-5/">TypeScript(5) 物件屬性的修飾子</a>
             
         </h1>
         <div class="content">
-            <h1 id="typescript-3-union-types與custom-type"><a class="header-anchor" href="#typescript-3-union-types與custom-type"></a>TypeScript(3)  Union Types與Custom Type</h1>
-<h2 id="union-types"><a class="header-anchor" href="#union-types"></a>Union Types</h2>
-<p>當某個變數需要可以同時容納兩種以上的型別時，我們可以在宣告型別的時候使用常見用於or邏輯的「|」來宣告型別：</p>
-<pre><code class="language-js">let myAge : number | string = 27; 
+            <p>Typescript 跟一般 OOP 的語言寫法相似，所以講到物件一定少不了一些物件的基本觀念，修飾子是用來規定物件屬性（或稱成員） 存取權限的關鍵字，大致有以下三種：</p>
+<ul>
+<li>public 公有屬性，可以被自由存取的屬性</li>
+<li>private 私有屬性，只限於該屬性所屬的類別內可以存取</li>
+<li>protected 受保護屬性，除了該屬性所屬類別，該類別之子類別（繼承該類別的類別）內也能存取。</li>
+</ul>
+<h2 id="修飾子使用方式"><a class="header-anchor" href="#修飾子使用方式"></a>修飾子使用方式</h2>
+<p>Typescript 裡面，沒有加上修飾子的屬性，預設都會被認為是public，如果想要加上其他修飾子的話，只要在變數宣告前面加上修飾子就可以了：</p>
+<pre><code class="language-ts">class Person {
+    private name: string;
+    constructor(name: string) { this.name = name; }
+}
 </code></pre>
-<p>上面的例子代表這個變數可以同時容納兩種以上的型別。</p>
-<h2 id="custom-type"><a class="header-anchor" href="#custom-type"></a>Custom Type</h2>
-<p>結合前幾章節講到的所有知識，當你的物件結構很複雜，又想要針對每個property宣告型別時，就可以使用「type」關鍵字來宣告自訂的型別：</p>
-<pre><code class="language-js">type ComplexType = {
-    data: number[] , 
-    output:(all:boolean) =&gt; number[] 
-};
+<h2 id="getter-setter"><a class="header-anchor" href="#getter-setter"></a>Getter / Setter</h2>
+<p>我們可以透過 getter 以及 setter 來當作統一出入口，來對無法直接存取的私有變數進行操作， getter 及 setter 跟 JS ES6 的使用方式相同。</p>
+<pre><code class="language-js"> class Person {
+    protected name: string;
+    constructor(name: string) { this.name = name; }
+}
 
-let complexData: ComplexType = {
-    data:[100,3.99,10], 
-    output:function (all: boolean): number[]{
-        return this.data 
+
+class Employee extends Person {
+    
+    constructor(name:string){
+        super(name) //把 name 傳給父類別的建構子
     } 
+    get nameGetter():string{
+        return this.name
+    }
+    set nameSetter(value){
+        this.name = value 
+    }
+    
 }
-</code></pre>
 
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-22T17:00:09.000Z">2019-02-23</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/TypeScript/">TypeScript</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分鐘 閱讀文 (大約 511 個字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/02/23/typescript-2/">TypeScript(2) - 函式宣告、函式型別與物件</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="基本宣告方式"><a class="header-anchor" href="#基本宣告方式"></a>基本宣告方式</h2>
-<p>函式本身的型別宣告可能在幾個地方發生，分別是參數跟回傳值：</p>
-<pre><code class="language-js">function multiply(value1: number, value2: number): number{
-    return value1*value2
-} 
-
-console.log(multiply(2,3)); //6
-</code></pre>
-<p>當然也可以像JS原本的宣告方式一樣，如此一來預設的類型會是Any，不過這樣使用TS就失去意義：</p>
-<pre><code class="language-js">let myName:string = 'Moojing'
-function returnMuyName (){
-    return myName;
-} 
-</code></pre>
-<h2 id="函式型別"><a class="header-anchor" href="#函式型別"></a>函式型別</h2>
-<p>JS 裡面，我們可以把 function assign 給變數，但是 TypeScript 裡面想要啟用型別檢查，就一樣必須在變數後面聲明這個函式的型別，（包含參數和回傳值），但如果一個變數沒有任何型別的話，這個 function 的型別跟一般變數一樣會被設為 any ，所以可以傳入型別。</p>
-<pre><code class="language-js">function sayHello():void{
-    console.log('Hello')
-} 
-
-function multiply(value1:number,value2:number): number{
-    return value1*value2
-} 
-
-let doSomeThing = sayHello;
-let doSomeThing = multiply;
-</code></pre>
-<p>但是這樣一來我們就無法直觀的判斷這個變數的型別，畢竟使用TS就是要將他的優點發揮到極致，還記得之前我們提過變數型別的宣告嗎？我們可以這麼做：</p>
-<pre><code class="language-js">let doSomeThing: (val1: number, val2: number)=&gt;number;
-    doSomeThing = multiply;
-    doSomeThing = sayHello;// Type '() =&gt; void' is not assignable to type '(val1: number, val2: number) =&gt; number'.
-</code></pre>
-<p>這樣一來在assign錯誤的函式型別時，TS就能夠檢查出錯誤，不過這樣一來函式的宣告就變得有點的雜亂不易閱讀，這時我們可以<strong>使用 type 關鍵字把函式型別抽出來另外宣告</strong>：</p>
-<pre><code class="language-js">    
-    type someType = (val1: number, val2: number)=&gt;number; 
-
-</code></pre>
-<h2 id="物件型別"><a class="header-anchor" href="#物件型別"></a>物件型別</h2>
-<p>將物件assign給某變數，該變數的型別宣告方式，其實跟前面function型別的宣告方法差不多：</p>
-<pre><code class="language-js">let userData : {name: string, age: number}= {
-    name: &quot;Max&quot;, 
-    age:27
-}
-</code></pre>
-<p>宣告完物件型別之後，就不能再assign該物件型別裡沒有定義的property跟類型:</p>
-<pre><code class="language-js">userData = {
-    a:'hello', //類型 '{ a: string; b: number; }' 不可指派給類型 '{ name: string; age: number; }'。
-    b:22
-}
-</code></pre>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-22T16:56:52.000Z">2019-02-23</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/TypeScript/">TypeScript</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分鐘 閱讀文 (大約 588 個字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/02/23/typescript-1/">TypeScript(1) - 基本型別介紹</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="變數宣告方式"><a class="header-anchor" href="#變數宣告方式"></a>變數宣告方式</h2>
-<ol>
-<li>指定型別<br>
-指定型別的宣告其實跟一般宣告方式差不多，只是在變數後面多了一個「:&lt;要宣告的型別&gt;」的指定，指定之後赴值一樣只能是同行別的值：</li>
-</ol>
-<pre><code class="language-js">let name: string = 'moojing';
-</code></pre>
-<ol start="2">
-<li>不指定型別<br>
-Typescript裡宣告變數，可以不指定型別，那就會是類似Js的方法，：</li>
-</ol>
-<pre><code class="language-js">let name = 'moojing';
-</code></pre>
-<p>型別不指定的話，TS會自動偵測赴與的值是什麼類型，但是如果再次赴與不同型別的值，編譯就會報錯：</p>
-<pre><code class="language-js">name = 2 ; //Error: Type '2' is not assignable to type 'string'.
-</code></pre>
-<h2 id="typescript的幾種型別"><a class="header-anchor" href="#typescript的幾種型別"></a>TypeScript的幾種型別</h2>
-<p>TypeScript 裡面的型別基本上跟JS原生的型別相同，只是因為型別系統的加入又多出了幾種型別，：</p>
-<ul>
-<li>Any</li>
-<li>String</li>
-<li>Number</li>
-<li>Boolean</li>
-<li>Array</li>
-<li>Object</li>
-<li>Tuples</li>
-<li>Enums</li>
-<li>Void</li>
-<li>Never</li>
-</ul>
-<h2 id="any"><a class="header-anchor" href="#any"></a>Any</h2>
-<p>Any型別顧名思義就是任何型別都可以放入這個變數，如果使用這個型別，基本上就跟原本Js可以隨意assign的使用方式ㄧ樣了。實務上不太建議使用Any，因為這樣就跟使用JS沒有兩樣了：</p>
-<pre><code class="language-js">let anyType:any = 1234;
-anyType='1234' //It's Okay.
-</code></pre>
-<h2 id="string-number-boolean"><a class="header-anchor" href="#string-number-boolean"></a>String / Number / Boolean</h2>
-<p>這三種基本型別的宣告都很直觀，直接宣告即可：</p>
-<pre><code class="language-js"> let myName:string = &quot;Moojing&quot;
- let myName:number = 123
- let myName:boolean = true
-</code></pre>
-<h2 id="array"><a class="header-anchor" href="#array"></a>Array</h2>
-<p>Array的型別有兩種宣告方式：</p>
-<pre><code class="language-js"> let array:Array&lt;number&gt; = [2,3,4]
-  let array1:number[]=[4,5,6]
-</code></pre>
-<p>也可以宣告型別為any的Array:</p>
-<pre><code class="language-js"> let array1:any[]=[4,5,6]
-</code></pre>
-<h2 id="tuples-元組"><a class="header-anchor" href="#tuples-元組"></a>Tuples 元組</h2>
-<p>Tuples在數學上的意思是有限的序列組合，其實就是包含很多不同型別元素的陣列：</p>
-<pre><code class="language-js">let address: [string,number] = [&quot;Superstreet&quot;,31]
-</code></pre>
-<p>不過使用Tuples就要注意，元素類型的順序也要跟宣告的相同，以上面的例子來說，第一個元素就不能是數字，第二個元素也不能是字串。</p>
-<h2 id="enum-列舉"><a class="header-anchor" href="#enum-列舉"></a>Enum 列舉</h2>
-<p>Enum就是把所有可能的狀態列出來：</p>
-<pre><code class="language-js">enum Color{
-    Red,
-    Green,
-    Black
-} 
-</code></pre>
-<p>Enum的宣告方式很像一般物件，但是元素的值預設是向陣列的index，0,1,2…</p>
-<pre><code class="language-js">
-enum Color{
-   Red,
-   Green,
-   Black
-} 
-
-let myColor:Color = Color.Green; 
-console.log('myColor: ', myColor); //1
-
-</code></pre>
-<p>不過你也可以自己決定每個狀態對應的值：</p>
-<pre><code class="language-js">enum Color{
-   Red =100,
-   Green=200,
-   Black=300
-} 
-let myColor:Color = Color.Green; 
-console.log('myColor: ', myColor); //200
+let Jack = new Employee('Jack') 
+console.log(Jack)
 </code></pre>
 
         </div>
@@ -1037,6 +822,266 @@ console.log('myColor: ', myColor); //200
                 <div class="control">
                     <a class="tags has-addons" href="/tags/javascript/">
                         <span class="tag">javascript</span>
+                        <span class="tag is-grey">56</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/rails/">
+                        <span class="tag">rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby/">
+                        <span class="tag">ruby</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ruby-on-rails/">
+                        <span class="tag">ruby on rails</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typeScript/">
+                        <span class="tag">typeScript</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/typescript/">
+                        <span class="tag">typescript</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue/">
+                        <span class="tag">vue</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/vue-js/">
+                        <span class="tag">vue.js</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/w3HexSchool/">
+                        <span class="tag">w3HexSchool</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/working/">
+                        <span class="tag">working</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/地下城/">
+                        <span class="tag">地下城</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/鐵人賽30天/">
+                        <span class="tag">鐵人賽30天</span>
+                        <span class="tag is-grey">30</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+        </div>
+    
+</div>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/logo.png" alt="Moojing&#39;s Blog" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021
+                 <!-- Moojing&nbsp; -->
+                
+                <!-- Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a> -->
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-TW");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://www.muji.dev',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到頁首" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="請輸入關鍵字..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '頁面',
+                CATEGORIES: '分類',
+                TAGS: '標籤',
+                UNTITLED: '(無標題)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>>
                         <span class="tag is-grey">56</span>
                     </a>
                 </div>
