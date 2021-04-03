@@ -2828,7 +2828,7 @@ display:inline-block;
                 <span class="level-item has-text-grey">
                     
                     
-                    10 分鐘 閱讀文 (大約 1549 個字)
+                    4 分鐘 閱讀文 (大約 543 個字)
                 </span>
                 
                 
@@ -2837,127 +2837,82 @@ display:inline-block;
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/02/11/front-backend-travel-6/">前端工程師後端之旅(6) - 利用爬蟲取得網站原始商品資料</a>
+                <a class="has-link-black-ter" href="/2019/02/11/front-backend-travel-5/">前端工程師後端之旅(5) - 資料庫關係設計</a>
             
         </h1>
         <div class="content">
-            <p>為了盡可能重現目標網站，我們會需要原來的商品資料，但總不可能一筆一筆複製貼上，這時候我們就會需要爬蟲，爬蟲就是一隻去造訪網站並且分析網站回傳的資料，我們就可以只拿出我們需要部分的資料，透過爬蟲我們可以做很多數據統計的分析，比如：分析某某競爭對手電商的產品趨勢、分析PTT八卦版最常出現的用詞…等。</p>
-<p>Python是最常見用於撰寫爬蟲的語言之一，但其實大多數語言都可以用來撰寫爬蟲，因為目前正在學習Rails，而且Ruby還能夠透過’active-record’使用ORM跟資料庫溝通，非常方便，所以今天我會用ruby來示範如何撰寫一隻爬蟲。</p>
-<h2 id="outline-流程"><a class="header-anchor" href="#outline-流程"></a>Outline - 流程</h2>
-<p>爬蟲從獲取資料到分析完資料之間可細分為幾個步驟：</p>
+            <p>為了讓設計時更容易溝通，常常會使用ERD來整理，ERD用圖像化的方式來規劃資料與資料之間的關係，讓開發人員可以對系統架構一目瞭然，如一對多、多對一、多對多等等常見的關係。</p>
+<h2 id="outline"><a class="header-anchor" href="#outline"></a>Outline</h2>
 <ol>
-<li>觀察url規律</li>
-<li>模擬送出HTTP Request</li>
-<li>取得網站Response</li>
-<li>分析html內容結構</li>
-<li>取出需要的部分並整理</li>
-<li>與資料庫取得連線</li>
-<li>整理後存入資料庫</li>
+<li>ERD類別圖基本介紹</li>
+<li>產品資料表</li>
+<li>文章資料表</li>
+<li>訂單及優惠券資料表</li>
+<li>前後台使用者資料表</li>
 </ol>
-<h2 id="使用工具"><a class="header-anchor" href="#使用工具"></a>使用工具</h2>
-<p>要進行以上幾個動作，我們會需要幾個套件，分別是：</p>
-<ul>
-<li>nokogiri：可以讓我們使用與jquery選擇器一樣的方式去選出html內容</li>
-<li>rest-client： 可以模擬並發出http請求</li>
-<li>active-record ：讓我們可以使用ORM與資料庫溝通</li>
-<li>pry ：讓我可以下中斷並且觀察資料</li>
-</ul>
-<h2 id="觀察url規律"><a class="header-anchor" href="#觀察url規律"></a>觀察Url規律</h2>
-<p>既然是要拿到所有相同類型的資料，只要觀察不同筆資料間url的相異之處就可以了，如</p>
-<pre><code>https://www.leisurecosmetics.com/index.php?route=product/product&amp;product_id=75
-https://www.leisurecosmetics.com/index.php?route=product/product&amp;product_id=77 
-
-</code></pre>
-<p>可看出改網站用product_id來識別商品。</p>
-<h2 id="模擬送出http-request並取回html網頁結構"><a class="header-anchor" href="#模擬送出http-request並取回html網頁結構"></a>模擬送出HTTP Request並取回html網頁結構</h2>
-<p>寫過前端ajax的人，一定常用axios.get(‘<a href="http://example.com/api/xxx">http://example.com/api/xxx</a>’) 去送出get請求拿回資料，其實一般我們進入瀏覽器時，就是在對該網站的server送出Http的get請求，只不過跟ajax不同的是，拿回來的不是api資料，而是網站的畫面，這就是常聽到的<strong>Server Side Rendering</strong>，圖為進入youtube時所送出的Get請求。<br>
-<img src="https://i.imgur.com/m1NxXMu.png" alt="螢幕快照 2019-01-23 上午10.42.09"></p>
-<p>接下來利用rest-client去模擬http get請求到該目標網站：</p>
-<pre><code class="language-ruby">html = RestClient.get('https://www.leisurecosmetics.com/index.php?route=product/product&amp;product_id=75')
-</code></pre>
-<p>binding.pry 下中斷並觀察取回的資料<br>
-<img src="https://i.imgur.com/nOPTjYc.png" alt="螢幕快照 2019-01-23 上午10.54.54"><br>
-我們已經把網頁的html拿到手了。</p>
-<h2 id="分析html結構"><a class="header-anchor" href="#分析html結構"></a>分析Html結構</h2>
-<p>透過RestClient取回資料後，接下來我們需要Nokigiri去讓我們可以很方便找到我們要的資料，他的使用方式其實就很跟jquery選擇元素的時候一樣，例如，想要選到商品title，我先觀察，商品title上面是否有唯一且具有識別性的元素？</p>
-<pre><code>&lt;h2 class=&quot;text-primary&quot;&gt;BS03 輕透底光 - 面部化妝刷具套裝&lt;/h2&gt;
-</code></pre>
-<p>觀察到商品名是用h2包起來並且有 .text-primary 這個class， 我可以先用瀏覽器確認是不是用h2.text-primary可以只選到標題：<br>
-<img src="https://i.imgur.com/5pwEp1Q.png" alt="螢幕快照 2019-01-23 上午11.09.25"></p>
-<h3 id="取出需要的部分並整理"><a class="header-anchor" href="#取出需要的部分並整理"></a>取出需要的部分並整理</h3>
-<p>太棒了！上面正好是我要的，之後我們只要用Nokogiri以同樣的方式選出該元素就行：</p>
-<pre><code>html = RestClient.get('https://www.leisurecosmetics.com/index.php?route=product/product&amp;product_id=75')
-doc = Nokogiri::HTML(html)
-doc.css('h2.text-primary').text //===&gt; get product title
-</code></pre>
-<p><img src="https://i.imgur.com/FeV1k0x.png" alt="螢幕快照 2019-01-23 上午11.16.50"></p>
-<p>用gsub方法把空白字元去掉，ruby的gsub就跟js的replace一樣都是用來代換字串：</p>
-<pre><code>doc.css('h2.text-primary').first.text()
-        .gsub(&quot;\n&quot;,&quot;&quot;)
-        .gsub(&quot;\t&quot;,&quot;&quot;)
-</code></pre>
-<p><img src="https://i.imgur.com/SFUEk45.png" alt="螢幕快照 2019-01-23 上午11.22.05"><br>
-拿到我要的資料。<br>
-也可以用正規表達式來匹配資料：</p>
-<pre><code class="language-rb">doc.css('.price h2').first().text.match(/(\w+)\$([\d,]+)/)[2] //get product price 
-</code></pre>
-<h3 id="與資料庫取得連線"><a class="header-anchor" href="#與資料庫取得連線"></a>與資料庫取得連線</h3>
-<p>Ruby 的active record 其實不一定只能跟著Rails 搭配使用，反過來說，Rails也不一定要使用這套ORM（也有其他的）。這裡我們就把active record單獨拿出來使用，作為與資料庫溝通的橋樑。因為我們上面已經有require了，這邊只要直接使用他的class就可以：</p>
-<pre><code>ActiveRecord::Base.establish_connection({
-    adapter: 'mysql2',
-    encoding: 'utf8',
-    database: 'leisure_development',
-    username: 'your_db_username',
-    password: 'your_db_password',
-  })
-</code></pre>
-<p>記得資料庫的資訊要設好，否則會連不上。</p>
-<h3 id="存入資料庫"><a class="header-anchor" href="#存入資料庫"></a>存入資料庫</h3>
-<p>這邊用的資料庫要是跟Rails專案同樣的資料庫，才能夠直接讓專案使用。<br>
-最後就是依照資料表格式整理成Hash然後把需要的資料包成Hash，我把整段程式碼包成method，這個method 直接回傳商品資料：</p>
-<pre><code class="language-rb">  def parse_page(doc)
-        product_name = doc.css('h2.text-primary').first.text()
-        .gsub(&quot;\n&quot;,&quot;&quot;)
-        .gsub(&quot;\t&quot;,&quot;&quot;)
-        price = doc.css('.price h2').first().text.match(/(\w+)\$([\d,]+)/)[2]
-        price_origin  = doc.css('.price .strike').first().text.match(/(\w+)\$([\d,]+)/)[2]
-        discount_value = price_origin.to_i - price.to_i
-        tab_content = doc.css('.tab-content')
-        sku = doc.css('.condition li').first.text
-        .gsub(&quot;\t&quot;,&quot;&quot;)
-        .gsub(&quot;\n&quot;,&quot;&quot;).match(/：(\w+)/)[1]
-
-        
-        return {
-            :name =&gt; product_name, 
-            :price =&gt; price,
-            :content=&gt;tab_content,
-            :discount_value=&gt;discount_value, 
-            :sku=&gt;sku,
-            :stock=&gt; 100 , 
-        }
-    end 
-</code></pre>
-<p>接下來我只要用迴圈一筆一筆去送出request拿回html並且找到我要的商品訊息，就可以放進資料庫了，這裡因為不確定商品有幾筆，所以試試看從第一筆到第一百筆抓抓看，記得嘗試抓資料時在迴圈裡面要做例外處理，避免沒有資料而發生錯誤：</p>
-<pre><code class="language-rb">  def run  
-        (1..100).each do |product_id|
-            puts &quot;Parsing product id : #{product_id} \n&quot;
-            product_url = &quot;#{BASE_URL}?route=product/product&amp;product_id=#{product_id}&quot;
-            begin
-                
-
-                html = RestClient.get(product_url)
-                doc = Nokogiri::HTML(html)
-                product_data = parse_page(doc)
-                Product.create!(product_data)
-            rescue =&gt; exception
-                puts &quot;#{exception.message}&quot;
-            end
-            sleep 0.1
-        end
-    end
-</code></pre>
-<p>你可以在<a href="http://34.80.215.175/products/categories/%E9%99%90%E6%99%82%E5%84%AA%E6%83%A0">這裡看到我的網站實作成果</a>。</p>
+<h2 id="erd-基本介紹"><a class="header-anchor" href="#erd-基本介紹"></a>ERD 基本介紹</h2>
+<p>ERD 意思是 實體-關聯圖，Entity是用物件導向的class表示一個生活中的實體，關聯則是指資料庫的關聯。因為Ruby本來就是物件導向語言，而Rails又是用ORM對應資料表，所以用ERD可以很清楚的表示資料關係，<br>
+我們用一張表格表示一個Class，會長的像下面這樣：<br>
+![](<a href="https://i.imgur.com/4XYvaIh.png">https://i.imgur.com/4XYvaIh.png</a> =230x200)</p>
+<h3 id="修飾子"><a class="header-anchor" href="#修飾子"></a>修飾子</h3>
+<p>表裡面裝的是在class裡面的property，前面使用符號來表示物件屬性的修飾子，分別是：</p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>屬性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>public</td>
+</tr>
+<tr>
+<td>-</td>
+<td>private</td>
+</tr>
+<tr>
+<td>#</td>
+<td>protected</td>
+</tr>
+</tbody>
+</table>
+<h3 id="關係表示"><a class="header-anchor" href="#關係表示"></a>關係表示</h3>
+<table>
+<thead>
+<tr>
+<th>關係</th>
+<th>表示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一對多</td>
+<td>1-------------1…* ( or * )</td>
+</tr>
+<tr>
+<td>一對一</td>
+<td>1-------------1</td>
+</tr>
+<tr>
+<td>多對多</td>
+<td>需要中介表</td>
+</tr>
+</tbody>
+</table>
+<h2 id="產品資料"><a class="header-anchor" href="#產品資料"></a>產品資料</h2>
+<p>因為可能會有想讓商品同時出現在兩個或更多個類別清單的情況，所以這邊我採用多對多關聯設計，資料表要實現多對多的話，則要藉由中間一張轉介表來串連：<br>
+<img src="https://i.imgur.com/noNMUE9.png" alt=""></p>
+<h2 id="文章資料"><a class="header-anchor" href="#文章資料"></a>文章資料</h2>
+<p>文章跟類別的就比較單純，一個類別可能有多個文章:<br>
+<img src="https://i.imgur.com/XshJLM0.png" alt=""></p>
+<h2 id="訂單資料"><a class="header-anchor" href="#訂單資料"></a>訂單資料</h2>
+<p>由於使用者在結帳時有可能會使用優惠券，所以Coupon跟訂單、以及訂單其他資訊之間必須有一對一關聯：<br>
+<img src="https://i.imgur.com/JVUMtP4.png" alt=""></p>
+<h2 id="前台-後台-使用者"><a class="header-anchor" href="#前台-後台-使用者"></a>前台 / 後台 使用者</h2>
+<p>為了安全性考量，前後台的會員資料表應該要分開，如果共用同一張資料表，後台管理員有機會看到其他管理人的機密資料：<br>
+<img src="https://i.imgur.com/eshIC5H.png" alt=""></p>
 
         </div>
         
@@ -3053,7 +3008,7 @@ doc.css('h2.text-primary').text //===&gt; get product title
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            9
+                            10
                         </p>
                     </a>
                 </div>
@@ -3065,7 +3020,7 @@ doc.css('h2.text-primary').text //===&gt; get product title
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            18
+                            19
                         </p>
                     </a>
                 </div>
@@ -3172,7 +3127,15 @@ doc.css('h2.text-primary').text //===&gt; get product title
                 <span class="level-item">Javascript</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">8</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Javascript-React/">
+            <span class="level-start">
+                <span class="level-item">Javascript React</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/TypeScript/">
@@ -3348,7 +3311,7 @@ doc.css('h2.text-primary').text //===&gt; get product title
         <h3 class="menu-label">
             標籤雲
         </h3>
-        <a href="/tags/backend/" style="font-size: 15.71px;">backend</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/devOps/" style="font-size: 11.43px;">devOps</a> <a href="/tags/frontend/" style="font-size: 20px;">frontend</a> <a href="/tags/frontend-force/" style="font-size: 17.14px;">frontend-force</a> <a href="/tags/ironman30/" style="font-size: 17.14px;">ironman30</a> <a href="/tags/javascript/" style="font-size: 18.57px;">javascript</a> <a href="/tags/rails/" style="font-size: 15.71px;">rails</a> <a href="/tags/ruby/" style="font-size: 15.71px;">ruby</a> <a href="/tags/ruby-on-rails/" style="font-size: 15.71px;">ruby on rails</a> <a href="/tags/typeScript/" style="font-size: 11.43px;">typeScript</a> <a href="/tags/typescript/" style="font-size: 12.86px;">typescript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/w3HexSchool/" style="font-size: 14.29px;">w3HexSchool</a> <a href="/tags/working/" style="font-size: 11.43px;">working</a> <a href="/tags/地下城/" style="font-size: 14.29px;">地下城</a> <a href="/tags/鐵人賽30天/" style="font-size: 17.14px;">鐵人賽30天</a>
+        <a href="/tags/backend/" style="font-size: 15.71px;">backend</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/devOps/" style="font-size: 11.43px;">devOps</a> <a href="/tags/frontend/" style="font-size: 20px;">frontend</a> <a href="/tags/frontend-force/" style="font-size: 17.14px;">frontend-force</a> <a href="/tags/ironman30/" style="font-size: 17.14px;">ironman30</a> <a href="/tags/javascript/" style="font-size: 18.57px;">javascript</a> <a href="/tags/rails/" style="font-size: 15.71px;">rails</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/ruby/" style="font-size: 15.71px;">ruby</a> <a href="/tags/ruby-on-rails/" style="font-size: 15.71px;">ruby on rails</a> <a href="/tags/typeScript/" style="font-size: 11.43px;">typeScript</a> <a href="/tags/typescript/" style="font-size: 12.86px;">typescript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/w3HexSchool/" style="font-size: 14.29px;">w3HexSchool</a> <a href="/tags/working/" style="font-size: 11.43px;">working</a> <a href="/tags/地下城/" style="font-size: 14.29px;">地下城</a> <a href="/tags/鐵人賽30天/" style="font-size: 17.14px;">鐵人賽30天</a>
     </div>
 </div>
     
@@ -3362,16 +3325,16 @@ doc.css('h2.text-primary').text //===&gt; get product title
             
             <a href="/2021/04/03/react-compound-component/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-compound-component">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="React 設計模式 - 複合元件">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-04-03T10:14:38.000Z">2021-04-03</time></div>
-                    <a href="/2021/04/03/react-compound-component/" class="title has-link-black-ter is-size-6 has-text-weight-normal">react-compound-component</a>
+                    <a href="/2021/04/03/react-compound-component/" class="title has-link-black-ter is-size-6 has-text-weight-normal">React 設計模式 - 複合元件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Javascript/">Javascript</a>
+                        <a class="has-link-grey -link" href="/categories/Javascript-React/">Javascript React</a>
                     </p>
                 </div>
             </div>
@@ -3517,6 +3480,13 @@ doc.css('h2.text-primary').text //===&gt; get product title
                     <a class="tags has-addons" href="/tags/rails/">
                         <span class="tag">rails</span>
                         <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 

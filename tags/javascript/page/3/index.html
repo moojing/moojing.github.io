@@ -2303,6 +2303,123 @@ display:inline-block;
                 <span class="level-item has-text-grey">
                     
                     
+                    4 分鐘 閱讀文 (大約 543 個字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/02/11/front-backend-travel-5/">前端工程師後端之旅(5) - 資料庫關係設計</a>
+            
+        </h1>
+        <div class="content">
+            <p>為了讓設計時更容易溝通，常常會使用ERD來整理，ERD用圖像化的方式來規劃資料與資料之間的關係，讓開發人員可以對系統架構一目瞭然，如一對多、多對一、多對多等等常見的關係。</p>
+<h2 id="outline"><a class="header-anchor" href="#outline"></a>Outline</h2>
+<ol>
+<li>ERD類別圖基本介紹</li>
+<li>產品資料表</li>
+<li>文章資料表</li>
+<li>訂單及優惠券資料表</li>
+<li>前後台使用者資料表</li>
+</ol>
+<h2 id="erd-基本介紹"><a class="header-anchor" href="#erd-基本介紹"></a>ERD 基本介紹</h2>
+<p>ERD 意思是 實體-關聯圖，Entity是用物件導向的class表示一個生活中的實體，關聯則是指資料庫的關聯。因為Ruby本來就是物件導向語言，而Rails又是用ORM對應資料表，所以用ERD可以很清楚的表示資料關係，<br>
+我們用一張表格表示一個Class，會長的像下面這樣：<br>
+![](<a href="https://i.imgur.com/4XYvaIh.png">https://i.imgur.com/4XYvaIh.png</a> =230x200)</p>
+<h3 id="修飾子"><a class="header-anchor" href="#修飾子"></a>修飾子</h3>
+<p>表裡面裝的是在class裡面的property，前面使用符號來表示物件屬性的修飾子，分別是：</p>
+<table>
+<thead>
+<tr>
+<th>符號</th>
+<th>屬性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+</td>
+<td>public</td>
+</tr>
+<tr>
+<td>-</td>
+<td>private</td>
+</tr>
+<tr>
+<td>#</td>
+<td>protected</td>
+</tr>
+</tbody>
+</table>
+<h3 id="關係表示"><a class="header-anchor" href="#關係表示"></a>關係表示</h3>
+<table>
+<thead>
+<tr>
+<th>關係</th>
+<th>表示</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一對多</td>
+<td>1-------------1…* ( or * )</td>
+</tr>
+<tr>
+<td>一對一</td>
+<td>1-------------1</td>
+</tr>
+<tr>
+<td>多對多</td>
+<td>需要中介表</td>
+</tr>
+</tbody>
+</table>
+<h2 id="產品資料"><a class="header-anchor" href="#產品資料"></a>產品資料</h2>
+<p>因為可能會有想讓商品同時出現在兩個或更多個類別清單的情況，所以這邊我採用多對多關聯設計，資料表要實現多對多的話，則要藉由中間一張轉介表來串連：<br>
+<img src="https://i.imgur.com/noNMUE9.png" alt=""></p>
+<h2 id="文章資料"><a class="header-anchor" href="#文章資料"></a>文章資料</h2>
+<p>文章跟類別的就比較單純，一個類別可能有多個文章:<br>
+<img src="https://i.imgur.com/XshJLM0.png" alt=""></p>
+<h2 id="訂單資料"><a class="header-anchor" href="#訂單資料"></a>訂單資料</h2>
+<p>由於使用者在結帳時有可能會使用優惠券，所以Coupon跟訂單、以及訂單其他資訊之間必須有一對一關聯：<br>
+<img src="https://i.imgur.com/JVUMtP4.png" alt=""></p>
+<h2 id="前台-後台-使用者"><a class="header-anchor" href="#前台-後台-使用者"></a>前台 / 後台 使用者</h2>
+<p>為了安全性考量，前後台的會員資料表應該要分開，如果共用同一張資料表，後台管理員有機會看到其他管理人的機密資料：<br>
+<img src="https://i.imgur.com/eshIC5H.png" alt=""></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-02-11T13:47:18.000Z">2019-02-11</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/FullStack/">FullStack</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
                     10 分鐘 閱讀文 (大約 1549 個字)
                 </span>
                 
@@ -2433,123 +2550,6 @@ doc.css('h2.text-primary').text //===&gt; get product title
     end
 </code></pre>
 <p>你可以在<a href="http://34.80.215.175/products/categories/%E9%99%90%E6%99%82%E5%84%AA%E6%83%A0">這裡看到我的網站實作成果</a>。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-11T13:47:18.000Z">2019-02-11</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/FullStack/">FullStack</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分鐘 閱讀文 (大約 543 個字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/02/11/front-backend-travel-5/">前端工程師後端之旅(5) - 資料庫關係設計</a>
-            
-        </h1>
-        <div class="content">
-            <p>為了讓設計時更容易溝通，常常會使用ERD來整理，ERD用圖像化的方式來規劃資料與資料之間的關係，讓開發人員可以對系統架構一目瞭然，如一對多、多對一、多對多等等常見的關係。</p>
-<h2 id="outline"><a class="header-anchor" href="#outline"></a>Outline</h2>
-<ol>
-<li>ERD類別圖基本介紹</li>
-<li>產品資料表</li>
-<li>文章資料表</li>
-<li>訂單及優惠券資料表</li>
-<li>前後台使用者資料表</li>
-</ol>
-<h2 id="erd-基本介紹"><a class="header-anchor" href="#erd-基本介紹"></a>ERD 基本介紹</h2>
-<p>ERD 意思是 實體-關聯圖，Entity是用物件導向的class表示一個生活中的實體，關聯則是指資料庫的關聯。因為Ruby本來就是物件導向語言，而Rails又是用ORM對應資料表，所以用ERD可以很清楚的表示資料關係，<br>
-我們用一張表格表示一個Class，會長的像下面這樣：<br>
-![](<a href="https://i.imgur.com/4XYvaIh.png">https://i.imgur.com/4XYvaIh.png</a> =230x200)</p>
-<h3 id="修飾子"><a class="header-anchor" href="#修飾子"></a>修飾子</h3>
-<p>表裡面裝的是在class裡面的property，前面使用符號來表示物件屬性的修飾子，分別是：</p>
-<table>
-<thead>
-<tr>
-<th>符號</th>
-<th>屬性</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>+</td>
-<td>public</td>
-</tr>
-<tr>
-<td>-</td>
-<td>private</td>
-</tr>
-<tr>
-<td>#</td>
-<td>protected</td>
-</tr>
-</tbody>
-</table>
-<h3 id="關係表示"><a class="header-anchor" href="#關係表示"></a>關係表示</h3>
-<table>
-<thead>
-<tr>
-<th>關係</th>
-<th>表示</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>一對多</td>
-<td>1-------------1…* ( or * )</td>
-</tr>
-<tr>
-<td>一對一</td>
-<td>1-------------1</td>
-</tr>
-<tr>
-<td>多對多</td>
-<td>需要中介表</td>
-</tr>
-</tbody>
-</table>
-<h2 id="產品資料"><a class="header-anchor" href="#產品資料"></a>產品資料</h2>
-<p>因為可能會有想讓商品同時出現在兩個或更多個類別清單的情況，所以這邊我採用多對多關聯設計，資料表要實現多對多的話，則要藉由中間一張轉介表來串連：<br>
-<img src="https://i.imgur.com/noNMUE9.png" alt=""></p>
-<h2 id="文章資料"><a class="header-anchor" href="#文章資料"></a>文章資料</h2>
-<p>文章跟類別的就比較單純，一個類別可能有多個文章:<br>
-<img src="https://i.imgur.com/XshJLM0.png" alt=""></p>
-<h2 id="訂單資料"><a class="header-anchor" href="#訂單資料"></a>訂單資料</h2>
-<p>由於使用者在結帳時有可能會使用優惠券，所以Coupon跟訂單、以及訂單其他資訊之間必須有一對一關聯：<br>
-<img src="https://i.imgur.com/JVUMtP4.png" alt=""></p>
-<h2 id="前台-後台-使用者"><a class="header-anchor" href="#前台-後台-使用者"></a>前台 / 後台 使用者</h2>
-<p>為了安全性考量，前後台的會員資料表應該要分開，如果共用同一張資料表，後台管理員有機會看到其他管理人的機密資料：<br>
-<img src="https://i.imgur.com/eshIC5H.png" alt=""></p>
 
         </div>
         
@@ -2796,7 +2796,7 @@ rake db:migrate
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            9
+                            10
                         </p>
                     </a>
                 </div>
@@ -2808,7 +2808,7 @@ rake db:migrate
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            18
+                            19
                         </p>
                     </a>
                 </div>
@@ -2915,7 +2915,15 @@ rake db:migrate
                 <span class="level-item">Javascript</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">8</span>
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Javascript-React/">
+            <span class="level-start">
+                <span class="level-item">Javascript React</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/TypeScript/">
@@ -3091,7 +3099,7 @@ rake db:migrate
         <h3 class="menu-label">
             標籤雲
         </h3>
-        <a href="/tags/backend/" style="font-size: 15.71px;">backend</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/devOps/" style="font-size: 11.43px;">devOps</a> <a href="/tags/frontend/" style="font-size: 20px;">frontend</a> <a href="/tags/frontend-force/" style="font-size: 17.14px;">frontend-force</a> <a href="/tags/ironman30/" style="font-size: 17.14px;">ironman30</a> <a href="/tags/javascript/" style="font-size: 18.57px;">javascript</a> <a href="/tags/rails/" style="font-size: 15.71px;">rails</a> <a href="/tags/ruby/" style="font-size: 15.71px;">ruby</a> <a href="/tags/ruby-on-rails/" style="font-size: 15.71px;">ruby on rails</a> <a href="/tags/typeScript/" style="font-size: 11.43px;">typeScript</a> <a href="/tags/typescript/" style="font-size: 12.86px;">typescript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/w3HexSchool/" style="font-size: 14.29px;">w3HexSchool</a> <a href="/tags/working/" style="font-size: 11.43px;">working</a> <a href="/tags/地下城/" style="font-size: 14.29px;">地下城</a> <a href="/tags/鐵人賽30天/" style="font-size: 17.14px;">鐵人賽30天</a>
+        <a href="/tags/backend/" style="font-size: 15.71px;">backend</a> <a href="/tags/canvas/" style="font-size: 10px;">canvas</a> <a href="/tags/devOps/" style="font-size: 11.43px;">devOps</a> <a href="/tags/frontend/" style="font-size: 20px;">frontend</a> <a href="/tags/frontend-force/" style="font-size: 17.14px;">frontend-force</a> <a href="/tags/ironman30/" style="font-size: 17.14px;">ironman30</a> <a href="/tags/javascript/" style="font-size: 18.57px;">javascript</a> <a href="/tags/rails/" style="font-size: 15.71px;">rails</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/ruby/" style="font-size: 15.71px;">ruby</a> <a href="/tags/ruby-on-rails/" style="font-size: 15.71px;">ruby on rails</a> <a href="/tags/typeScript/" style="font-size: 11.43px;">typeScript</a> <a href="/tags/typescript/" style="font-size: 12.86px;">typescript</a> <a href="/tags/vue/" style="font-size: 10px;">vue</a> <a href="/tags/vue-js/" style="font-size: 10px;">vue.js</a> <a href="/tags/w3HexSchool/" style="font-size: 14.29px;">w3HexSchool</a> <a href="/tags/working/" style="font-size: 11.43px;">working</a> <a href="/tags/地下城/" style="font-size: 14.29px;">地下城</a> <a href="/tags/鐵人賽30天/" style="font-size: 17.14px;">鐵人賽30天</a>
     </div>
 </div>
     
@@ -3105,16 +3113,16 @@ rake db:migrate
             
             <a href="/2021/04/03/react-compound-component/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="react-compound-component">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="React 設計模式 - 複合元件">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-04-03T10:14:38.000Z">2021-04-03</time></div>
-                    <a href="/2021/04/03/react-compound-component/" class="title has-link-black-ter is-size-6 has-text-weight-normal">react-compound-component</a>
+                    <a href="/2021/04/03/react-compound-component/" class="title has-link-black-ter is-size-6 has-text-weight-normal">React 設計模式 - 複合元件</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Javascript/">Javascript</a>
+                        <a class="has-link-grey -link" href="/categories/Javascript-React/">Javascript React</a>
                     </p>
                 </div>
             </div>
@@ -3260,6 +3268,13 @@ rake db:migrate
                     <a class="tags has-addons" href="/tags/rails/">
                         <span class="tag">rails</span>
                         <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/react/">
+                        <span class="tag">react</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 

@@ -7,13 +7,13 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>標籤: vue.js - Moojing&#39;s Blog</title>
+<title>標籤: react - Moojing&#39;s Blog</title>
 
 
     <meta name="keywords" content="frontend,backend,javascript">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Moojing&#39;s Blog">
-<meta property="og:url" content="https://www.muji.dev/tags/vue-js/index.html">
+<meta property="og:url" content="https://www.muji.dev/tags/react/index.html">
 <meta property="og:site_name" content="Moojing&#39;s Blog">
 <meta property="og:locale" content="zh-TW">
 <meta property="og:image" content="https://www.muji.dev/images/og_image_name.png">
@@ -133,7 +133,7 @@
         <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
             <li><a href="/tags">標籤</a></li>
-            <li class="is-active"><a href="#" aria-current="page">vue.js</a></li>
+            <li class="is-active"><a href="#" aria-current="page">react</a></li>
         </ul>
         </nav>
     </div>
@@ -146,17 +146,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-03-08T16:59:29.000Z">2019-03-09</time>
+                <time class="level-item has-text-grey" datetime="2021-04-03T10:14:38.000Z">2021-04-03</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Javascript/">Javascript</a>
+                <a class="has-link-grey -link" href="/categories/Javascript-React/">Javascript React</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    7 分鐘 閱讀文 (大約 1081 個字)
+                    20 分鐘 閱讀文 (大約 3073 個字)
                 </span>
                 
                 
@@ -165,168 +165,202 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/03/09/8f-ooxx/">Vue.js 井字遊戲 - OOXX</a>
+                <a class="has-link-black-ter" href="/2021/04/03/react-compound-component/">React 設計模式 - 複合元件</a>
             
         </h1>
         <div class="content">
-            <img src="/2019/03/09/8f-ooxx/cover.png" title="COVER">
-<p>大家好，我在地下城8樓，題目是3x3井字遊戲，直覺想到最簡單的方式就是暴力檢查，每個Row跟Column去檢查有沒有相等的，最後加上對角線兩條。也看到別樓有分享Alex1&amp;10解法，覺得很高明。</p>
-<p>不過我想看看有沒有不一樣的做法，相信一定有。剛剛講到Row跟Column，就讓我想到二維陣列。沒錯，整個井字窗格根本可以用座標來看，今天這個題目的解法會以二維陣列為主軸來解說作法，切版的部分則比較繁瑣且不難所以不會多提，有問題可以再跟我討論。</p>
-<p>你可以在這裡看到我的<a href="https://moojing.github.io/demo/underground_8f/#/game">成果</a>，或是參考<a href="https://github.com/moojing/hex-underground/tree/master/8f_ooxx/src">原始碼</a>。</p>
-<h2 id="規則"><a class="header-anchor" href="#規則"></a>規則</h2>
+            <p>一般來說在進行正式的專案開發，製作可以重複被使用的元件時，常常也必須考慮到元件的彈性、與可維護性。因為我們不知道在未來，這個元件會因為產品的需求而產生怎麼樣的調整，所以最低程度地保持元件的可擴充性就可以讓開發者在這個時候比較輕鬆的以最小限度的影響來達成想要的修改。</p>
+<p><strong>複合元件就是一種可以同時提高可維護性跟彈性的元件設計方法</strong>，或稱為設計模式（ Design Patern ) 。設計模式一詞源自更早期的軟體界發展歷史，這個詞可以<strong>用來代稱那些應付經常出現問題的解決辦法</strong>。亦即設計模式是經年累月透過所有軟體界的開發者不斷地遇到相同或類似問題之後，慢慢整理出來的方法。有一些設計模式是所有語言都可以通用的，例如你可能會聽過的「 工廠模式 」、「 觀察者模式」。而有一些模式是針對特定情境的問題所設計的，我們今天要談的複合元件就是前端元件開發的設計模式之一。</p>
+<h2 id="需要的先備知識"><a class="header-anchor" href="#需要的先備知識"></a>需要的先備知識</h2>
+<p>這篇文章主要會講解如何設計一個複合元件，再繼續往下閱讀之前，你可能要確保自己了解 React children 與 context 的相關概念，才能夠比較輕鬆的閱讀這篇文章所提及的內容，在這邊附上幾篇可以參考的資源：</p>
 <ul>
-<li>
-<p>先手為 Ｏ，後手為 X，某方獲勝時，上方會紀錄各方的獲勝戰績</p>
+<li>React Children  -  操作元素的 React 原生 API ：
+<ul>
+<li>A Complete Guide To props.children In React | codeburst</li>
+<li>官方文件：<a href="https://reactjs.org/docs/react-api.html">React Top-Level API</a></li>
+</ul>
 </li>
-<li>
-<p>每回合結束後，會判定結果頁(平手、Ｏ獲勝、X獲勝)</p>
-</li>
-<li>
-<p>需符合 RWD，能在低螢幕解析度也能遊玩，介面不能超出 x 軸，至少在以下解析度能夠遊玩:</p>
-<ol>
-<li>iPhone SE 320px</li>
-<li>iPhone 8 375px</li>
-<li>iPhone PLUS 414px</li>
-</ol>
-</li>
-<li>
-<p>請使用瀏覽器離線儲存技術，將戰績保留起來</p>
+<li>React 裡面 Context 的概念：
+<ul>
+<li>官方文件： <a href="https://reactjs.org/docs/context.html">Context – React</a></li>
+</ul>
 </li>
 </ul>
-<h2 id="資料結構"><a class="header-anchor" href="#資料結構"></a>資料結構</h2>
-<p>為了讓對應到畫面的資料可以更直觀的操作跟查詢，我是這樣訂定格式的：</p>
-<pre><code class="language-js">data(){
-    return {
-    ...
-     currentPlayer:0,
-     gameStatus:[[null,null,null],
-                 [null,null,null],   
-                 [null,null,null]]
-            }}
-</code></pre>
-<p>陣列第0個元素代表的是第一個Row，Row本身也是陣列，剛好由左到右對應到0、1、2的位置，(0,0)對應到最左上，(2,2)對應到最右下，這樣直觀多了，如下圖所示：</p>
-<img src="/2019/03/09/8f-ooxx/position.png" title="DATA STRUCTURE">
-<p>然後用0表示O、1表示X，與上述資料結構的currentPlayer一樣，null則表示尚未下棋的位置，不過這邊不建議用0來做任何的判斷，原因稍後再提。</p>
-<h2 id="判斷勝利者"><a class="header-anchor" href="#判斷勝利者"></a>判斷勝利者</h2>
-<p>因為我用的資料表示是： O為0，X為1，因此如果整列、整行或交叉相加都是0，或是3，代表有人勝出，這時我只要取得currentPlayer就知道獲勝的是誰了。</p>
-<h2 id="判斷勝利邏輯"><a class="header-anchor" href="#判斷勝利邏輯"></a>判斷勝利邏輯</h2>
-<p>要判斷目前賽況是否有人勝出，我們需要檢查的部分有:</p>
-<ul>
-<li>每個Row（橫排）是否有連線</li>
-<li>每個Column（直行）是否有連線</li>
-<li>對角線是否有連線</li>
-</ul>
-<p>判斷對角線的部分比較麻煩，但你應該可以看出，使用陣列的方式可以清楚區分出Row跟Column，讓檢查更方便，檢查的時間點是每次使用者點完要下的棋格之後的瞬間，檢查完最後切換使用者(玩家)。</p>
-<pre><code class="language-js">methods:{
-...
-onSectionClick(x,y){
-         if (this.gameStatus[y][x]!==null) return //防止重複下棋
-         this.gameStatus[y][x] = this.currentPlayer//下棋
-         this.checkResult()//檢查賽況
-         this.togglePlayer()//&lt;---下完後切換使用者
+<h2 id="複合元件是什麼"><a class="header-anchor" href="#複合元件是什麼"></a>複合元件是什麼</h2>
+<p>複合元件，或稱合成元件( Compound Component ）可以從詞面上看出它大致的意思，就是指數個聚集在一起，並有某些相互關係的元件。<strong>透過複合元件，可以讓兩個或兩個以上相關聯的元件用一些不明顯的方式來共用狀態</strong>，這是什麼意思，而複合元件到底又解決了什麼樣的問題呢？</p>
+<h2 id="元件常見的多層結構問題"><a class="header-anchor" href="#元件常見的多層結構問題"></a>元件常見的多層結構問題</h2>
+<p>舉我們常見的下拉選單為例，如果我們現在想要製作自己的選單元件，最直觀的製作方法會是直接創造一個元件，然後把所有相關的資料傳入：</p>
+<pre><code>import { useState } from &quot;react&quot;;
 
-       },}
-</code></pre>
-<p>因為是二維陣列所以要兩層for迴圈，注意這邊因為要先取用Row，所以陣列的操作必須先從y (也就是直排) 開始選取，而不是一般座標的表示方式(x,y)，當然可以透過改變資料結構做出比較直觀的使用方式，不過因為沒有很困難，且為了解說方便，這邊就不做調整。</p>
-<pre><code class="language-js">  let status = this.gameStatus
-  for(let y=0; y&lt;status.length; y++){
-    for(let x=0; x&lt;status[y].length; x++ ){
-      // 用status[y][x]取得棋格元素 &lt;-----重要
-    }
-   }
-   
-</code></pre>
-<p>知道取得陣列的方式之後就可以開始逐行逐列檢查啦！</p>
-<h3 id="檢查row-column是否有連線"><a class="header-anchor" href="#檢查row-column是否有連線"></a>檢查Row / Column是否有連線</h3>
-<p>想要取得Row整行的和，每次的y必須固定，我是在x為0的時候，取得後面兩個x+1、x+2元素，相加後算出總和，。</p>
-<pre><code class="language-js">methods:{
-...
-getSumOfRow(x,y){
-            let status = this.gameStatus
-            if(x!==0 ) return 
-             return status[y][x]+
-                       status[y][x+1]+
-                       status[y][x+2]
-        },}
-</code></pre>
-<p>Coloum總和則為x y與上述相反：</p>
-<pre><code class="language-js"> getSumOfColumn(x,y){
-            let status = this.gameStatus
-            if(y!==0 ) return 
-            return   status[y][x]+
-                     status[y+1][x]+
-                     status[y+2][x]             
-        },
-</code></pre>
-<p>取得總合後判斷是否有0或是3就知道有無勝出。</p>
-<h3 id="檢查對角線是否有連線"><a class="header-anchor" href="#檢查對角線是否有連線"></a>檢查對角線是否有連線</h3>
-<p>一樣是在迴圈一開始x為0以及ｙ為0的時候做判斷，在取得總和之前，我先看看是不是整個對角線都已經被下過棋了，如果沒有，則直接return 跳出不做任何動作。</p>
-<pre><code class="language-js">methods:{
-getSumOfNegativeSlash(x,y){
-            let status = this.gameStatus
-            if(x!==0 || y!==0 ) return 
-            if(  !(this.isNumber(status[y][x]) &amp;&amp; 
-                  this.isNumber(status[y+1][x+1]) &amp;&amp;
-                  this.isNumber(status[y+2][x+2]))) return 
-                        
-            return   status[y][x]+ status[y+1][x+1]+status[y+2][x+2]
-        },
-        
+function Option ({name, value, onClick}) {
+    return 
+        &lt;option
+          className=&quot;option&quot;
+          value={value}
+          onClick={onClick}
+        &gt;
+          {name}
+        &lt;/option&gt;
+}
+
+export default function Select({ options }) {
+  const [selectedValue, setSelectedValue] = useState(options[0]);
+  const onClickOption = (option) =&gt; () =&gt; setSelectedValue(option);
+  return (
+    &lt;div className=&quot;root&quot;&gt;
+      &lt;div className=&quot;selectedValue&quot;&gt; {selectedValue.name} &lt;/div&gt;
+      {options.map((option) =&gt; (
+              &lt;Option name={option.name} value={option.value} onClick={onClickOption(option)}/&gt;  
+      ))}
+    &lt;/div&gt;
+  );
 }
 </code></pre>
-<p>另一個方向的對角線是同樣的做法，看到這裡的你應該可以推算出邏輯，如果還是不懂，可以參考文章開頭處的專案原始碼。</p>
-<h3 id="整合所有的判斷邏輯-checkresult-method"><a class="header-anchor" href="#整合所有的判斷邏輯-checkresult-method"></a>整合所有的判斷邏輯 - checkResult method</h3>
-<p>最後整個判斷邏輯如下，我把三種情況（Row / Column / 對腳線）個別寫下條件之後用OR串起來，只要狀況符合其中一種條件，就會結束賽局。</p>
-<pre><code class="language-js">         checkResult(){
-            
-            let status = this.gameStatus
-           for(let y=0; y&lt;status.length; y++){
-               for(let x=0; x&lt;status[y].length; x++ ){
-                   let sumOfCol = this.getSumOfColumn(x,y) 
-                   let sumOfRow = this.getSumOfRow(x,y) 
-                   if(
-                        (   this.isRowAllNumber(x,y) &amp;&amp; 
-                            sumOfRow=== 0||sumOfRow=== 3
-                        )||(
-                            this.isColumnAllNumber(x,y) &amp;&amp; 
-                            sumOfCol === 0||sumOfCol === 3
-                        )||(
-                           this.getSumOfNegativeSlash(x,y)===0 || 
-                           this.getSumOfNegativeSlash(x,y)===3 || 
-                           this.getSumOfPositiveSlash(x,y)===0 || 
-                           this.getSumOfPositiveSlash(x,y)===3
-                        )){
-                      this.setScore()  
-                      this.goResultPage(this.currentPlayer)
-                    }
-               }
-           }
-           this.checkIfFinish()
-        },
+<p>上面的程式碼範例只是一個示意，所以並沒有考慮到 CSS 的樣式，這邊會以狀態的傳遞方式為重點。所以以這個下拉選單的例子來說，我們會把整個選單的名字跟對應的數值，直接傳入這個 <code>&lt;Select/&gt;</code>  元件裡面。</p>
+<pre><code>const optionList = [
+    { name: &quot;optionA&quot;, value: &quot;valueA&quot; },
+    { name: &quot;optionB&quot;, value: &quot;valueB&quot; }
+  ];
+
+...
+
+&lt;Select options={optionList} /&gt;
 </code></pre>
-<p>這邊有一個蠻麻煩的雷點就是js裡面null+0居然還是0，害我沒辦法直接正確判斷結果，導致我還寫了一個isRowAllNumber來判斷該列/欄是否全是數字，所以不推薦用0跟null搭配來當做相加的判斷。（你可以打開開發者工具試試看）</p>
-<h2 id="使用localstorage紀錄分數"><a class="header-anchor" href="#使用localstorage紀錄分數"></a>使用localStorage紀錄分數</h2>
-<p>這邊我使用localStorage來永久儲存比數，localStorage操作方式有以下幾種：</p>
+<p>但是這麼一來除了沒辦法直接存取到 <code>&lt;Option/&gt;</code> 元件之外，你也可以發現這份相關的選單資料其實是從最上層傳入 <code>&lt;Select/&gt;</code> 元件之後，再次被傳入 <code>&lt;Option/&gt;</code>，<code>&lt;Option&gt;</code> 這個元件才有辦法拿到需要用來顯示的選項內容與對應數值。</p>
+<p>一般我們不會樂見這種資料被層層傳遞的使用方式，你可能覺得兩層可能還好，不會太難看出它們的關係，但在實際開發時總是無法永遠確保不會有需要第三層的情況出現，因此雖然難免還是有些不得已必須這麼使用的情況，大多時候對開發者來說這種情況當然是越少越好。<strong>你可以想像使用這個用法製作的元件，在當所必須傳入的屬性隨著時間和需求的改變而變得太多時，它會變得越來越難看清楚每個屬性所對應的內容</strong>，和與之相關的流程邏輯。</p>
+<p>對上面的 <code>&lt;Select/&gt;</code>  元件來說，也許一個比較好的設計方式最好還是能夠跟原生的 select 與 option 標籤具有同樣的使用方式：</p>
+<pre><code>&lt;select&gt;
+  &lt;option value=&quot;value1&quot;&gt;optionA&lt;/option&gt;
+  &lt;option value=&quot;value2&quot;&gt;optionB&lt;/option&gt;
+&lt;/select&gt;
+</code></pre>
+<p>當我們把 <code>&lt;Select/&gt;</code> 元件用某種方式拆分成兩個個別獨立，且相關連的元件之後，就能夠享有一個好處是能夠把元件的樣式內容分開來管理，也就是說我們在設計元件時不需要把所有的程式碼塞在一起。而除了讓內容分離之外，<strong>使用複合元件的另外一個很大的好處是能夠讓狀態在這兩個相關連的元件之間共享</strong>，這麼一來也可以減少把狀態「傳到上層在傳到下層」的情況發生。</p>
+<h2 id="複合元件的好處"><a class="header-anchor" href="#複合元件的好處"></a>複合元件的好處</h2>
+<p>綜上所述，由於複合元件原本就是為了讓元件之間的相依，並提高使用彈性的方法。所以他所帶來的好處也不難理解：</p>
 <ul>
-<li>localStorage.setItem(‘key’,‘content’)</li>
-<li>localStorage.getItem(‘key’)</li>
-<li>localStorage.removeItem(‘key’)</li>
+<li>讓開發者能夠更容易且隨心所欲控制元件，例如：元件的排列順序。</li>
+<li>讓相關元件扁平化，可以使用在同一層而不用全部包在一個地方。</li>
+<li>元件內容分離，讓元件更容易管理，就像我們即將要做的：把上面原本的 <code>&lt;Select/&gt;</code> ，拆出 <code>&lt;Option/&gt;</code> ，分離成兩個元件。</li>
 </ul>
-<p>瀏覽器上有另外一個操作方式很類似的api叫做sessionStorage，差別就在於localStorage除非主動刪除，否則會永久保留在瀏覽器、sessionStorage則是在分頁關閉後就會被刪除。</p>
-<p>我把上面三個api另外包成三個function，讓我在各個元件可以方便使用，統一使用方式，以下是setItem的包裝：</p>
-<pre><code class="language-js">export const setStorage = (name, content) =&gt; {
-    if (!name) return;
-    if (typeof content !== &quot;string&quot;) {
-      content = JSON.stringify(content);
-    }
-    window.localStorage.setItem(name, content);
-  };
+<h2 id="以-select-為例子來設計複合元件"><a class="header-anchor" href="#以-select-為例子來設計複合元件"></a>以 <code>&lt;Select/&gt;</code> 為例子來設計複合元件</h2>
+<p>下拉選單是前端一個很常見的需求，尤其我們因為樣式的關係，無法使用原生的 Html 元素，所以常常需要客製化的製作。這邊我們就來看看怎麼利用 React 來設計一個跟前端原生的 <code>&lt;select&gt;</code> 元素使用方式較為相近的元件吧！在這個例子裡面，我會以 Class Component 為基礎來進行設計。</p>
+<h2 id="元件的條件要求："><a class="header-anchor" href="#元件的條件要求："></a>元件的條件要求：</h2>
+<ul>
+<li><code>&lt;Select&gt;</code> 與 <code>&lt;Option&gt;</code> 兩個元件必須要能夠分開使用而不是全部放在同一個元件中，像是這樣：</li>
+</ul>
+<pre><code>      &lt;Select&gt;
+        &lt;Option value=&quot;value 1&quot; &gt;
+          option 1
+        &lt;/Option&gt;
+        &lt;Option value=&quot;value 2&quot; &gt;
+          option 2
+        &lt;/Option&gt;
+        &lt;Option value=&quot;value 3&quot; &gt;
+          option 3
+        &lt;/Option&gt;
+      &lt;/Select&gt;
 </code></pre>
-<p>getStorage、removeStorage則是類似的方式，在此就不多提。</p>
-<h2 id="多思考一些-重置分數按鈕"><a class="header-anchor" href="#多思考一些-重置分數按鈕"></a>多思考一些 - 重置分數按鈕</h2>
-<p>這邊思考的是，既然可以儲存戰績，那如果可以讓玩家手動清除分數，應該會更好用，很多遊戲也有這種功能。所以我將原本入口的START按鈕改為CONTINUE跟RESTART，如果兩邊分數為0才只顯示START。</p>
-<img src="/2019/03/09/8f-ooxx/think.png" title="CONTINUE BUTTON">
-<p>雖然是小地方但可以增加樂趣，算是一點小優化，給有興趣的人參考。</p>
+<ul>
+<li><code>&lt;Select/&gt;</code> 必須能夠根據其子元素的所有  <code>&lt;Option/&gt;</code>   元件內容以及排列順序來顯示下拉清單</li>
+<li>元件的製作結果如下：</li>
+</ul>
+<img src="/2021/04/03/react-compound-component/select-result.gif" title="compound-component-result"> 
+<h2 id="先思考元件結構"><a class="header-anchor" href="#先思考元件結構"></a>先思考元件結構</h2>
+<p>通常複合元件中，會有一個作為父層元件的主元件，而由其他的元件作為子元件。不過在 <code>&lt;Select/&gt;</code> 與 <code>&lt;Option/&gt;</code> 的例子中則比較單純，只有父層的 <code>&lt;Select/&gt;</code> 與子層的 <code>&lt;Option/&gt;</code>。以這個架構為前提之下，我們可以繼續往下想想另外幾個問題，那就是：</p>
+<ul>
+<li>作為父層元件的 <code>&lt;Select/&gt;</code> 是怎麼知道在它下層的 <code>&lt;Option/&gt;</code> 的內容的？</li>
+<li><code>&lt;Select/&gt;</code> 又是怎麼比對出幕前使用者所選到的選項的？<br>
+只要能夠解答這兩個問題，我們基本上就掌握了實作這個 <code>&lt;Select/&gt;</code> 複合元件的關鍵。</li>
+</ul>
+<p>首先，第一個問題的思考方向是一個很常見的 children 屬性，我們只要透過這個屬性就能夠取得「被放入」元件的內容，也就是所有的 Option 元件。而關於 Select 是怎麼知道目前所選的數值的？可想而知的是在 Select內一定會有一個狀態負責儲存目前被選中的值。</p>
+<p>另外我們再每個 Option 被選中時也必須進行更新這個被選中數值的動作，所以我們也需要在 Option 元件上面掛上對應的 onClick  事件，這麼一來當Option被點擊時，Select 才有辦法知道 Option 選中的數值是哪一個。關於這一點我們可以透過 React 的相關 API ： Children.map  以及 cloneElement 來達成。Children.map 負責巡訪每個子元件 Option， cloneElement 則複製一個新的 Option 並讓我們可以在這個時候再次傳入額外的屬性。</p>
+<pre><code>// ... 在 Select 元件內
+// 選項表單
+ &lt;div className=&quot;optionList&quot;&gt;
+              {Children.map(children, (child) =&gt;
+                React.cloneElement(child, {
+                  ...child.props,
+                  onClick: this.onOptionClick(child),
+                                 })
+              )}
+&lt;/div&gt;
+</code></pre>
+<p>藉由上述的程式碼片段可以看出我把個別的子元件內容傳給了 onClick 事件，接下來在事件裡面只要知道要儲存什麼數值藉以比對選中的選項，並拿到元件上對應的屬性值，就能夠透過這個數值進行比對。</p>
+<pre><code>// ... 在 Select 元件內
+// Select 元件的狀態 
+...
+state = {
+    selectedOptionKey: &quot;&quot;,
+    selectedOptionValue: &quot;&quot;,
+    selectedOption: null,
+    openOptionList: false
+};
+
+...
+
+// Option 上的點擊事件
+onOptionClick = (child) =&gt; () =&gt; {
+    const {
+      props: { value, optionKey }
+    } = child;
+    this.setSelectedOptionKey(optionKey);
+    this.setSelectedOptionValue(value);
+    this.setState({ selectedOption: child });
+    this.toggleOptionList();
+};
+</code></pre>
+<p>在點擊事件內雖然我做了許多件事情，不過可以看到我從 child 的 props （也就是 <code>&lt;Option/&gt;</code> 上的屬性內容）取出兩個屬性值，分別為 value 以及 optionKey，其中 optionKey 是每個 <code>&lt;Option/&gt;</code> 上都會有，用來區別選項且應該要不重複的值，之後我們就可以拿這個值來決定目前所選中的選項是哪一個。</p>
+<p>比對的方式很單純，既然我們可以拿到 <code>&lt;Option/&gt;</code> 上的屬性，我們就能夠拿出來跟儲存在 <code>&lt;Select/&gt;</code> 代表被選中的 <code>&lt;Option/&gt;</code> 的 selectedOptionKey 這個狀態做比對，如下：</p>
+<pre><code>// ... 在 Select 元件內
+// 選項表單
+ &lt;div className=&quot;optionList&quot;&gt;
+              {Children.map(children, (child) =&gt;
+                React.cloneElement(child, {
+                  ...child.props,
+                  onClick: this.onOptionClick(child),
+                  isSelected:
+                    child.props.optionKey === this.state.selectedOptionKey
+                                 })
+              )}
+&lt;/div&gt;
+</code></pre>
+<p>我們直接利用 isSelected 以布林值傳給下層的 <code>&lt;Option/&gt;</code> ，這麼一來 <code>&lt;Option/&gt;</code> 就能夠透過這個數值決定要顯示什麼樣的內容，或是樣式，我們來看看 <code>&lt;Option/&gt;</code> 的內容。</p>
+<pre><code>// Option 元件
+
+function ClassOption({ children, isSelected, onClick }) {
+  return (
+    &lt;div
+      onClick={onClick}
+      className={`option ${isSelected ? &quot;isSelected&quot; : &quot;&quot;}`}
+    &gt;
+      {children}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<p>由於這個例子中 <code>&lt;Option/&gt;</code> 需要顯示的東西和需要判斷的邏輯比較單純，所以元件內容也比較單純，但可以看到我們拿到從 <code>&lt;Select/&gt;</code> 元件裡面傳入的兩個屬性來做一些顯示和判斷，這兩個屬性都不是在使用元件時傳入的，而是從 Select 元件來，所以如果不了解原理的話，就沒辦法直接看出來處。</p>
+<h2 id="利用-class-compoennt-靜態屬性"><a class="header-anchor" href="#利用-class-compoennt-靜態屬性"></a>利用 Class Compoennt 靜態屬性</h2>
+<p>通常複合元件在設計時會把複合元件中的子元件掛在父元件上，而因為在本篇文章所舉的例子裡面，剛好用到的是 Class Component ，所以可以利用靜態屬性的概念，讓兩個看似分離的元件，更明確的產生關聯，所以我們在 <code>&lt;Select/&gt;</code> 元件內會多做一件事情：</p>
+<pre><code>// Select 元件內
+static Option = ClassOption;
+</code></pre>
+<h2 id="善用-context-api"><a class="header-anchor" href="#善用-context-api"></a>善用 Context API</h2>
+<p>雖然在這個例子裡面我們沒有使用到，不過若是想要設計的複合元件結構比較複雜，有多層元件結構的話，可以利用 React 提供的 Context API 來進行跨多層元件的數值內容傳遞。</p>
+<pre><code>// Select 元件
+&lt;SelectContext.Provider value={{ [ 想要傳遞的數值內容 ]  }}&gt;
+//  ... 元件內容
+&lt;SelectContext.Provider&gt;
+</code></pre>
+<h2 id="最終完成的結果"><a class="header-anchor" href="#最終完成的結果"></a>最終完成的結果</h2>
+<p>在上面的內容之中我只解說幾個最關鍵的部分，至於沒有講到的其他細節，就請讀者自己思考看看囉，在這邊附上完整的程式碼範例。</p>
+ <iframe src="https://codesandbox.io/embed/compound-compoennt-selectoption-u1x4w?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fcomponents%2FClassSelect%2Findex.js&theme=dark&view=editor"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="Compound Compoennt - Select/Option"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
+<h2 id="動手試試看"><a class="header-anchor" href="#動手試試看"></a>動手試試看</h2>
+<p>本篇文章的是以 Class Component 為例子來進行設計這個複合元件，不過在撰寫這篇文章的此刻，Functional Component 是實際開發時比較主流的元件類型，其實利用 Functional Component 照理說也能夠設計出使用方式與這個例子完全一樣的複合元件，讀者們在了解複合元件的概念後，也可以自己嘗試使用 Functional Component 來實做看看自己的複合元件，那麼，就先說到這囉！</p>
 
         </div>
         
