@@ -66,7 +66,7 @@ const coverSrc = isCoverObject ? `${cover.src}` : `${cover}`;
       const strokeWidth = node.dataset.notionStrokewidth;
       return annotate(node, {
         type: (type as "underline") ?? "underline",
-        color: color ?? "red",
+        color: color ?? "#fb923c",
         animate: false,
         multiline: type === "bracket" ? false : true,
         brackets: ["left", "right"],

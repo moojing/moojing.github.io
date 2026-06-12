@@ -16,7 +16,7 @@ const coverSrc = isCoverObject ? `${cover.src}` : `${cover}`;
 const [lang, ...slug] = post.slug.split("/");
 ---
 
-<div class="flex flex-col gap-4 rounded-lg p-4 ring-0 cursor-pointer bg-zinc-800/60">
+<div class="flex flex-col gap-4 rounded-lg p-4 ring-0 cursor-pointer bg-zinc-800/75 backdrop-blur-md">
   {
     post.slug && (
       <a href={`/${lang}/posts/${slug.join("/")}`} target="_self">
@@ -37,7 +37,7 @@ const [lang, ...slug] = post.slug.split("/");
       <h1 class="text-3xl font-title font-black text-white">{post.data.title}</h1>
     </a>
     <a href={`/${lang}/posts/${slug.join("/")}`} target="_self">
-      <p class="text-sm text-gray-300">{post.data.description}</p>
+      <p class="text-sm text-gray-200">{post.data.description}</p>
     </a>
   </div>
 </div>

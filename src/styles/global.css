@@ -12,7 +12,7 @@ body {
  
 
 code {
-  @apply text-sm font-mono text-orange-500 font-medium p-1 bg-zinc-800/60 rounded-md;
+  @apply text-sm font-mono text-orange-400 font-medium p-1 bg-zinc-800/60 rounded-md;
 }
 
 ul,
@@ -27,7 +27,7 @@ li {
 
 
 pre.astro-code {
-  @apply px-4 py-3 rounded-lg text-xl !bg-zinc-800/60 leading-6 overflow-x-scroll;
+  @apply px-4 py-3 rounded-lg text-xl !bg-zinc-800/90 leading-6 overflow-x-scroll;
 }
 
 pre.astro-code code {
@@ -35,5 +35,5 @@ pre.astro-code code {
 }
 
 svg.rough-annotation {
-  opacity: 70%;
+  opacity: 90%;
 }

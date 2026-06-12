@@ -1,6 +1,24 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 
+// gaussian falloff sprite: bright core fading to transparent, no hard edge
+function createGlowTexture() {
+  const size = 128;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d")!;
+  const half = size / 2;
+  const gradient = ctx.createRadialGradient(half, half, 0, half, half, half);
+  gradient.addColorStop(0, "rgba(255,255,255,1)");
+  gradient.addColorStop(0.2, "rgba(255,255,255,0.8)");
+  gradient.addColorStop(0.5, "rgba(255,255,255,0.15)");
+  gradient.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, size, size);
+  return new THREE.CanvasTexture(canvas);
+}
+
 function throttle(func: Function, limit: number) {
   let lastCall = 0;
   return function (...args: any[]) {
@@ -43,8 +61,7 @@ const StarBackground: React.FC = () => {
     scene.add(pointLight);
 
     // load texture
-    const textureLoader = new THREE.TextureLoader();
-    const dotTexture = textureLoader.load("/dot.svg");
+    const glowTexture = createGlowTexture();
 
     // create particles
     const particlesGeometry = new THREE.BufferGeometry();
@@ -58,11 +75,12 @@ const StarBackground: React.FC = () => {
     particlesGeometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
 
     const particlesMaterial = new THREE.PointsMaterial({
-      map: dotTexture,
-      size: 0.05,
+      map: glowTexture,
+      size: 0.08,
       color: "#fff",
       transparent: true,
       depthWrite: false,
+      blending: THREE.AdditiveBlending,
     });
 
     const stars = new THREE.Points(particlesGeometry, particlesMaterial);
@@ -82,8 +100,6 @@ const StarBackground: React.FC = () => {
 
     // mouse move trigger deceleration
     const handleMouseMove = throttle(() => {
-      console.log("mouse moved");
-
       // deceleration
       if (speedRef.current !== 0.0005) {
         speedRef.current = 0.0005;
@@ -135,6 +151,7 @@ const StarBackground: React.FC = () => {
       clearTimeout(idleTimer);
       particlesGeometry.dispose();
       particlesMaterial.dispose();
+      glowTexture.dispose();
       renderer.dispose();
     };
   }, []);
