@@ -91,12 +91,18 @@ const StarBackground: React.FC = () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
+      if (prefersReducedMotion) {
+        renderer.render(scene, camera);
+      }
     };
     window.addEventListener("resize", handleResize);
 
     // animation logic
     let currentSpeed = 0.01;
+    let scrollBoost = 0;
+    let frameId = 0;
     let idleTimer: ReturnType<typeof setTimeout>;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // mouse move trigger deceleration
     const handleMouseMove = throttle(() => {
@@ -111,18 +117,42 @@ const StarBackground: React.FC = () => {
         if (speedRef.current !== 0.05) {
           speedRef.current = 0.05;
         }
-      }, 30000); // 30 seconds without movement
+      }, 10000); // 10 seconds without movement
     }, 100); // trigger every 100ms
 
-    window.addEventListener("mousemove", handleMouseMove);
+    // pointer position steers the camera view angle (eased toward target in animate)
+    const pointerTarget = { x: 0, y: 0 };
+    const handlePointerMove = (e: MouseEvent | TouchEvent) => {
+      const point = "touches" in e ? e.touches[0] : e;
+      if (!point) return;
+      pointerTarget.x = (point.clientX / window.innerWidth) * 2 - 1;
+      pointerTarget.y = (point.clientY / window.innerHeight) * 2 - 1;
+      handleMouseMove();
+    };
+
+    // scroll velocity maps to flight speed: scroll down flies forward, scroll up reverses
     const layoutContainer = document.getElementById("layout-container");
-    layoutContainer?.addEventListener("scroll", handleMouseMove);
+    let lastScrollTop = layoutContainer?.scrollTop ?? 0;
+    const handleScroll = () => {
+      const scrollTop = layoutContainer?.scrollTop ?? 0;
+      scrollBoost = Math.max(-0.4, Math.min(0.4, scrollBoost + (scrollTop - lastScrollTop) * 0.0015));
+      lastScrollTop = scrollTop;
+      handleMouseMove();
+    };
+
+    if (!prefersReducedMotion) {
+      window.addEventListener("mousemove", handlePointerMove);
+      window.addEventListener("touchmove", handlePointerMove);
+      layoutContainer?.addEventListener("scroll", handleScroll);
+    }
 
     const animate = () => {
-      currentSpeed += (speedRef.current - currentSpeed) * 0.1;
+      scrollBoost *= 0.94; // boost decays back to base speed once scrolling stops
+      const targetSpeed = speedRef.current + scrollBoost;
+      currentSpeed += (targetSpeed - currentSpeed) * 0.1;
 
-      if (Math.abs(speedRef.current - currentSpeed) < 0.00001) {
-        currentSpeed = speedRef.current;
+      if (Math.abs(targetSpeed - currentSpeed) < 0.00001) {
+        currentSpeed = targetSpeed;
       }
 
       const positions = particlesGeometry.attributes.position.array as Float32Array;
@@ -132,14 +162,26 @@ const StarBackground: React.FC = () => {
         if (positions[i * 3 + 2] > 25) {
           positions[i * 3 + 2] = -25;
         }
+        if (positions[i * 3 + 2] < -25) {
+          positions[i * 3 + 2] = 25;
+        }
       }
 
       particlesGeometry.attributes.position.needsUpdate = true;
+
+      // ease the view angle toward where the pointer is
+      camera.rotation.y += (pointerTarget.x * -0.12 - camera.rotation.y) * 0.04;
+      camera.rotation.x += (pointerTarget.y * -0.08 - camera.rotation.x) * 0.04;
+
       renderer.render(scene, camera);
-      requestAnimationFrame(animate);
+      frameId = requestAnimationFrame(animate);
     };
 
-    animate();
+    if (prefersReducedMotion) {
+      renderer.render(scene, camera); // static starfield, no animation loop
+    } else {
+      animate();
+    }
 
     if (canvasRef.current) {
       canvasRef.current.style.opacity = "1";
@@ -147,7 +189,10 @@ const StarBackground: React.FC = () => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousemove", handlePointerMove);
+      window.removeEventListener("touchmove", handlePointerMove);
+      layoutContainer?.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(frameId);
       clearTimeout(idleTimer);
       particlesGeometry.dispose();
       particlesMaterial.dispose();
