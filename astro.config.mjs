@@ -11,7 +11,7 @@ import { LANGUAGES } from "./src/config";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://powersandwich.com.tw",
+  site: "https://muji.dev",
   trailingSlash: "never",
   prefetch: {
     prefetchAll: true,
